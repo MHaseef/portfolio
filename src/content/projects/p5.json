@@ -1,0 +1,10 @@
+{
+  "title": "CampusNav",
+  "category": "WebGIS",
+  "tags": ["MapLibre GL", "React", "Supabase", "JavaScript"],
+  "teaser": "Indoor/outdoor wayfinding app for a university campus.",
+  "problem": "New students struggled to navigate a sprawling campus with mixed indoor/outdoor routes.",
+  "solution": "Built a React + MapLibre GL wayfinding app with Supabase-backed routing graphs spanning indoor floor plans and outdoor paths.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p5"
+}

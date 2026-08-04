@@ -1,0 +1,10 @@
+{
+  "title": "AgriSense",
+  "category": "Spatial AI",
+  "tags": ["QGIS", "Google Earth Engine", "Astro", "Python"],
+  "teaser": "Crop health monitoring dashboard using satellite vegetation indices.",
+  "problem": "Smallholder farmers lacked affordable tools to catch crop stress before yield loss.",
+  "solution": "Automated NDVI extraction via Earth Engine, processed in Python, published to an Astro dashboard for weekly field health reports.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p6"
+}

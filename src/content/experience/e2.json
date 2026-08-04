@@ -1,0 +1,12 @@
+{
+  "title": "Research Assistant, Spatial AI Lab",
+  "company": "NUST",
+  "location": "Islamabad, PK",
+  "dates": "2023 — 2024",
+  "teaser": "Applied remote sensing and machine learning to land-cover change detection.",
+  "bullets": [
+    "Trained land-cover classification models on Sentinel-2 imagery using Google Earth Engine and Python.",
+    "Co-authored a workflow for flood-risk prediction combining DEM analysis with historical rainfall data.",
+    "Presented findings at the department research symposium."
+  ]
+}

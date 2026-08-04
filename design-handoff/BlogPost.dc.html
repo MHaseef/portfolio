@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #FFFFFF; color: #16181C; font-family: 'Source Sans 3', sans-serif; }
+  a { color: #1B6FA8; }
+  a:hover { color: #135183; }
+  code { font-family: 'Source Sans 3', monospace; background: #F0EEE9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre { background: #F7F6F3; border: 1px solid #E6E4DF; border-radius: 10px; padding: 20px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+</style>
+</helmet>
+
+<header style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:20px 56px;background:#FFFFFF;border-bottom:1px solid #E6E4DF;">
+  <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:20px;color:#16181C;">Muhammad Haseef</div>
+  <a href="Portfolio.dc.html#blogs" style="text-decoration:none;color:#5C6167;font-size:14px;font-weight:600;">← Back to main portfolio</a>
+</header>
+
+<article style="max-width:760px;margin:0 auto;padding:64px 32px 120px;">
+  <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px;">
+    <span style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#1B6FA8;background:#E3F1FB;padding:5px 12px;border-radius:20px;">MAPPING</span>
+    <span style="font-size:13px;color:#8A8F94;">Jun 2026 · 7 min read</span>
+  </div>
+  <h1 style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin:0 0 24px;color:#16181C;">Building Real-Time Tile Pipelines with MapLibre GL</h1>
+  <image-slot id="blog-hero" shape="rounded" radius="12" style="width:100%;height:320px;margin-bottom:36px;" placeholder="Article hero image"></image-slot>
+
+  <p style="color:#3E4349;font-size:17px;line-height:1.8;margin:0 0 20px;">Most WebGIS tutorials assume your data is static — a shapefile you convert once and serve forever. Real deployments rarely work that way. Vehicle positions, sensor readings, and live weather layers change every few seconds, and your tile pipeline has to keep up without falling over.</p>
+
+  <h2 style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:23px;margin:40px 0 16px;color:#16181C;">The problem with static tiles</h2>
+  <p style="color:#3E4349;font-size:17px;line-height:1.8;margin:0 0 20px;">Pre-rendered vector tiles are fast, but regenerating a full tile set on every update is wasteful when only a handful of features actually moved. The fix is to separate <em>slow-changing basemap layers</em> from <em>fast-changing live layers</em>, and stream only the latter.</p>
+
+  <h2 style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:23px;margin:40px 0 16px;color:#16181C;">Architecture</h2>
+  <p style="color:#3E4349;font-size:17px;line-height:1.8;margin:0 0 20px;">A minimal setup looks like this: a PostGIS table holding live positions, a lightweight Node service that queries it and emits GeoJSON deltas, and a MapLibre GL source updated in place rather than reloaded.</p>
+  <pre><code>map.getSource('live-vehicles').setData(geojson);</code></pre>
+  <p style="color:#3E4349;font-size:17px;line-height:1.8;margin:20px 0;">Calling <code>setData</code> on an existing GeoJSON source is far cheaper than tearing down and re-adding a layer — MapLibre diffs the feature set internally.</p>
+
+  <h2 style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:23px;margin:40px 0 16px;color:#16181C;">Keeping it smooth</h2>
+  <p style="color:#3E4349;font-size:17px;line-height:1.8;margin:0 0 20px;">Throttle updates to match your actual data cadence — polling every 500ms for data that changes every 5 seconds just burns battery on mobile clients. Pair the live layer with a subtle CSS transition on marker position so movement reads as motion rather than teleportation.</p>
+
+  <p style="color:#8A8F94;font-size:15px;line-height:1.8;margin:40px 0 0;border-top:1px solid #E6E4DF;padding-top:24px;">— Muhammad Haseef, Geoinformatics Engineer</p>
+
+  <a href="Portfolio.dc.html#blogs" style="display:inline-block;margin-top:40px;color:#5C6167;text-decoration:none;font-size:13px;font-weight:600;">← Back to main portfolio</a>
+</article>
+
+</x-dc>
+</body>
+</html>

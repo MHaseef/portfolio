@@ -1,0 +1,13 @@
+{
+  "title": "GIS Developer & Analyst",
+  "company": "GeoSpatial Solutions Pvt Ltd",
+  "location": "Islamabad, PK",
+  "dates": "2024 — Present",
+  "teaser": "Building WebGIS platforms and spatial data pipelines for municipal clients.",
+  "bullets": [
+    "Architected a PostGIS + GeoServer stack serving live municipal asset data to a React/MapLibre front-end.",
+    "Built automated Python ETL pipelines converting shapefiles and satellite imagery into queryable spatial layers.",
+    "Reduced map-tile load times 60% by restructuring vector tile generation and caching.",
+    "Mentored two junior developers on spatial SQL and Leaflet integration."
+  ]
+}

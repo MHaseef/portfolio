@@ -1,0 +1,10 @@
+{
+  "title": "UrbanFlow",
+  "category": "WebGIS",
+  "tags": ["Leaflet", "PostGIS", "React", "Node.js"],
+  "teaser": "Real-time transit mapping platform tracking city bus routes and delays.",
+  "problem": "Commuters had no reliable way to see live bus positions or delays across the city transit network.",
+  "solution": "Built a Node.js service ingesting GPS pings into PostGIS, exposed via a tiled API, rendered live on a Leaflet front-end with sub-5-second refresh.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p1"
+}

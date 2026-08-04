@@ -1,0 +1,12 @@
+{
+  "title": "WebGIS Intern",
+  "company": "Survey of Pakistan",
+  "location": "Rawalpindi, PK",
+  "dates": "2022 — 2023",
+  "teaser": "Digitized cadastral records and built internal mapping tools.",
+  "bullets": [
+    "Digitized legacy cadastral maps into PostGIS-backed spatial datasets.",
+    "Built an internal Leaflet-based viewer for field surveyors to validate parcel boundaries.",
+    "Assisted senior GIS analysts with coordinate system transformations and QA workflows."
+  ]
+}

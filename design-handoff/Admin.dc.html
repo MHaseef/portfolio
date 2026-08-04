@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #F7F6F3; color: #16181C; font-family: 'Source Sans 3', sans-serif; }
+  a { color: #1B6FA8; }
+  a:hover { color: #135183; }
+  ::selection { background: rgba(47,76,104,0.15); color: #16181C; }
+</style>
+</helmet>
+
+<sc-if value="{{ !loggedIn }}" hint-placeholder-val="{{ true }}">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#0F2036;">
+    <form onSubmit="{{ login }}" style="background:#FFFFFF;border-radius:14px;padding:40px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="width:44px;height:44px;border-radius:50%;background:#1B6FA8;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;margin-bottom:20px;">MH</div>
+      <h1 style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;margin:0 0 6px;color:#16181C;">Admin Login</h1>
+      <p style="color:#5C6167;font-size:13px;margin:0 0 24px;">Mock login for now — real auth comes later.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+        <input type="text" placeholder="Username" value="{{ username }}" onChange="{{ setUsername }}" style="background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+        <input type="password" placeholder="Password" value="{{ password }}" onChange="{{ setPassword }}" style="background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+      </div>
+      <button type="submit" style="width:100%;background:#1B6FA8;color:#fff;font-weight:600;font-size:14px;padding:12px 0;border:none;border-radius:6px;cursor:pointer;">Log In</button>
+    </form>
+  </div>
+</sc-if>
+
+<sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;min-height:100vh;">
+    <aside style="width:220px;flex-shrink:0;background:#0F2036;padding:24px 0;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;">
+      <div style="padding:0 24px 20px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:#FFFFFF;">Admin</div>
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+        <button onClick="{{ item.onClick }}" style="{{ item.style }}">{{ item.label }}</button>
+      </sc-for>
+      <div style="flex:1;"></div>
+    </aside>
+
+    <main style="flex:1;padding:36px 48px;max-width:820px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
+        <h1 style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:24px;margin:0;color:#16181C;">{{ sectionTitle }}</h1>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+            <span style="color:#1F8A5F;font-size:13px;font-weight:600;">{{ toast }}</span>
+          </sc-if>
+          <button onClick="{{ save }}" style="background:#1B6FA8;color:#fff;font-weight:600;font-size:14px;padding:10px 22px;border:none;border-radius:6px;cursor:pointer;">Save Changes</button>
+        </div>
+      </div>
+
+      <sc-if value="{{ isHero }}" hint-placeholder-val="{{ true }}">
+        <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">Profile photo</label>
+        <p style="color:#5C6167;font-size:12px;margin:0 0 10px;">Shows in the portfolio header and the About panel.</p>
+        <image-slot id="avatar-main" shape="circle" style="width:88px;height:88px;margin-bottom:24px;" placeholder="Photo"></image-slot>
+        <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">Headline</label>
+        <input type="text" value="{{ hero.headline }}" onChange="{{ hero.setHeadline }}" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'JetBrains Mono',monospace;margin-bottom:20px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">Intro paragraph</label>
+        <textarea rows="5" value="{{ hero.intro }}" onChange="{{ hero.setIntro }}" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;"></textarea>
+      </sc-if>
+
+      <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#1B6FA8;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px;">Bio paragraphs</div>
+        <sc-for list="{{ bioItems }}" as="p" hint-placeholder-count="3">
+          <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start;">
+            <textarea rows="3" value="{{ p.text }}" onChange="{{ p.onChange }}" style="flex:1;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;"></textarea>
+            <button onClick="{{ p.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+          </div>
+        </sc-for>
+        <button onClick="{{ addBio }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:28px;">+ Add paragraph</button>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#1B6FA8;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px;">Education</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <input type="text" placeholder="Degree" value="{{ edu.degree }}" onChange="{{ edu.setDegree }}" style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          <input type="text" placeholder="University" value="{{ edu.university }}" onChange="{{ edu.setUniversity }}" style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          <input type="text" placeholder="Dates (e.g. 2024 — 2028)" value="{{ edu.dates }}" onChange="{{ edu.setDates }}" style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          <p style="color:#5C6167;font-size:12px;margin:0;">The university logo is edited directly on the portfolio's About panel.</p>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:#1B6FA8;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px;">Achievements</div>
+        <sc-for list="{{ achievementItems }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <input type="text" value="{{ a.text }}" onChange="{{ a.onChange }}" style="flex:1;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            <button onClick="{{ a.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+          </div>
+        </sc-for>
+        <button onClick="{{ addAchievement }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;">+ Add achievement</button>
+      </sc-if>
+
+      <sc-if value="{{ isSkills }}" hint-placeholder-val="{{ false }}">
+        <p style="color:#5C6167;font-size:13px;margin:0 0 20px;">Drop a logo on each icon slot — it shows on the live portfolio's skill chips too.</p>
+        <sc-for list="{{ skillItems }}" as="s" hint-placeholder-count="8">
+          <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
+            <image-slot id="{{ s.iconId }}" shape="rect" radius="4" style="width:32px;height:32px;flex-shrink:0;" placeholder=""></image-slot>
+            <input type="text" placeholder="Skill name" value="{{ s.name }}" onChange="{{ s.onChangeName }}" style="flex:1;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            <input type="text" placeholder="Category" value="{{ s.category }}" onChange="{{ s.onChangeCategory }}" style="flex:1;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            <button onClick="{{ s.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+          </div>
+        </sc-for>
+        <button onClick="{{ addSkill }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;">+ Add skill</button>
+      </sc-if>
+
+      <sc-if value="{{ isExperience }}" hint-placeholder-val="{{ false }}">
+        <sc-for list="{{ expItems }}" as="job" hint-placeholder-count="3">
+          <div style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:10px;padding:20px;margin-bottom:16px;">
+            <div style="display:flex;gap:8px;margin-bottom:10px;">
+              <input type="text" placeholder="Job title" value="{{ job.title }}" onChange="{{ job.onChangeTitle }}" style="flex:1;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <button onClick="{{ job.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+              <input type="text" placeholder="Company" value="{{ job.company }}" onChange="{{ job.onChangeCompany }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <input type="text" placeholder="Location" value="{{ job.location }}" onChange="{{ job.onChangeLocation }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <input type="text" placeholder="Dates" value="{{ job.dates }}" onChange="{{ job.onChangeDates }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            </div>
+            <textarea rows="2" placeholder="Teaser" value="{{ job.teaser }}" onChange="{{ job.onChangeTeaser }}" style="width:100%;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;margin-bottom:10px;"></textarea>
+            <div style="font-size:12px;font-weight:600;color:#5C6167;margin-bottom:6px;">Detail bullets</div>
+            <sc-for list="{{ job.bulletItems }}" as="bl" hint-placeholder-count="3">
+              <div style="display:flex;gap:8px;margin-bottom:6px;">
+                <input type="text" value="{{ bl.text }}" onChange="{{ bl.onChange }}" style="flex:1;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:8px 10px;font-size:12px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+                <button onClick="{{ bl.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;">Delete</button>
+              </div>
+            </sc-for>
+            <button onClick="{{ job.onAddBullet }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">+ Add bullet</button>
+          </div>
+        </sc-for>
+        <button onClick="{{ addExperience }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;">+ Add experience</button>
+      </sc-if>
+
+      <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+        <p style="color:#5C6167;font-size:13px;margin:0 0 20px;">Project screenshots are dropped directly onto each project card on the portfolio page.</p>
+        <sc-for list="{{ projItems }}" as="proj" hint-placeholder-count="3">
+          <div style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:10px;padding:20px;margin-bottom:16px;">
+            <div style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;">
+              <image-slot id="{{ proj.thumbId }}" shape="rect" radius="6" style="width:96px;height:64px;flex-shrink:0;" placeholder="Thumbnail"></image-slot>
+              <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:8px;">
+                  <input type="text" placeholder="Project title" value="{{ proj.title }}" onChange="{{ proj.onChangeTitle }}" style="flex:1;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+                  <button onClick="{{ proj.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+                </div>
+              </div>
+            </div>
+            <label style="display:block;font-size:11px;color:#8A8F94;margin-bottom:4px;">Teaser — short text shown on the project card</label>
+            <textarea rows="2" placeholder="Teaser" value="{{ proj.teaser }}" onChange="{{ proj.onChangeTeaser }}" style="width:100%;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;margin-bottom:10px;"></textarea>
+            <label style="display:block;font-size:11px;color:#8A8F94;margin-bottom:4px;">Problem — shown in the detail popup after "Problem"</label>
+            <textarea rows="2" placeholder="Problem" value="{{ proj.problem }}" onChange="{{ proj.onChangeProblem }}" style="width:100%;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;margin-bottom:10px;"></textarea>
+            <label style="display:block;font-size:11px;color:#8A8F94;margin-bottom:4px;">Solution & architecture — shown in the detail popup after "Solution & Architecture"</label>
+            <textarea rows="2" placeholder="Solution & architecture" value="{{ proj.solution }}" onChange="{{ proj.onChangeSolution }}" style="width:100%;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;margin-bottom:10px;"></textarea>
+            <label style="display:block;font-size:12px;font-weight:600;color:#5C6167;margin-bottom:6px;">Skills used — click to add or remove</label>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+              <sc-for list="{{ proj.skillOptions }}" as="opt" hint-placeholder-count="6">
+                <button onClick="{{ opt.onToggle }}" style="{{ opt.style }}">{{ opt.icon }} {{ opt.name }}</button>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <input type="text" placeholder="Live demo URL" value="{{ proj.demoUrl }}" onChange="{{ proj.onChangeDemoUrl }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <input type="text" placeholder="GitHub URL" value="{{ proj.githubUrl }}" onChange="{{ proj.onChangeGithubUrl }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            </div>
+          </div>
+        </sc-for>
+        <button onClick="{{ addProject }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;">+ Add project</button>
+      </sc-if>
+
+      <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+        <p style="color:#5C6167;font-size:13px;margin:0 0 20px;">All posts currently link to the same sample article page.</p>
+        <sc-for list="{{ blogItems }}" as="post" hint-placeholder-count="3">
+          <div style="background:#FFFFFF;border:1px solid #E6E4DF;border-radius:10px;padding:20px;margin-bottom:16px;">
+            <div style="display:flex;gap:8px;margin-bottom:10px;">
+              <input type="text" placeholder="Title" value="{{ post.title }}" onChange="{{ post.onChangeTitle }}" style="flex:1;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <button onClick="{{ post.onRemove }}" style="background:#FFFFFF;border:1px solid #E6E4DF;color:#B3261E;border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px;">Delete</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+              <input type="text" placeholder="Category" value="{{ post.category }}" onChange="{{ post.onChangeCategory }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <input type="text" placeholder="Date" value="{{ post.date }}" onChange="{{ post.onChangeDate }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+              <input type="text" placeholder="Read time" value="{{ post.readTime }}" onChange="{{ post.onChangeReadTime }}" style="box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+            </div>
+            <textarea rows="2" placeholder="Excerpt" value="{{ post.excerpt }}" onChange="{{ post.onChangeExcerpt }}" style="width:100%;box-sizing:border-box;background:#F7F6F3;border:1px solid #E6E4DF;border-radius:6px;padding:10px 12px;font-size:13px;color:#16181C;font-family:'Source Sans 3',sans-serif;resize:vertical;"></textarea>
+          </div>
+        </sc-for>
+        <button onClick="{{ addBlog }}" style="background:#E3F1FB;color:#1B6FA8;border:1px solid #1B6FA8;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;">+ Add post</button>
+      </sc-if>
+
+      <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;max-width:480px;">
+          <div>
+            <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">Email</label>
+            <input type="text" value="{{ contact.email }}" onChange="{{ contact.setEmail }}" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">GitHub URL</label>
+            <input type="text" value="{{ contact.github }}" onChange="{{ contact.setGithub }}" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;font-weight:600;color:#16181C;margin-bottom:6px;">LinkedIn URL</label>
+            <input type="text" value="{{ contact.linkedin }}" onChange="{{ contact.setLinkedin }}" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E4DF;border-radius:6px;padding:12px 14px;font-size:14px;color:#16181C;font-family:'Source Sans 3',sans-serif;">
+          </div>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SECTIONS = [
+  { id: 'hero', label: 'Hero' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'blog', label: 'Blog' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const EMPTY_DATA = {
+  hero: { headline: '', intro: '' },
+  about: { bio: [], education: {}, achievements: [] },
+  skills: [], experience: [], projects: [], blogs: [],
+  contact: { email: '', github: '', linkedin: '' },
+};
+
+class Component extends DCLogic {
+  state = { loggedIn: false, username: '', password: '', section: 'hero', data: null, toast: '' };
+
+  setUsername = (e) => this.setState({ username: e.target.value });
+  setPassword = (e) => this.setState({ password: e.target.value });
+  login = (e) => {
+    e.preventDefault();
+    if (this.state.username.trim() && this.state.password.trim()) this.setState({ loggedIn: true });
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = async () => {
+    const mod = await import('./portfolio-data.js');
+    this.dataMod = mod;
+    this.setState({ data: mod.load() });
+  };
+
+  setSection = (id) => () => this.setState({ section: id });
+
+  save = () => {
+    if (!this.dataMod) return;
+    this.dataMod.save(this.state.data);
+    this.setState({ toast: 'Saved!' });
+    clearTimeout(this._toastT);
+    this._toastT = setTimeout(() => this.setState({ toast: '' }), 2000);
+  };
+
+  resetDefaults = () => {
+    if (!this.dataMod) return;
+    this.dataMod.resetToDefaults();
+    this.loadData();
+    this.setState({ toast: 'Reset to defaults' });
+    clearTimeout(this._toastT);
+    this._toastT = setTimeout(() => this.setState({ toast: '' }), 2000);
+  };
+
+  patch(fn) {
+    this.setState(s => ({ data: fn(JSON.parse(JSON.stringify(s.data))) }));
+  }
+
+  // Hero
+  setHeroHeadline = (e) => { const v = e.target.value; this.patch(d => { d.hero.headline = v; return d; }); };
+  setHeroIntro = (e) => { const v = e.target.value; this.patch(d => { d.hero.intro = v; return d; }); };
+
+  // About / bio
+  setBioAt = (i) => (e) => { const v = e.target.value; this.patch(d => { d.about.bio[i] = v; return d; }); };
+  removeBioAt = (i) => () => this.patch(d => { d.about.bio.splice(i, 1); return d; });
+  addBio = () => this.patch(d => { d.about.bio.push(''); return d; });
+
+  setEduDegree = (e) => { const v = e.target.value; this.patch(d => { d.about.education.degree = v; return d; }); };
+  setEduUniversity = (e) => { const v = e.target.value; this.patch(d => { d.about.education.university = v; return d; }); };
+  setEduDates = (e) => { const v = e.target.value; this.patch(d => { d.about.education.dates = v; return d; }); };
+
+  setAchievementAt = (i) => (e) => { const v = e.target.value; this.patch(d => { d.about.achievements[i] = v; return d; }); };
+  removeAchievementAt = (i) => () => this.patch(d => { d.about.achievements.splice(i, 1); return d; });
+  addAchievement = () => this.patch(d => { d.about.achievements.push(''); return d; });
+
+  // Skills
+  setSkillField = (id, field) => (e) => { const v = e.target.value; this.patch(d => { const s = d.skills.find(x => x.id === id); if (s) s[field] = v; return d; }); };
+  removeSkill = (id) => () => this.patch(d => { d.skills = d.skills.filter(s => s.id !== id); return d; });
+  addSkill = () => this.patch(d => { d.skills.push({ id: 'sk-' + Math.random().toString(36).slice(2, 8), name: 'New Skill', category: 'Other' }); return d; });
+
+  // Experience
+  setExpField = (id, field) => (e) => { const v = e.target.value; this.patch(d => { const j = d.experience.find(x => x.id === id); if (j) j[field] = v; return d; }); };
+  removeExperience = (id) => () => this.patch(d => { d.experience = d.experience.filter(j => j.id !== id); return d; });
+  addExperience = () => this.patch(d => { d.experience.push({ id: 'exp-' + Math.random().toString(36).slice(2, 8), title: 'New Role', company: '', location: '', dates: '', teaser: '', bullets: [] }); return d; });
+  setExpBulletAt = (jobId, i) => (e) => { const v = e.target.value; this.patch(d => { const j = d.experience.find(x => x.id === jobId); if (j) j.bullets[i] = v; return d; }); };
+  removeExpBulletAt = (jobId, i) => () => this.patch(d => { const j = d.experience.find(x => x.id === jobId); if (j) j.bullets.splice(i, 1); return d; });
+  addExpBullet = (jobId) => () => this.patch(d => { const j = d.experience.find(x => x.id === jobId); if (j) j.bullets.push(''); return d; });
+
+  // Projects
+  setProjField = (id, field) => (e) => { const v = e.target.value; this.patch(d => { const p = d.projects.find(x => x.id === id); if (p) p[field] = v; return d; }); };
+  toggleProjTag = (id, name) => () => {
+    this.patch(d => {
+      const p = d.projects.find(x => x.id === id);
+      if (p) {
+        p.tags = p.tags || [];
+        p.tags = p.tags.includes(name) ? p.tags.filter(t => t !== name) : [...p.tags, name];
+      }
+      return d;
+    });
+  };
+  removeProject = (id) => () => this.patch(d => { d.projects = d.projects.filter(p => p.id !== id); return d; });
+  addProject = () => this.patch(d => { d.projects.push({ id: 'proj-' + Math.random().toString(36).slice(2, 8), title: 'New Project', category: '', teaser: '', tags: [], problem: '', solution: '', demoUrl: '', githubUrl: '' }); return d; });
+
+  // Blog
+  setBlogField = (id, field) => (e) => { const v = e.target.value; this.patch(d => { const b = d.blogs.find(x => x.id === id); if (b) b[field] = v; return d; }); };
+  removeBlog = (id) => () => this.patch(d => { d.blogs = d.blogs.filter(b => b.id !== id); return d; });
+  addBlog = () => this.patch(d => { d.blogs.push({ id: 'blog-' + Math.random().toString(36).slice(2, 8), category: '', date: '', title: 'New Post', excerpt: '', readTime: '' }); return d; });
+
+  // Contact
+  setContactField = (field) => (e) => { const v = e.target.value; this.patch(d => { d.contact[field] = v; return d; }); };
+
+  renderVals() {
+    const d = this.state.data || EMPTY_DATA;
+    const sec = this.state.section;
+
+    const navItems = SECTIONS.map(s => ({
+      ...s, onClick: this.setSection(s.id),
+      style: `text-align:left;background:none;border:none;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;color:${sec === s.id ? '#FFFFFF' : '#8FA3B8'};background-color:${sec === s.id ? '#1B6FA8' : 'transparent'};`,
+    }));
+
+    const bioItems = (d.about.bio || []).map((text, i) => ({ text, onChange: this.setBioAt(i), onRemove: this.removeBioAt(i) }));
+    const achievementItems = (d.about.achievements || []).map((text, i) => ({ text, onChange: this.setAchievementAt(i), onRemove: this.removeAchievementAt(i) }));
+
+    const skillItems = (d.skills || []).map(s => ({
+      ...s, iconId: 'skill-icon-' + (s.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      onChangeName: this.setSkillField(s.id, 'name'), onChangeCategory: this.setSkillField(s.id, 'category'), onRemove: this.removeSkill(s.id),
+    }));
+
+    const expItems = (d.experience || []).map(job => ({
+      ...job,
+      onChangeTitle: this.setExpField(job.id, 'title'), onChangeCompany: this.setExpField(job.id, 'company'),
+      onChangeLocation: this.setExpField(job.id, 'location'), onChangeDates: this.setExpField(job.id, 'dates'),
+      onChangeTeaser: this.setExpField(job.id, 'teaser'), onRemove: this.removeExperience(job.id),
+      onAddBullet: this.addExpBullet(job.id),
+      bulletItems: (job.bullets || []).map((text, i) => ({ text, onChange: this.setExpBulletAt(job.id, i), onRemove: this.removeExpBulletAt(job.id, i) })),
+    }));
+
+    const projItems = (d.projects || []).map(p => ({
+      ...p, thumbId: 'proj-' + p.id,
+      skillOptions: (d.skills || []).map(s => {
+        const selected = (p.tags || []).includes(s.name);
+        return {
+          name: s.name, icon: selected ? '−' : '+', onToggle: this.toggleProjTag(p.id, s.name),
+          style: `font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;border:1px solid ${selected ? '#1B6FA8' : '#E6E4DF'};background:${selected ? '#E3F1FB' : '#FFFFFF'};color:${selected ? '#1B6FA8' : '#5C6167'};`,
+        };
+      }),
+      onChangeTitle: this.setProjField(p.id, 'title'), onChangeCategory: this.setProjField(p.id, 'category'),
+      onChangeTeaser: this.setProjField(p.id, 'teaser'), onChangeProblem: this.setProjField(p.id, 'problem'),
+      onChangeSolution: this.setProjField(p.id, 'solution'),
+      onChangeDemoUrl: this.setProjField(p.id, 'demoUrl'), onChangeGithubUrl: this.setProjField(p.id, 'githubUrl'),
+      onRemove: this.removeProject(p.id),
+    }));
+
+    const blogItems = (d.blogs || []).map(b => ({
+      ...b,
+      onChangeTitle: this.setBlogField(b.id, 'title'), onChangeCategory: this.setBlogField(b.id, 'category'),
+      onChangeDate: this.setBlogField(b.id, 'date'), onChangeReadTime: this.setBlogField(b.id, 'readTime'),
+      onChangeExcerpt: this.setBlogField(b.id, 'excerpt'), onRemove: this.removeBlog(b.id),
+    }));
+
+    const titles = { hero: 'Hero', about: 'About', skills: 'Skills', experience: 'Experience', projects: 'Projects', blog: 'Blog', contact: 'Contact' };
+
+    return {
+      loggedIn: this.state.loggedIn, username: this.state.username, password: this.state.password,
+      setUsername: this.setUsername, setPassword: this.setPassword, login: this.login,
+      navItems, sectionTitle: titles[sec], toast: this.state.toast, save: this.save, resetDefaults: this.resetDefaults,
+      isHero: sec === 'hero', isAbout: sec === 'about', isSkills: sec === 'skills',
+      isExperience: sec === 'experience', isProjects: sec === 'projects', isBlog: sec === 'blog', isContact: sec === 'contact',
+      hero: { headline: d.hero.headline, intro: d.hero.intro, setHeadline: this.setHeroHeadline, setIntro: this.setHeroIntro },
+      bioItems, addBio: this.addBio,
+      edu: { degree: (d.about.education || {}).degree || '', university: (d.about.education || {}).university || '', dates: (d.about.education || {}).dates || '',
+        setDegree: this.setEduDegree, setUniversity: this.setEduUniversity, setDates: this.setEduDates },
+      achievementItems, addAchievement: this.addAchievement,
+      skillItems, addSkill: this.addSkill,
+      expItems, addExperience: this.addExperience,
+      projItems, addProject: this.addProject,
+      blogItems, addBlog: this.addBlog,
+      contact: { email: d.contact.email, github: d.contact.github, linkedin: d.contact.linkedin,
+        setEmail: this.setContactField('email'), setGithub: this.setContactField('github'), setLinkedin: this.setContactField('linkedin') },
+    };
+  }
+}
+</script>
+</body>
+</html>

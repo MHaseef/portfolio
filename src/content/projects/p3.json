@@ -1,0 +1,10 @@
+{
+  "title": "GeoServe Analytics",
+  "category": "WebGIS",
+  "tags": ["GeoServer", "PostGIS", "Angular", "Java"],
+  "teaser": "Municipal asset management WebGIS for utility infrastructure.",
+  "problem": "A municipal utility tracked infrastructure assets across disconnected spreadsheets and paper maps.",
+  "solution": "Delivered a GeoServer/PostGIS backend with an Angular dashboard for asset lifecycle tracking and map-based inspection scheduling.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p3"
+}

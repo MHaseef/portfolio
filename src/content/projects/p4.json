@@ -1,0 +1,10 @@
+{
+  "title": "FloodRisk AI",
+  "category": "Spatial AI",
+  "tags": ["Remote Sensing", "Python", "Turf.js", "Firebase"],
+  "teaser": "Predictive flood risk mapping using terrain and rainfall data.",
+  "problem": "Flood-prone districts had no forward-looking risk model to guide evacuation planning.",
+  "solution": "Fused DEM-derived terrain features with rainfall forecasts in a Python model, serving risk zones through Firebase to a Turf.js-powered map client.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p4"
+}

@@ -1,17 +1,62 @@
 ---
+import { getCollection } from 'astro:content';
+import '../styles/global.css';
+import { ThreeGlobeCanvas } from '../components/ThreeGlobeCanvas';
+import { SmoothScroll } from '../components/SmoothScroll';
+import { MainPortfolioApp } from '../components/MainPortfolioApp';
 
+const rawExperience = await getCollection('experience');
+const experienceItems = rawExperience.map(entry => ({
+  id: entry.id,
+  ...entry.data,
+}));
+
+const rawProjects = await getCollection('projects');
+const projectItems = rawProjects.map(entry => ({
+  id: entry.id,
+  ...entry.data,
+}));
+
+const rawBlogs = await getCollection('blog');
+const blogItems = rawBlogs.map(entry => ({
+  slug: entry.id,
+  title: entry.data.title,
+  date: entry.data.date,
+  category: entry.data.category,
+  excerpt: entry.data.excerpt,
+  readTime: entry.data.readTime,
+}));
 ---
 
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muhammad Haseef — WebGIS & Spatial AI Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Muhammad Haseef — GIS developer and spatial data analyst building WebGIS platforms, automating spatial workflows, and applying Spatial AI."
+    />
+    <!-- OpenGraph Meta Tags -->
+    <meta property="og:title" content="Muhammad Haseef — WebGIS & Spatial AI Portfolio" />
+    <meta
+      property="og:description"
+      content="GIS developer and spatial data analyst building WebGIS platforms and Spatial AI systems."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <ThreeGlobeCanvas client:only="react" />
+    <SmoothScroll client:load>
+      <MainPortfolioApp
+        client:load
+        experienceItems={experienceItems}
+        projectItems={projectItems}
+        blogItems={blogItems}
+      />
+    </SmoothScroll>
+  </body>
 </html>

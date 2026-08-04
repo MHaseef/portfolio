@@ -1,0 +1,10 @@
+{
+  "title": "TerraWatch",
+  "category": "Spatial AI",
+  "tags": ["Google Earth Engine", "Python", "Geopandas", "MapLibre GL"],
+  "teaser": "Satellite land-cover change detector for agricultural monitoring.",
+  "problem": "Regional agencies lacked an accessible way to monitor deforestation and land-use change over time.",
+  "solution": "Combined Earth Engine time-series analysis with a Python/Geopandas backend, surfacing change heatmaps on a MapLibre GL viewer.",
+  "demoUrl": "https://example.com",
+  "githubUrl": "https://github.com/yourhandle/p2"
+}
