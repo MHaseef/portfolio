@@ -2,21 +2,40 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+function getEnv(key: string): string | undefined {
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
+    return process.env[key];
+  }
+  if (import.meta && import.meta.env && import.meta.env[key]) {
+    return import.meta.env[key];
+  }
+  return undefined;
+}
+
 export const GET: APIRoute = async ({ request }) => {
-  const url = new URL(request.url);
-  const code = url.searchParams.get('code');
-  const clientId = process.env.OAUTH_GITHUB_CLIENT_ID;
-  const clientSecret = process.env.OAUTH_GITHUB_CLIENT_SECRET;
-
-  if (!code) {
-    return new Response('Missing authorization code', { status: 400 });
-  }
-
-  if (!clientId || !clientSecret) {
-    return new Response('Missing GitHub OAuth credentials', { status: 500 });
-  }
-
   try {
+    const url = new URL(request.url);
+    const code = url.searchParams.get('code');
+    const clientId = getEnv('OAUTH_GITHUB_CLIENT_ID');
+    const clientSecret = getEnv('OAUTH_GITHUB_CLIENT_SECRET');
+
+    if (!code) {
+      return new Response(
+        JSON.stringify({ error: 'Missing Code', message: 'No authorization code provided by GitHub.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (!clientId || !clientSecret) {
+      return new Response(
+        JSON.stringify({
+          error: 'Configuration Error',
+          message: 'OAUTH_GITHUB_CLIENT_ID or OAUTH_GITHUB_CLIENT_SECRET environment variable is missing on Vercel.',
+        }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       headers: {
@@ -30,10 +49,21 @@ export const GET: APIRoute = async ({ request }) => {
       }),
     });
 
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text();
+      return new Response(
+        JSON.stringify({ error: 'GitHub Token Exchange Failed', details: errorText }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     const data = await tokenResponse.json();
 
     if (data.error) {
-      return new Response(`GitHub OAuth Error: ${data.error_description || data.error}`, { status: 400 });
+      return new Response(
+        JSON.stringify({ error: 'GitHub OAuth Error', details: data.error_description || data.error }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
     const token = data.access_token;
@@ -63,11 +93,18 @@ export const GET: APIRoute = async ({ request }) => {
 </html>`;
 
     return new Response(htmlResponse, {
+      status: 200,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
       },
     });
-  } catch (err: any) {
-    return new Response(`Authentication error: ${err.message}`, { status: 500 });
+  } catch (error: any) {
+    return new Response(
+      JSON.stringify({
+        error: 'Callback Server Error',
+        message: error?.message || 'An unexpected error occurred during GitHub callback handling.',
+      }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 };
