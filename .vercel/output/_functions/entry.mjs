@@ -1,5 +1,7 @@
-import { B as InvalidGetStaticPathsReturn, C as AstroResponseHeadersReassigned, F as GetStaticPathsRequired, G as MiddlewareNoDataOrNextCalled, K as MiddlewareNotAResponse, M as ForbiddenRewrite, N as GetStaticPathsExpectedParams, P as GetStaticPathsInvalidRouteParam, S as ActionsReturnedInvalidDataError, T as ClientAddressNotAvailable, U as LocalsNotAnObject, W as LocalsReassigned, _t as i18nNoLocaleFoundInPath, a as fileExtension, at as PrerenderDynamicEndpointPathCollide, b as matchPattern, ct as ResponseSentError, d as removeLeadingForwardSlash, dt as SessionStorageSaveError, ft as StaticClientAddressNotAvailable, h as trimSlashes, i as collapseDuplicateTrailingSlashes, it as PrerenderClientAddressNotAvailable, l as joinPaths, lt as RewriteWithBodyUsed, m as slash, n as collapseDuplicateLeadingSlashes, o as hasFileExtension, p as removeTrailingForwardSlash, pt as UnableToLoadLogger, r as collapseDuplicateSlashes, rt as PageNumberParamNotFound, s as isInternalPath, st as ReservedSlotName, t as appendForwardSlash, tt as NoMatchingStaticPathFound, u as prependForwardSlash, ut as SessionStorageInitError, vt as AstroError, w as CacheNotEnabled, x as ActionNotFoundError, z as InvalidGetStaticPathsEntry } from "./chunks/path_JcdHq8sq.mjs";
-import { A as clientAddressSymbol, C as isRoute500, D as REDIRECT_STATUS_CODES, E as DEFAULT_404_COMPONENT, M as originPathnameSymbol, N as pipelineSymbol, O as REROUTABLE_STATUS_CODES, P as responseSentSymbol$1, S as isRoute404, T as ASTRO_GENERATOR, _ as pushDirective, a as chunkToString, b as renderEndpoint, c as isRenderTemplateResult, d as decryptString, f as generateCspDigest, g as normalizeCspResourceEntry, h as isRenderInstruction, i as renderComponent, j as fetchStateSymbol, k as appSymbol, l as renderTemplate, n as renderPage, o as createSlotValueFromString, r as renderJSX, s as renderSlotToString, u as decodeKey, v as isAstroComponentFactory, w as ASTRO_ERROR_HEADER } from "./chunks/server_CrHcbRp3.mjs";
+import { $ as i18nNoLocaleFoundInPath, B as PrerenderClientAddressNotAvailable, D as MiddlewareNoDataOrNextCalled, E as LocalsReassigned, G as RewriteWithBodyUsed, J as StaticClientAddressNotAvailable, K as SessionStorageInitError, L as NoMatchingStaticPathFound, O as MiddlewareNotAResponse, S as InvalidGetStaticPathsReturn, T as LocalsNotAnObject, U as ReservedSlotName, V as PrerenderDynamicEndpointPathCollide, W as ResponseSentError, Y as UnableToLoadLogger, _ as GetStaticPathsRequired, a as ClientAddressNotAvailable, et as AstroError, g as GetStaticPathsInvalidRouteParam, h as GetStaticPathsExpectedParams, i as CacheNotEnabled, m as ForbiddenRewrite, n as ActionsReturnedInvalidDataError, q as SessionStorageSaveError, r as AstroResponseHeadersReassigned, t as ActionNotFoundError, x as InvalidGetStaticPathsEntry, z as PageNumberParamNotFound } from "./chunks/errors-data_BKF5Azck.mjs";
+import { r as setGetEnv } from "./chunks/runtime_DYmvk8ap.mjs";
+import { a as fileExtension, b as matchPattern, d as removeLeadingForwardSlash, h as trimSlashes, i as collapseDuplicateTrailingSlashes, l as joinPaths, m as slash$1, n as collapseDuplicateLeadingSlashes, o as hasFileExtension, p as removeTrailingForwardSlash, r as collapseDuplicateSlashes, s as isInternalPath, t as appendForwardSlash, u as prependForwardSlash } from "./chunks/path_CuOFbkLG.mjs";
+import { A as appSymbol, C as isRoute404, D as DEFAULT_404_COMPONENT, E as ASTRO_GENERATOR, F as responseSentSymbol$1, M as fetchStateSymbol, N as originPathnameSymbol, O as REDIRECT_STATUS_CODES, P as pipelineSymbol, T as ASTRO_ERROR_HEADER, _ as normalizeCspResourceEntry, a as chunkToString, c as isRenderTemplateResult, d as decryptString, f as generateCspDigest, g as isRenderInstruction, i as renderComponent, j as clientAddressSymbol, k as REROUTABLE_STATUS_CODES, l as renderTemplate, n as renderPage, o as createSlotValueFromString, r as renderJSX, s as renderSlotToString, u as decodeKey, v as pushDirective, w as isRoute500, x as renderEndpoint, y as isAstroComponentFactory } from "./chunks/server_BSTd5GJc.mjs";
 import nodePath from "node:path";
 import "@vercel/routing-utils";
 import colors from "piccolore";
@@ -8,6 +10,9 @@ import "es-module-lexer";
 import { parseCookie, stringifySetCookie } from "cookie";
 import { escape } from "html-escaper";
 import { createStorage } from "unstorage";
+import React, { createElement, memo } from "react";
+import ReactDOM from "react-dom/server";
+import picomatch from "picomatch";
 nodePath.posix.join;
 //#endregion
 //#region node_modules/@astrojs/vercel/dist/index.js
@@ -18,7 +23,7 @@ var ASTRO_LOCALS_HEADER = "x-astro-locals";
 var ASTRO_MIDDLEWARE_SECRET_HEADER = "x-astro-middleware-secret";
 //#endregion
 //#region \0virtual:astro-vercel:config
-var middlewareSecret = "c563428e-6391-4c49-a96b-7c7eca0e5b6c";
+var middlewareSecret = "642d3c71-cfac-45a2-bac9-f00b7d038668";
 //#endregion
 //#region node_modules/astro/dist/actions/consts.js
 var ACTION_QUERY_PARAMS = {
@@ -305,7 +310,7 @@ async function parseRequestBody(request, bodySizeLimit) {
 		message: `Request body exceeds ${bodySizeLimit} bytes`
 	});
 	try {
-		if (hasContentType(contentType, formContentTypes)) {
+		if (hasContentType(contentType, formContentTypes$1)) {
 			if (!hasContentLength) {
 				const body = await readBodyWithLimit(request.clone(), bodySizeLimit);
 				return await new Request(request.url, {
@@ -335,7 +340,7 @@ async function parseRequestBody(request, bodySizeLimit) {
 	throw new TypeError("Unsupported content type");
 }
 var ACTION_API_CONTEXT_SYMBOL = /* @__PURE__ */ Symbol.for("astro.actionAPIContext");
-var formContentTypes = ["application/x-www-form-urlencoded", "multipart/form-data"];
+var formContentTypes$1 = ["application/x-www-form-urlencoded", "multipart/form-data"];
 function hasContentType(contentType, expected) {
 	const type = contentType.split(";")[0].toLowerCase();
 	return expected.some((t) => type === t);
@@ -4921,8 +4926,8 @@ function appendQueryParams(path, queryParams) {
 function createAssetLink(href, base, assetsPrefix, queryParams) {
 	const { pathname, suffix } = splitAssetPath(href);
 	let url = "";
-	if (assetsPrefix) url = joinPaths(getAssetsPrefix(fileExtension(pathname), assetsPrefix), slash(pathname)) + suffix;
-	else if (base) url = prependForwardSlash(joinPaths(base, slash(pathname))) + suffix;
+	if (assetsPrefix) url = joinPaths(getAssetsPrefix(fileExtension(pathname), assetsPrefix), slash$1(pathname)) + suffix;
+	else if (base) url = prependForwardSlash(joinPaths(base, slash$1(pathname))) + suffix;
 	else url = href;
 	if (queryParams) url = appendQueryParams(url, queryParams);
 	return url;
@@ -5116,8 +5121,235 @@ function deserializeRouteInfo(rawRouteInfo) {
 	};
 }
 //#endregion
+//#region \0astro:react:opts
+var _astro_react_opts_default = {
+	include: void 0,
+	exclude: void 0,
+	experimentalReactChildren: false,
+	experimentalDisableStreaming: false
+};
+//#endregion
+//#region node_modules/@astrojs/react/dist/context.js
+var contexts = /* @__PURE__ */ new WeakMap();
+var ID_PREFIX = "r";
+function getContext(rendererContextResult) {
+	if (contexts.has(rendererContextResult)) return contexts.get(rendererContextResult);
+	const ctx = {
+		currentIndex: 0,
+		get id() {
+			return ID_PREFIX + this.currentIndex.toString();
+		}
+	};
+	contexts.set(rendererContextResult, ctx);
+	return ctx;
+}
+function incrementId(rendererContextResult) {
+	const ctx = getContext(rendererContextResult);
+	const id = ctx.id;
+	ctx.currentIndex++;
+	return id;
+}
+//#endregion
+//#region node_modules/@astrojs/react/dist/static-html.js
+var StaticHtml = ({ value, name, hydrate = true }) => {
+	if (value == null || value.trim() === "") return null;
+	return createElement(hydrate ? "astro-slot" : "astro-static-slot", {
+		name,
+		suppressHydrationWarning: true,
+		dangerouslySetInnerHTML: { __html: value }
+	});
+};
+var static_html_default = memo(StaticHtml, () => true);
+//#endregion
+//#region node_modules/@astrojs/react/node_modules/@astrojs/internal-helpers/dist/path.js
+function slash(path) {
+	return path.replace(/\\/g, "/");
+}
+//#endregion
+//#region node_modules/@astrojs/react/node_modules/@astrojs/internal-helpers/dist/create-filter.js
+function ensureArray(thing) {
+	if (Array.isArray(thing)) return thing;
+	if (thing == null) return [];
+	return [thing];
+}
+function toMatcher(pattern) {
+	if (pattern instanceof RegExp) return pattern;
+	const fn = picomatch(slash(pattern), { dot: true });
+	return { test: (what) => fn(what) };
+}
+function createFilter(include, exclude) {
+	const includeMatchers = ensureArray(include).map(toMatcher);
+	const excludeMatchers = ensureArray(exclude).map(toMatcher);
+	if (!includeMatchers.length && !excludeMatchers.length) return (id) => typeof id === "string" && !id.includes("\0");
+	return function(id) {
+		if (typeof id !== "string") return false;
+		if (id.includes("\0")) return false;
+		const pathId = slash(id);
+		for (const matcher of excludeMatchers) {
+			if (matcher instanceof RegExp) matcher.lastIndex = 0;
+			if (matcher.test(pathId)) return false;
+		}
+		for (const matcher of includeMatchers) {
+			if (matcher instanceof RegExp) matcher.lastIndex = 0;
+			if (matcher.test(pathId)) return true;
+		}
+		return !includeMatchers.length;
+	};
+}
+//#endregion
+//#region node_modules/@astrojs/react/dist/server.js
+var slotName = (str) => str.trim().replace(/[-_]([a-z])/g, (_, w) => w.toUpperCase());
+var reactTypeof = /* @__PURE__ */ Symbol.for("react.element");
+var reactTransitionalTypeof = /* @__PURE__ */ Symbol.for("react.transitional.element");
+var filter = _astro_react_opts_default?.include || _astro_react_opts_default?.exclude ? createFilter(_astro_react_opts_default.include, _astro_react_opts_default.exclude) : null;
+async function check(Component, props, children, metadata) {
+	if (typeof Component === "object") return Component["$$typeof"].toString().slice(7).startsWith("react");
+	if (typeof Component !== "function") return false;
+	if (Component.name === "QwikComponent") return false;
+	if (typeof Component === "function" && Component["$$typeof"] === /* @__PURE__ */ Symbol.for("react.forward_ref")) return false;
+	if (Component.prototype != null && typeof Component.prototype.render === "function") return React.Component.isPrototypeOf(Component) || React.PureComponent.isPrototypeOf(Component);
+	if (filter && metadata?.componentUrl && !filter(metadata.componentUrl)) return false;
+	let isReactComponent = false;
+	function Tester(...args) {
+		try {
+			const vnode = Component(...args);
+			if (vnode && (vnode["$$typeof"] === reactTypeof || vnode["$$typeof"] === reactTransitionalTypeof)) isReactComponent = true;
+		} catch {}
+		return React.createElement("div");
+	}
+	await renderToStaticMarkup.call(this, Tester, props, children);
+	return isReactComponent;
+}
+async function getNodeWritable() {
+	let { Writable } = await import(
+		/* @vite-ignore */
+		"node:stream"
+);
+	return Writable;
+}
+function needsHydration(metadata) {
+	return metadata?.astroStaticSlot ? !!metadata.hydrate : true;
+}
+async function renderToStaticMarkup(Component, props, { default: children, ...slotted }, metadata) {
+	let prefix;
+	if (this && this.result) prefix = incrementId(this.result);
+	const attrs = { prefix };
+	delete props["class"];
+	const slots = {};
+	for (const [key, value] of Object.entries(slotted)) {
+		const name = slotName(key);
+		slots[name] = React.createElement(static_html_default, {
+			hydrate: needsHydration(metadata),
+			value,
+			name
+		});
+	}
+	const newProps = {
+		...props,
+		...slots
+	};
+	const newChildren = children ?? props.children;
+	if (children && _astro_react_opts_default.experimentalReactChildren) {
+		attrs["data-react-children"] = true;
+		newProps.children = (await import("./chunks/vnode-children_B6vVcKTz.mjs").then((mod) => mod.default))(children);
+	} else if (newChildren != null) newProps.children = React.createElement(static_html_default, {
+		hydrate: needsHydration(metadata),
+		value: newChildren
+	});
+	const formState = this ? await getFormState(this) : void 0;
+	if (formState) {
+		attrs["data-action-result"] = JSON.stringify(formState[0]);
+		attrs["data-action-key"] = formState[1];
+		attrs["data-action-name"] = formState[2];
+	}
+	const vnode = React.createElement(Component, newProps);
+	const renderOptions = {
+		identifierPrefix: prefix,
+		formState
+	};
+	let html;
+	if (_astro_react_opts_default.experimentalDisableStreaming) html = ReactDOM.renderToString(vnode);
+	else if ("renderToReadableStream" in ReactDOM) html = await renderToReadableStreamAsync(vnode, renderOptions);
+	else html = await renderToPipeableStreamAsync(vnode, renderOptions);
+	html = html.replace(/<link\s[^>]*rel="(?:preload|modulepreload|stylesheet|preconnect|dns-prefetch)"[^>]*>/g, "");
+	return {
+		html,
+		attrs
+	};
+}
+async function getFormState({ result }) {
+	const { request, actionResult } = result;
+	if (!actionResult) return void 0;
+	if (!isFormRequest(request.headers.get("content-type"))) return void 0;
+	const { searchParams } = new URL(request.url);
+	const actionKey = (await request.clone().formData()).get("$ACTION_KEY")?.toString();
+	const actionName = searchParams.get("_action");
+	if (!actionKey || !actionName) return void 0;
+	return [
+		actionResult,
+		actionKey,
+		actionName
+	];
+}
+async function renderToPipeableStreamAsync(vnode, options) {
+	const Writable = await getNodeWritable();
+	let html = "";
+	return new Promise((resolve, reject) => {
+		let error = void 0;
+		let stream = ReactDOM.renderToPipeableStream(vnode, {
+			...options,
+			onError(err) {
+				error = err;
+				reject(error);
+			},
+			onAllReady() {
+				stream.pipe(new Writable({
+					write(chunk, _encoding, callback) {
+						html += chunk.toString("utf-8");
+						callback();
+					},
+					destroy() {
+						resolve(html);
+					}
+				}));
+			}
+		});
+	});
+}
+async function readResult(stream) {
+	const reader = stream.getReader();
+	let result = "";
+	const decoder = new TextDecoder("utf-8");
+	while (true) {
+		const { done, value } = await reader.read();
+		if (done) {
+			if (value) result += decoder.decode(value);
+			else decoder.decode(/* @__PURE__ */ new Uint8Array());
+			return result;
+		}
+		result += decoder.decode(value, { stream: true });
+	}
+}
+async function renderToReadableStreamAsync(vnode, options) {
+	return await readResult(await ReactDOM.renderToReadableStream(vnode, options));
+}
+var formContentTypes = ["application/x-www-form-urlencoded", "multipart/form-data"];
+function isFormRequest(contentType) {
+	const type = contentType?.split(";")[0].toLowerCase();
+	return formContentTypes.some((t) => type === t);
+}
+//#endregion
 //#region \0virtual:astro:renderers
-var renderers = [];
+var renderers = [Object.assign({
+	"name": "@astrojs/react",
+	"clientEntrypoint": "@astrojs/react/client.js",
+	"serverEntrypoint": "@astrojs/react/server.js"
+}, { ssr: {
+	name: "@astrojs/react",
+	check,
+	renderToStaticMarkup,
+	supportsAstroStaticSlot: true
+} })];
 [
 	{
 		"file": "",
@@ -5178,26 +5410,26 @@ var renderers = [];
 		"scripts": [],
 		"styles": [],
 		"routeData": {
-			"route": "/api/auth",
-			"isIndex": false,
 			"type": "endpoint",
-			"pattern": "^\\/api\\/auth\\/?$",
+			"isIndex": false,
+			"route": "/admin/config.yml",
+			"pattern": "^\\/admin\\/config\\.yml$",
 			"segments": [[{
-				"content": "api",
+				"content": "admin",
 				"dynamic": false,
 				"spread": false
 			}], [{
-				"content": "auth",
+				"content": "config.yml",
 				"dynamic": false,
 				"spread": false
 			}]],
 			"params": [],
-			"component": "src/pages/api/auth.ts",
-			"pathname": "/api/auth",
+			"component": "node_modules/astro-decap-cms-oauth/src/config.ts",
+			"pathname": "/admin/config.yml",
 			"prerender": false,
 			"fallbackRoutes": [],
 			"distURL": [],
-			"origin": "project",
+			"origin": "external",
 			"_meta": { "trailingSlash": "ignore" }
 		}
 	},
@@ -5207,12 +5439,37 @@ var renderers = [];
 		"scripts": [],
 		"styles": [],
 		"routeData": {
-			"route": "/api/callback",
+			"type": "page",
 			"isIndex": false,
-			"type": "endpoint",
-			"pattern": "^\\/api\\/callback\\/?$",
+			"route": "/admin",
+			"pattern": "^\\/admin\\/?$",
 			"segments": [[{
-				"content": "api",
+				"content": "admin",
+				"dynamic": false,
+				"spread": false
+			}]],
+			"params": [],
+			"component": "node_modules/astro-decap-cms-oauth/src/admin.astro",
+			"pathname": "/admin",
+			"prerender": false,
+			"fallbackRoutes": [],
+			"distURL": [],
+			"origin": "external",
+			"_meta": { "trailingSlash": "ignore" }
+		}
+	},
+	{
+		"file": "",
+		"links": [],
+		"scripts": [],
+		"styles": [],
+		"routeData": {
+			"type": "endpoint",
+			"isIndex": false,
+			"route": "/oauth/callback",
+			"pattern": "^\\/oauth\\/callback\\/?$",
+			"segments": [[{
+				"content": "oauth",
 				"dynamic": false,
 				"spread": false
 			}], [{
@@ -5221,29 +5478,58 @@ var renderers = [];
 				"spread": false
 			}]],
 			"params": [],
-			"component": "src/pages/api/callback.ts",
-			"pathname": "/api/callback",
+			"component": "node_modules/astro-decap-cms-oauth/src/oauth/callback.ts",
+			"pathname": "/oauth/callback",
 			"prerender": false,
 			"fallbackRoutes": [],
 			"distURL": [],
-			"origin": "project",
+			"origin": "external",
+			"_meta": { "trailingSlash": "ignore" }
+		}
+	},
+	{
+		"file": "",
+		"links": [],
+		"scripts": [],
+		"styles": [],
+		"routeData": {
+			"type": "endpoint",
+			"isIndex": false,
+			"route": "/oauth",
+			"pattern": "^\\/oauth\\/?$",
+			"segments": [[{
+				"content": "oauth",
+				"dynamic": false,
+				"spread": false
+			}]],
+			"params": [],
+			"component": "node_modules/astro-decap-cms-oauth/src/oauth/index.ts",
+			"pathname": "/oauth",
+			"prerender": false,
+			"fallbackRoutes": [],
+			"distURL": [],
+			"origin": "external",
 			"_meta": { "trailingSlash": "ignore" }
 		}
 	}
 ].map(deserializeRouteInfo);
 //#endregion
 //#region \0virtual:astro:pages
-var _page0 = () => import("./chunks/generic_BcLMP9WA.mjs");
-var _page1 = () => import("./chunks/auth_U0VZBsSJ.mjs");
-var _page2 = () => import("./chunks/callback_BNh5n4f1.mjs");
+var _page0 = () => import("./chunks/generic_Byo0HfnY.mjs");
+var _page1 = () => import("./chunks/config_ByqYx8__.mjs");
+var _page2 = () => import("./chunks/admin_Dk4C4r8t.mjs");
+var _page3 = () => import("./chunks/callback_Ce784M4P.mjs");
+var _page4 = () => import("./chunks/index_Cdl22lzp.mjs");
 var pageMap = /* @__PURE__ */ new Map([
 	["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
-	["src/pages/api/auth.ts", _page1],
-	["src/pages/api/callback.ts", _page2]
+	["node_modules/astro-decap-cms-oauth/src/config.ts", _page1],
+	["node_modules/astro-decap-cms-oauth/src/admin.astro", _page2],
+	["node_modules/astro-decap-cms-oauth/src/oauth/callback.ts", _page3],
+	["node_modules/astro-decap-cms-oauth/src/oauth/index.ts", _page4]
 ]);
 //#endregion
 //#region \0virtual:astro:manifest
-var _manifest = deserializeManifest({"rootDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/","cacheDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/.astro/","outDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/","srcDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/src/","publicDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/public/","buildClientDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/client/","buildServerDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/server/","adapterName":"@astrojs/vercel","assetsDir":"_astro","routes":[{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"page","component":"_server-islands.astro","params":["name"],"segments":[[{"content":"_server-islands","dynamic":false,"spread":false}],[{"content":"name","dynamic":true,"spread":false}]],"pattern":"^\\/_server-islands\\/([^/]+?)\\/?$","prerender":false,"isIndex":false,"fallbackRoutes":[],"route":"/_server-islands/[name]","origin":"internal","distURL":[],"_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/_image","component":"node_modules/astro/dist/assets/endpoint/generic.js","params":[],"pathname":"/_image","pattern":"^\\/_image\\/?$","segments":[[{"content":"_image","dynamic":false,"spread":false}]],"type":"endpoint","prerender":false,"fallbackRoutes":[],"distURL":[],"isIndex":false,"origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/api/auth","isIndex":false,"type":"endpoint","pattern":"^\\/api\\/auth\\/?$","segments":[[{"content":"api","dynamic":false,"spread":false}],[{"content":"auth","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/api/auth.ts","pathname":"/api/auth","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/api/callback","isIndex":false,"type":"endpoint","pattern":"^\\/api\\/callback\\/?$","segments":[[{"content":"api","dynamic":false,"spread":false}],[{"content":"callback","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/api/callback.ts","pathname":"/api/callback","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/blog/[slug]","isIndex":false,"type":"page","pattern":"^\\/blog\\/([^/]+?)\\/?$","segments":[[{"content":"blog","dynamic":false,"spread":false}],[{"content":"slug","dynamic":true,"spread":false}]],"params":["slug"],"component":"src/pages/blog/[slug].astro","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/","isIndex":true,"type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}}],"serverLike":true,"middlewareMode":"classic","base":"/","trailingSlash":"ignore","compressHTML":"jsx","componentMetadata":[["C:/Users/mhase/Desktop/portfolio/tutorial/src/pages/blog/[slug].astro",{"propagation":"none","containsHead":true}],["C:/Users/mhase/Desktop/portfolio/tutorial/src/pages/index.astro",{"propagation":"none","containsHead":true}]],"renderers":[],"clientDirectives":[["idle","(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value==\"object\"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};\"requestIdleCallback\"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event(\"astro:idle\"));})();"],["load","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event(\"astro:load\"));})();"],["media","(()=>{var n=(a,t)=>{let i=async()=>{await(await a())()};if(t.value){let e=matchMedia(t.value);e.matches?i():e.addEventListener(\"change\",i,{once:!0})}};(self.Astro||(self.Astro={})).media=n;window.dispatchEvent(new Event(\"astro:media\"));})();"],["only","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event(\"astro:only\"));})();"],["visible","(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value==\"object\"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event(\"astro:visible\"));})();"]],"entryModules":{"astro/entrypoints/prerender":"prerender-entry.BuSn9Azs.mjs","\u0000astro:data-layer-content":"chunks/_astro_data-layer-content_CNV0k957.mjs","\u0000noop-middleware":"virtual_astro_middleware.mjs","\u0000virtual:astro:page:src/pages/blog/[slug]@_@astro":"chunks/_slug__CysG24t4.mjs","\u0000virtual:astro:get-image":"chunks/_virtual_astro_get-image_DMnikKqc.mjs","\u0000virtual:astro:server-island-manifest":"chunks/_virtual_astro_server-island-manifest_C1Q2srgE.mjs","\u0000virtual:astro:session-driver":"chunks/_virtual_astro_session-driver_C-PI1Pas.mjs","C:\\Users\\mhase\\Desktop\\portfolio\\tutorial\\.astro\\content-assets.mjs":"chunks/content-assets_DXqEyLLP.mjs","C:\\Users\\mhase\\Desktop\\portfolio\\tutorial\\.astro\\content-modules.mjs":"chunks/content-modules_I7QRxwaA.mjs","\u0000virtual:astro:page:src/pages/index@_@astro":"chunks/index_Do9NGbqr.mjs","\u0000virtual:astro:actions/noop-entrypoint":"chunks/noop-entrypoint_Z3zFhrGC.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/astro/dist/assets/services/sharp.js":"chunks/sharp_CDoBJrzf.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/@astrojs/react/dist/vnode-children.js":"chunks/vnode-children_B6vVcKTz.mjs","@astrojs/vercel/entrypoint":"entry.mjs","\u0000virtual:astro:page:src/pages/api/auth@_@ts":"chunks/auth_U0VZBsSJ.mjs","\u0000virtual:astro:page:src/pages/api/callback@_@ts":"chunks/callback_BNh5n4f1.mjs","\u0000virtual:astro:page:node_modules/astro/dist/assets/endpoint/generic@_@js":"chunks/generic_BcLMP9WA.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/MainPortfolioApp.tsx":"_astro/MainPortfolioApp.CKb1zwkP.js","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/SmoothScroll.tsx":"_astro/SmoothScroll.CO6bLvgK.js","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/ThreeGlobeCanvas.tsx":"_astro/ThreeGlobeCanvas.D5lWHP2N.js","@astrojs/react/client.js":"_astro/client.zci8rxYR.js","astro:scripts/before-hydration.js":""},"inlinedScripts":[],"assets":["/favicon.ico","/favicon.svg","/admin/config.yml","/admin/index.html","/_astro/client.zci8rxYR.js","/_astro/jsx-runtime.5oAs05S-.js","/_astro/MainPortfolioApp.CKb1zwkP.js","/_astro/react.Od-laFSK.js","/_astro/SmoothScroll.CO6bLvgK.js","/_astro/ThreeGlobeCanvas.D5lWHP2N.js","/index.html"],"buildFormat":"directory","checkOrigin":true,"actionBodySizeLimit":1048576,"serverIslandBodySizeLimit":1048576,"allowedDomains":[],"key":"voytxry0/bvvoSiwBOYxai4fzTIQZCQunODfFay3I9w=","image":{},"devToolbar":{"enabled":false,"debugInfoOutput":""},"logLevel":"info","shouldInjectCspMetaTags":false});
+var _manifest = deserializeManifest({"rootDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/","cacheDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/.astro/","outDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/","srcDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/src/","publicDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/public/","buildClientDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/client/","buildServerDir":"file:///C:/Users/mhase/Desktop/portfolio/tutorial/dist/server/","adapterName":"@astrojs/vercel","assetsDir":"_astro","routes":[{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"page","component":"_server-islands.astro","params":["name"],"segments":[[{"content":"_server-islands","dynamic":false,"spread":false}],[{"content":"name","dynamic":true,"spread":false}]],"pattern":"^\\/_server-islands\\/([^/]+?)\\/?$","prerender":false,"isIndex":false,"fallbackRoutes":[],"route":"/_server-islands/[name]","origin":"internal","distURL":[],"_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/_image","component":"node_modules/astro/dist/assets/endpoint/generic.js","params":[],"pathname":"/_image","pattern":"^\\/_image\\/?$","segments":[[{"content":"_image","dynamic":false,"spread":false}]],"type":"endpoint","prerender":false,"fallbackRoutes":[],"distURL":[],"isIndex":false,"origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/admin/config.yml","pattern":"^\\/admin\\/config\\.yml$","segments":[[{"content":"admin","dynamic":false,"spread":false}],[{"content":"config.yml","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/astro-decap-cms-oauth/src/config.ts","pathname":"/admin/config.yml","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"page","isIndex":false,"route":"/admin","pattern":"^\\/admin\\/?$","segments":[[{"content":"admin","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/astro-decap-cms-oauth/src/admin.astro","pathname":"/admin","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/blog/[slug]","isIndex":false,"type":"page","pattern":"^\\/blog\\/([^/]+?)\\/?$","segments":[[{"content":"blog","dynamic":false,"spread":false}],[{"content":"slug","dynamic":true,"spread":false}]],"params":["slug"],"component":"src/pages/blog/[slug].astro","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/oauth/callback","pattern":"^\\/oauth\\/callback\\/?$","segments":[[{"content":"oauth","dynamic":false,"spread":false}],[{"content":"callback","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/astro-decap-cms-oauth/src/oauth/callback.ts","pathname":"/oauth/callback","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/oauth","pattern":"^\\/oauth\\/?$","segments":[[{"content":"oauth","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/astro-decap-cms-oauth/src/oauth/index.ts","pathname":"/oauth","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"route":"/","isIndex":true,"type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}}],"serverLike":true,"middlewareMode":"classic","base":"/","trailingSlash":"ignore","compressHTML":"jsx","componentMetadata":[["C:/Users/mhase/Desktop/portfolio/tutorial/src/pages/blog/[slug].astro",{"propagation":"none","containsHead":true}],["C:/Users/mhase/Desktop/portfolio/tutorial/src/pages/index.astro",{"propagation":"none","containsHead":true}],["C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/astro-decap-cms-oauth/src/admin.astro",{"propagation":"none","containsHead":true}]],"renderers":[],"clientDirectives":[["idle","(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value==\"object\"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};\"requestIdleCallback\"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event(\"astro:idle\"));})();"],["load","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event(\"astro:load\"));})();"],["media","(()=>{var n=(a,t)=>{let i=async()=>{await(await a())()};if(t.value){let e=matchMedia(t.value);e.matches?i():e.addEventListener(\"change\",i,{once:!0})}};(self.Astro||(self.Astro={})).media=n;window.dispatchEvent(new Event(\"astro:media\"));})();"],["only","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event(\"astro:only\"));})();"],["visible","(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value==\"object\"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event(\"astro:visible\"));})();"]],"entryModules":{"astro/entrypoints/prerender":"prerender-entry.cAWWnskJ.mjs","\u0000astro:data-layer-content":"chunks/_astro_data-layer-content_DZS0GCaB.mjs","\u0000noop-middleware":"virtual_astro_middleware.mjs","\u0000virtual:astro:page:src/pages/blog/[slug]@_@astro":"chunks/_slug__D-RACxxv.mjs","\u0000virtual:astro:get-image":"chunks/_virtual_astro_get-image_DMnikKqc.mjs","\u0000virtual:astro:server-island-manifest":"chunks/_virtual_astro_server-island-manifest_C1Q2srgE.mjs","\u0000virtual:astro:session-driver":"chunks/_virtual_astro_session-driver_C-PI1Pas.mjs","C:\\Users\\mhase\\Desktop\\portfolio\\tutorial\\.astro\\content-assets.mjs":"chunks/content-assets_DXqEyLLP.mjs","C:\\Users\\mhase\\Desktop\\portfolio\\tutorial\\.astro\\content-modules.mjs":"chunks/content-modules_I7QRxwaA.mjs","\u0000virtual:astro:page:src/pages/index@_@astro":"chunks/index_Bh2k2BDy.mjs","\u0000virtual:astro:actions/noop-entrypoint":"chunks/noop-entrypoint_Z3zFhrGC.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/astro/dist/assets/services/sharp.js":"chunks/sharp_DKlCaLWl.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/node_modules/@astrojs/react/dist/vnode-children.js":"chunks/vnode-children_B6vVcKTz.mjs","@astrojs/vercel/entrypoint":"entry.mjs","\u0000virtual:astro:page:node_modules/astro-decap-cms-oauth/src/admin@_@astro":"chunks/admin_Dk4C4r8t.mjs","\u0000virtual:astro:page:node_modules/astro-decap-cms-oauth/src/oauth/callback@_@ts":"chunks/callback_Ce784M4P.mjs","\u0000virtual:astro:page:node_modules/astro-decap-cms-oauth/src/config@_@ts":"chunks/config_ByqYx8__.mjs","\u0000virtual:astro:page:node_modules/astro/dist/assets/endpoint/generic@_@js":"chunks/generic_Byo0HfnY.mjs","\u0000virtual:astro:page:node_modules/astro-decap-cms-oauth/src/oauth/index@_@ts":"chunks/index_Cdl22lzp.mjs","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/MainPortfolioApp.tsx":"_astro/MainPortfolioApp.CKb1zwkP.js","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/SmoothScroll.tsx":"_astro/SmoothScroll.CO6bLvgK.js","C:/Users/mhase/Desktop/portfolio/tutorial/src/components/ThreeGlobeCanvas.tsx":"_astro/ThreeGlobeCanvas.D5lWHP2N.js","@astrojs/react/client.js":"_astro/client.zci8rxYR.js","astro:scripts/before-hydration.js":""},"inlinedScripts":[],"assets":["/favicon.ico","/favicon.svg","/admin/config.yml","/admin/index.html","/_astro/client.zci8rxYR.js","/_astro/jsx-runtime.5oAs05S-.js","/_astro/MainPortfolioApp.CKb1zwkP.js","/_astro/react.Od-laFSK.js","/_astro/SmoothScroll.CO6bLvgK.js","/_astro/ThreeGlobeCanvas.D5lWHP2N.js","/index.html"],"buildFormat":"directory","checkOrigin":true,"actionBodySizeLimit":1048576,"serverIslandBodySizeLimit":1048576,"allowedDomains":[],"key":"+/neXkCg9dHcvD6EfWYk3C8kWGJw/gQttkxN43foL0Y=","image":{},"devToolbar":{"enabled":false,"debugInfoOutput":""},"logLevel":"info","shouldInjectCspMetaTags":false});
 var manifestRoutes = _manifest.routes;
 var manifest = Object.assign(_manifest, {
 	renderers,
@@ -5280,13 +5566,16 @@ function getValidatedIpFromHeader(headerValue) {
 function getClientIpAddress(request) {
 	return getValidatedIpFromHeader(request.headers.get("x-forwarded-for"));
 }
+//#endregion
+//#region node_modules/@astrojs/vercel/dist/serverless/entrypoint.js
+setGetEnv((key) => process.env[key]);
 var app = createApp();
 var entrypoint_default = { async fetch(request) {
 	const url = new URL(request.url);
 	const hasValidMiddlewareSecret = request.headers.get(ASTRO_MIDDLEWARE_SECRET_HEADER) === middlewareSecret;
 	let realPath = void 0;
 	if (hasValidMiddlewareSecret) realPath = request.headers.get(ASTRO_PATH_HEADER);
-	else if (url.searchParams.get("x_astro_path_token") === "c563428e-6391-4c49-a96b-7c7eca0e5b6c") realPath = url.searchParams.get(ASTRO_PATH_PARAM);
+	else if (url.searchParams.get("x_astro_path_token") === "642d3c71-cfac-45a2-bac9-f00b7d038668") realPath = url.searchParams.get(ASTRO_PATH_PARAM);
 	if (typeof realPath === "string") {
 		url.pathname = realPath;
 		url.searchParams.delete(ASTRO_PATH_PARAM);

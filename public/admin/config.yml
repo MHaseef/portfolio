@@ -3,7 +3,7 @@ backend:
   repo: MHaseef/portfolio
   branch: main
   base_url: https://portfolio-mu-coral-72.vercel.app
-  auth_endpoint: /api/auth
+  auth_endpoint: oauth
 
 local_backend: true
 

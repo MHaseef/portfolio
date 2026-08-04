@@ -20,11 +20,19 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/api/auth/?$",
+			"src": "^/admin/config\\.yml$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/api/callback/?$",
+			"src": "^/admin/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/oauth/callback/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/oauth/?$",
 			"dest": "_render"
 		},
 		{
