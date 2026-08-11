@@ -5,11 +5,11 @@ const experience = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/experience' }),
   schema: z.object({
     title: z.string(),
-    company: z.string(),
-    location: z.string(),
-    dates: z.string(),
-    teaser: z.string(),
-    bullets: z.array(z.string()),
+    company: z.string().optional().default(''),
+    location: z.string().optional().default(''),
+    dates: z.string().optional().default(''),
+    teaser: z.string().optional().default(''),
+    bullets: z.array(z.string()).optional().default([]),
   }),
 });
 
@@ -17,14 +17,14 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    category: z.string(),
-    thumbnail: z.string().optional(),
-    tags: z.array(z.string()),
-    demoUrl: z.string().optional(),
-    githubUrl: z.string().optional(),
-    teaser: z.string(),
-    problem: z.string(),
-    solution: z.string(),
+    category: z.string().optional().default('WebGIS'),
+    thumbnail: z.string().optional().default(''),
+    tags: z.array(z.string()).optional().default([]),
+    demoUrl: z.string().optional().default(''),
+    githubUrl: z.string().optional().default(''),
+    teaser: z.string().optional().default(''),
+    problem: z.string().optional().default(''),
+    solution: z.string().optional().default(''),
   }),
 });
 
@@ -32,11 +32,11 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
-    date: z.string(),
-    category: z.string(),
-    readTime: z.string().default('5 min'),
-    heroImage: z.string().optional(),
-    excerpt: z.string(),
+    date: z.string().optional().default(''),
+    category: z.string().optional().default('MAPPING'),
+    readTime: z.string().optional().default('5 min'),
+    heroImage: z.string().optional().default(''),
+    excerpt: z.string().optional().default(''),
   }),
 });
 

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 export interface ExperienceData {
   id: string;
   title: string;
-  company: string;
-  location: string;
-  dates: string;
-  teaser: string;
-  bullets: string[];
+  company?: string;
+  location?: string;
+  dates?: string;
+  teaser?: string;
+  bullets?: string[];
 }
 
 interface ExperienceTimelineProps {
@@ -182,7 +182,7 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
               {activeItem.dates}
             </div>
             <ul style={{ color: '#3E4349', fontSize: '14px', lineHeight: 1.9, paddingLeft: '20px', margin: 0 }}>
-              {activeItem.bullets.map((b, i) => (
+              {(activeItem.bullets || []).map((b, i) => (
                 <li key={i}>{b}</li>
               ))}
             </ul>

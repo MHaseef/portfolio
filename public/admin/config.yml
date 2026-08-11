@@ -59,11 +59,11 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Job Title", name: "title", widget: "string" }
-      - { label: "Company", name: "company", widget: "string" }
-      - { label: "Location", name: "location", widget: "string" }
-      - { label: "Dates", name: "dates", widget: "string" }
-      - { label: "Summary / Teaser", name: "teaser", widget: "text" }
-      - { label: "Bullet Points", name: "bullets", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
+      - { label: "Company", name: "company", widget: "string", required: false }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - { label: "Dates", name: "dates", widget: "string", required: false }
+      - { label: "Summary / Teaser", name: "teaser", widget: "text", required: false }
+      - { label: "Bullet Points", name: "bullets", widget: "list", required: false, field: { label: "Bullet", name: "bullet", widget: "string" } }
 
   - name: "projects"
     label: "Projects Showcase"
@@ -76,12 +76,12 @@ collections:
       - { label: "Project Title", name: "title", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["WebGIS", "Spatial AI", "Analytics", "Tools"] }
       - { label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false }
-      - { label: "Tech Stack / Tags", name: "tags", widget: "list", field: { label: "Tag", name: "tag", widget: "string" } }
+      - { label: "Tech Stack / Tags", name: "tags", widget: "list", required: false, field: { label: "Tag", name: "tag", widget: "string" } }
       - { label: "Live Demo Link", name: "demoUrl", widget: "string", required: false }
       - { label: "GitHub Link", name: "githubUrl", widget: "string", required: false }
-      - { label: "Summary / Teaser", name: "teaser", widget: "text" }
-      - { label: "Case Study Problem", name: "problem", widget: "text" }
-      - { label: "Case Study Solution & Architecture", name: "solution", widget: "text" }
+      - { label: "Summary / Teaser", name: "teaser", widget: "text", required: false }
+      - { label: "Case Study Problem", name: "problem", widget: "text", required: false }
+      - { label: "Case Study Solution & Architecture", name: "solution", widget: "text", required: false }
 
   - name: "blog"
     label: "Blog Posts"
