@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface BioData {
   name?: string;
+  avatar?: string;
   initials?: string;
   role?: string;
   location?: string;
@@ -9,6 +10,7 @@ export interface BioData {
   education?: {
     degree?: string;
     university?: string;
+    logo?: string;
     dates?: string;
   };
   achievements?: string[];
@@ -24,6 +26,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
   if (!isOpen) return null;
 
   const name = bioData?.name || 'Muhammad Haseef';
+  const avatar = bioData?.avatar || '';
   const initials = bioData?.initials || 'MH';
   const role = bioData?.role || 'Geoinformatics Engineer · GIS Developer & Analyst';
   const bio = bioData?.bio || [
@@ -35,6 +38,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
   const education = {
     degree: bioData?.education?.degree || 'BE Geoinformatics Engineering',
     university: bioData?.education?.university || 'National University of Sciences and Technology (NUST), Islamabad',
+    logo: bioData?.education?.logo || '',
     dates: bioData?.education?.dates || '2024 — 2028',
   };
 
@@ -92,24 +96,39 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
         </button>
 
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '36px' }}>
-          <div
-            style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              background: '#1B6FA8',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: "'JetBrains Mono', monospace",
-              fontWeight: 700,
-              fontSize: '24px',
-              flexShrink: 0,
-            }}
-          >
-            {initials}
-          </div>
+          {avatar ? (
+            <img
+              src={avatar}
+              alt={name}
+              style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '2px solid #1B6FA8',
+                flexShrink: 0,
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '50%',
+                background: '#1B6FA8',
+                color: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 700,
+                fontSize: '24px',
+                flexShrink: 0,
+              }}
+            >
+              {initials}
+            </div>
+          )}
           <div>
             <div
               style={{
@@ -171,24 +190,41 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
             alignItems: 'center',
           }}
         >
-          <div
-            style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '8px',
-              background: '#0F2036',
-              color: '#5FA8D3',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: "'JetBrains Mono', monospace",
-              fontWeight: 700,
-              fontSize: '14px',
-              flexShrink: 0,
-            }}
-          >
-            NUST
-          </div>
+          {education.logo ? (
+            <img
+              src={education.logo}
+              alt={education.university}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '8px',
+                objectFit: 'contain',
+                background: '#FFFFFF',
+                border: '1px solid #E6E4DF',
+                padding: '4px',
+                flexShrink: 0,
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '8px',
+                background: '#0F2036',
+                color: '#5FA8D3',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontWeight: 700,
+                fontSize: '14px',
+                flexShrink: 0,
+              }}
+            >
+              NUST
+            </div>
+          )}
           <div>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, fontSize: '15px', color: '#16181C' }}>
               {education.degree}

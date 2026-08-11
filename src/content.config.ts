@@ -6,9 +6,11 @@ const experience = defineCollection({
   schema: z.object({
     title: z.string(),
     company: z.string().optional().default(''),
+    logo: z.string().optional().default(''),
     location: z.string().optional().default(''),
     dates: z.string().optional().default(''),
     teaser: z.string().optional().default(''),
+    description: z.string().optional().default(''),
     bullets: z.array(z.string()).optional().default([]),
   }),
 });

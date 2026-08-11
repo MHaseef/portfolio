@@ -4,9 +4,11 @@ export interface ExperienceData {
   id: string;
   title: string;
   company?: string;
+  logo?: string;
   location?: string;
   dates?: string;
   teaser?: string;
+  description?: string;
   bullets?: string[];
 }
 
@@ -95,25 +97,45 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
                   gap: '8px',
-                  marginBottom: '4px',
+                  marginBottom: '6px',
                 }}
               >
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontWeight: 600,
-                    fontSize: '16px',
-                    color: '#16181C',
-                  }}
-                >
-                  {job.title}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  {job.logo && (
+                    <img
+                      src={job.logo}
+                      alt={job.company || job.title}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '6px',
+                        objectFit: 'contain',
+                        border: '1px solid #E6E4DF',
+                        background: '#FFFFFF',
+                        padding: '2px',
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontWeight: 600,
+                        fontSize: '16px',
+                        color: '#16181C',
+                      }}
+                    >
+                      {job.title}
+                    </div>
+                    <div style={{ color: '#1B6FA8', fontSize: '13px', fontWeight: 600 }}>
+                      {job.company}{job.location ? ` · ${job.location}` : ''}
+                    </div>
+                  </div>
                 </div>
                 <div style={{ fontSize: '13px', color: '#5C6167', fontWeight: 600 }}>{job.dates}</div>
               </div>
-              <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600, marginBottom: '6px' }}>
-                {job.company} · {job.location}
-              </div>
-              <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.5 }}>{job.teaser}</div>
+              <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.55 }}>{job.teaser}</div>
             </div>
           ))}
         </div>
@@ -164,28 +186,63 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
             >
               ✕
             </button>
-            <div
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontWeight: 700,
-                fontSize: '22px',
-                marginBottom: '4px',
-                color: '#16181C',
-              }}
-            >
-              {activeItem.title}
-            </div>
-            <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>
-              {activeItem.company} · {activeItem.location}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
+              {activeItem.logo && (
+                <img
+                  src={activeItem.logo}
+                  alt={activeItem.company || activeItem.title}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '8px',
+                    objectFit: 'contain',
+                    border: '1px solid #E6E4DF',
+                    background: '#FFFFFF',
+                    padding: '4px',
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+              <div>
+                <div
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontWeight: 700,
+                    fontSize: '22px',
+                    marginBottom: '2px',
+                    color: '#16181C',
+                  }}
+                >
+                  {activeItem.title}
+                </div>
+                <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600 }}>
+                  {activeItem.company}{activeItem.location ? ` · ${activeItem.location}` : ''}
+                </div>
+              </div>
             </div>
             <div style={{ fontSize: '12px', color: '#8A8F94', fontWeight: 600, marginBottom: '24px' }}>
               {activeItem.dates}
             </div>
-            <ul style={{ color: '#3E4349', fontSize: '14px', lineHeight: 1.9, paddingLeft: '20px', margin: 0 }}>
-              {(activeItem.bullets || []).map((b, i) => (
-                <li key={i}>{b}</li>
-              ))}
-            </ul>
+            {activeItem.description && (
+              <div
+                style={{
+                  color: '#3E4349',
+                  fontSize: '15px',
+                  lineHeight: 1.75,
+                  marginBottom: activeItem.bullets && activeItem.bullets.length > 0 ? '18px' : '0',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {activeItem.description}
+              </div>
+            )}
+            {activeItem.bullets && activeItem.bullets.length > 0 && (
+              <ul style={{ color: '#3E4349', fontSize: '14px', lineHeight: 1.9, paddingLeft: '20px', margin: 0 }}>
+                {activeItem.bullets.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       )}

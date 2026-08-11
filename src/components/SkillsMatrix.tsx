@@ -4,6 +4,7 @@ export interface SkillItem {
   id: string;
   name: string;
   category: string;
+  icon?: string;
 }
 
 const DEFAULT_SKILLS: SkillItem[] = [
@@ -159,14 +160,28 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                   transition: 'all 0.2s ease',
                 }}
               >
-                <span
-                  style={{
-                    width: '8px',
-                    height: '8px',
-                    borderRadius: '50%',
-                    background: isSelected ? '#1B6FA8' : '#9A958A',
-                  }}
-                />
+                {skill.icon ? (
+                  <img
+                    src={skill.icon}
+                    alt={skill.name}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      objectFit: 'contain',
+                      flexShrink: 0,
+                    }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: isSelected ? '#1B6FA8' : '#9A958A',
+                    }}
+                  />
+                )}
                 {skill.name}
               </button>
             );

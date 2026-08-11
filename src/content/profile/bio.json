@@ -1,6 +1,7 @@
 {
   "name": "Muhammad Haseef",
   "initials": "MH",
+  "avatar": "",
   "role": "Geoinformatics Engineer · GIS Developer & Analyst",
   "location": "Islamabad, Pakistan",
   "bio": [
@@ -11,7 +12,8 @@
   "education": {
     "degree": "BE Geoinformatics Engineering",
     "university": "National University of Sciences and Technology (NUST), Islamabad",
-    "dates": "2024 — 2028"
+    "dates": "2024 — 2028",
+    "logo": ""
   },
   "achievements": [
     "Best Final Year Project — Spatial AI for Flood Risk Mapping",
