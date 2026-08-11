@@ -31,9 +31,12 @@ const DEFAULT_SKILLS: SkillItem[] = [
 interface SkillsMatrixProps {
   activeFilter: string | null;
   onSelectSkill: (skillName: string | null) => void;
+  skills?: SkillItem[];
 }
 
-export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSelectSkill }) => {
+export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSelectSkill, skills }) => {
+  const skillList = skills && skills.length > 0 ? skills : DEFAULT_SKILLS;
+
   const scrollToProjects = () => {
     const el = document.getElementById('projects');
     if (el) {
@@ -134,8 +137,9 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
             gap: '10px',
           }}
         >
-          {DEFAULT_SKILLS.map(skill => {
+          {skillList.map((skill, idx) => {
             const isSelected = activeFilter === skill.name;
+            const skillId = skill.id || `s-${idx}`;
             return (
               <button
                 key={skill.id}

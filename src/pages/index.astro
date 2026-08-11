@@ -6,6 +6,11 @@ import { ThreeGlobeCanvas } from '../components/ThreeGlobeCanvas';
 import { SmoothScroll } from '../components/SmoothScroll';
 import { MainPortfolioApp } from '../components/MainPortfolioApp';
 
+const rawProfile = await getCollection('profile');
+const bioData = rawProfile.find(entry => entry.id === 'bio')?.data;
+const skillsEntry = rawProfile.find(entry => entry.id === 'skills')?.data;
+const skillsData = skillsEntry?.skills || undefined;
+
 const rawExperience = await getCollection('experience');
 const experienceItems = rawExperience.map(entry => ({
   id: entry.id,
@@ -57,6 +62,8 @@ const blogItems = rawBlogs.map(entry => ({
         experienceItems={experienceItems}
         projectItems={projectItems}
         blogItems={blogItems}
+        bioData={bioData}
+        skillsData={skillsData}
       />
     </SmoothScroll>
   </body>

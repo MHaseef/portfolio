@@ -1,30 +1,49 @@
 import React from 'react';
 
+export interface BioData {
+  name?: string;
+  initials?: string;
+  role?: string;
+  location?: string;
+  bio?: string[];
+  education?: {
+    degree?: string;
+    university?: string;
+    dates?: string;
+  };
+  achievements?: string[];
+}
+
 interface AboutModalProps {
   isOpen: boolean;
   onClose: () => void;
+  bioData?: BioData;
 }
 
-export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
+export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData }) => {
   if (!isOpen) return null;
 
-  const bio = [
+  const name = bioData?.name || 'Muhammad Haseef';
+  const initials = bioData?.initials || 'MH';
+  const role = bioData?.role || 'Geoinformatics Engineer · GIS Developer & Analyst';
+  const bio = bioData?.bio || [
     "At my core, I'm a builder who enjoys solving puzzle-like problems.",
     "I've always been fascinated by how small, intentional design choices can completely change the way we interact with information. For me, the beauty of technical work lies in the process: peeling back layers of a problem, asking the right questions, and finding the most elegant, efficient path forward.",
     "I don't believe in overcomplicating things for the sake of it. I value clarity, precision, and building tools that make people's lives just a little bit simpler and more intuitive.",
   ];
 
   const education = {
-    degree: 'BE Geoinformatics Engineering',
-    university: 'National University of Sciences and Technology (NUST), Islamabad',
-    dates: '2024 — 2028',
+    degree: bioData?.education?.degree || 'BE Geoinformatics Engineering',
+    university: bioData?.education?.university || 'National University of Sciences and Technology (NUST), Islamabad',
+    dates: bioData?.education?.dates || '2024 — 2028',
   };
 
-  const achievements = [
+  const achievements = bioData?.achievements || [
     'Best Final Year Project — Spatial AI for Flood Risk Mapping',
     'Google Earth Engine certified developer',
     'Published technical writing on WebGIS architecture',
   ];
+
 
   return (
     <div
@@ -89,7 +108,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               flexShrink: 0,
             }}
           >
-            MH
+            {initials}
           </div>
           <div>
             <div
@@ -100,10 +119,10 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                 color: '#16181C',
               }}
             >
-              Muhammad Haseef
+              {name}
             </div>
             <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600, marginTop: '4px' }}>
-              Geoinformatics Engineer · GIS Developer & Analyst
+              {role}
             </div>
           </div>
         </div>

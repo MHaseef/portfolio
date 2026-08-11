@@ -10,17 +10,23 @@ import type { ProjectData } from './ProjectsGrid';
 import { BlogsPreview } from './BlogsPreview';
 import type { BlogItem } from './BlogsPreview';
 import { ContactSection } from './ContactSection';
+import type { BioData } from './AboutModal';
+import type { SkillItem } from './SkillsMatrix';
 
 interface MainPortfolioAppProps {
   experienceItems: ExperienceData[];
   projectItems: ProjectData[];
   blogItems: BlogItem[];
+  bioData?: BioData;
+  skillsData?: SkillItem[];
 }
 
 export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
   experienceItems,
   projectItems,
   blogItems,
+  bioData,
+  skillsData,
 }) => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -96,7 +102,7 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
       <div style={{ height: '110px', background: 'transparent' }} />
 
       {/* Skills Matrix */}
-      <SkillsMatrix activeFilter={activeFilter} onSelectSkill={setActiveFilter} />
+      <SkillsMatrix activeFilter={activeFilter} onSelectSkill={setActiveFilter} skills={skillsData} />
 
       <div style={{ height: '110px', background: 'transparent' }} />
 
@@ -119,7 +125,7 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
       <ContactSection />
 
       {/* About Modal */}
-      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} bioData={bioData} />
     </div>
   );
 };

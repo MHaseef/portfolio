@@ -40,4 +40,10 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { experience, projects, blog };
+const profile = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/profile' }),
+  schema: z.any(),
+});
+
+export const collections = { profile, experience, projects, blog };
+

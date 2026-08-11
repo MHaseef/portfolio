@@ -1,0 +1,21 @@
+{
+  "name": "Muhammad Haseef",
+  "initials": "MH",
+  "role": "Geoinformatics Engineer · GIS Developer & Analyst",
+  "location": "Islamabad, Pakistan",
+  "bio": [
+    "At my core, I'm a builder who enjoys solving puzzle-like problems.",
+    "I've always been fascinated by how small, intentional design choices can completely change the way we interact with information. For me, the beauty of technical work lies in the process: peeling back layers of a problem, asking the right questions, and finding the most elegant, efficient path forward.",
+    "I don't believe in overcomplicating things for the sake of it. I value clarity, precision, and building tools that make people's lives just a little bit simpler and more intuitive."
+  ],
+  "education": {
+    "degree": "BE Geoinformatics Engineering",
+    "university": "National University of Sciences and Technology (NUST), Islamabad",
+    "dates": "2024 — 2028"
+  },
+  "achievements": [
+    "Best Final Year Project — Spatial AI for Flood Risk Mapping",
+    "Google Earth Engine certified developer",
+    "Published technical writing on WebGIS architecture"
+  ]
+}

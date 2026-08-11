@@ -13,6 +13,43 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  - name: "profile"
+    label: "Profile & Bio"
+    delete: false
+    files:
+      - name: "bio"
+        label: "Personal Bio & Details"
+        file: "src/content/profile/bio.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - { label: "Full Name", name: "name", widget: "string" }
+          - { label: "Initials Avatar", name: "initials", widget: "string" }
+          - { label: "Role / Subtitle", name: "role", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+          - { label: "Bio Paragraphs", name: "bio", widget: "list", field: { label: "Paragraph", name: "paragraph", widget: "text" } }
+          - label: "Education Details"
+            name: "education"
+            widget: "object"
+            fields:
+              - { label: "Degree", name: "degree", widget: "string" }
+              - { label: "University / Institution", name: "university", widget: "string" }
+              - { label: "Dates", name: "dates", widget: "string" }
+          - { label: "Key Achievements", name: "achievements", widget: "list", field: { label: "Achievement", name: "achievement", widget: "string" } }
+
+      - name: "skills"
+        label: "Skills Matrix"
+        file: "src/content/profile/skills.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Skills List"
+            name: "skills"
+            widget: "list"
+            fields:
+              - { label: "Skill Name", name: "name", widget: "string" }
+              - { label: "Category", name: "category", widget: "select", options: ["Languages & Frameworks", "Tools & Platforms"] }
+
   - name: "experience"
     label: "Experience Timeline"
     folder: "src/content/experience"
