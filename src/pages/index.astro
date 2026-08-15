@@ -8,40 +8,51 @@ import { MainPortfolioApp } from '../components/MainPortfolioApp';
 
 const rawProfile = await getCollection('profile');
 const bioData = rawProfile.find(entry => entry.id === 'bio')?.data;
+const contactData = rawProfile.find(entry => entry.id === 'contact')?.data;
 
 const rawSkills = await getCollection('skills');
 const skillsData = rawSkills.length > 0
   ? rawSkills.map(entry => ({
       id: entry.id,
+      order: entry.data.order ?? 999,
       name: entry.data.name,
       category: entry.data.category,
       icon: entry.data.icon,
       proficiency: entry.data.proficiency,
-    }))
+    })).sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
   : rawProfile.find(entry => entry.id === 'skills')?.data?.skills;
 
-
 const rawExperience = await getCollection('experience');
-const experienceItems = rawExperience.map(entry => ({
-  id: entry.id,
-  ...entry.data,
-}));
+const experienceItems = rawExperience
+  .map(entry => ({
+    id: entry.id,
+    order: entry.data.order ?? 999,
+    ...entry.data,
+  }))
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
 const rawProjects = await getCollection('projects');
-const projectItems = rawProjects.map(entry => ({
-  id: entry.id,
-  ...entry.data,
-}));
+const projectItems = rawProjects
+  .map(entry => ({
+    id: entry.id,
+    order: entry.data.order ?? 999,
+    ...entry.data,
+  }))
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
 const rawBlogs = await getCollection('blog');
-const blogItems = rawBlogs.map(entry => ({
-  slug: entry.id,
-  title: entry.data.title,
-  date: entry.data.date,
-  category: entry.data.category,
-  excerpt: entry.data.excerpt,
-  readTime: entry.data.readTime,
-}));
+const blogItems = rawBlogs
+  .map(entry => ({
+    slug: entry.id,
+    order: entry.data.order ?? 999,
+    title: entry.data.title,
+    date: entry.data.date,
+    category: entry.data.category,
+    excerpt: entry.data.excerpt,
+    readTime: entry.data.readTime,
+  }))
+  .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+
 ---
 
 <!DOCTYPE html>
@@ -74,6 +85,7 @@ const blogItems = rawBlogs.map(entry => ({
         blogItems={blogItems}
         bioData={bioData}
         skillsData={skillsData}
+        contactData={contactData}
       />
     </SmoothScroll>
   </body>

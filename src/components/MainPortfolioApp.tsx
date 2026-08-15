@@ -19,6 +19,7 @@ interface MainPortfolioAppProps {
   blogItems: BlogItem[];
   bioData?: BioData;
   skillsData?: SkillItem[];
+  contactData?: any;
 }
 
 export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
@@ -27,13 +28,14 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
   blogItems,
   bioData,
   skillsData,
+  contactData,
 }) => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
-      <HeaderNav />
+      <HeaderNav avatar={bioData?.avatar} initials={bioData?.initials} name={bioData?.name} />
 
       {/* Hero Section */}
       <section
@@ -122,7 +124,7 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
       <div style={{ height: '110px', background: 'transparent' }} />
 
       {/* Contact & Footer */}
-      <ContactSection />
+      <ContactSection data={contactData} />
 
       {/* About Modal */}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} bioData={bioData} />

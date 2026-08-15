@@ -165,22 +165,35 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                     src={skill.icon}
                     alt={skill.name}
                     style={{
-                      width: '16px',
-                      height: '16px',
+                      width: '22px',
+                      height: '22px',
                       borderRadius: '50%',
                       objectFit: 'contain',
+                      background: '#FFFFFF',
+                      border: '1px solid #D5D9DE',
+                      padding: '2px',
                       flexShrink: 0,
                     }}
                   />
                 ) : (
-                  <span
+                  <div
                     style={{
-                      width: '8px',
-                      height: '8px',
+                      width: '22px',
+                      height: '22px',
                       borderRadius: '50%',
-                      background: isSelected ? '#1B6FA8' : '#9A958A',
+                      background: isSelected ? '#1B6FA8' : '#EAF2F8',
+                      color: isSelected ? '#FFFFFF' : '#1B6FA8',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      fontFamily: "'JetBrains Mono', monospace",
+                      flexShrink: 0,
                     }}
-                  />
+                  >
+                    {skill.name.charAt(0).toUpperCase()}
+                  </div>
                 )}
                 {skill.name}
               </button>

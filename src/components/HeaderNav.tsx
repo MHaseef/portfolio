@@ -9,7 +9,13 @@ const NAV_LINKS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export const HeaderNav: React.FC = () => {
+interface HeaderNavProps {
+  avatar?: string;
+  initials?: string;
+  name?: string;
+}
+
+export const HeaderNav: React.FC<HeaderNavProps> = ({ avatar, initials, name }) => {
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
@@ -57,23 +63,39 @@ export const HeaderNav: React.FC = () => {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: '#1B6FA8',
-            color: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: "'JetBrains Mono', monospace",
-            fontWeight: 700,
-            fontSize: '14px',
-          }}
-        >
-          MH
-        </div>
+        {avatar ? (
+          <img
+            src={avatar}
+            alt={name || 'Muhammad Haseef'}
+            style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid #1B6FA8',
+              flexShrink: 0,
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '50%',
+              background: '#1B6FA8',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontWeight: 700,
+              fontSize: '14px',
+              flexShrink: 0,
+            }}
+          >
+            {initials || 'MH'}
+          </div>
+        )}
         <div
           style={{
             fontFamily: "'JetBrains Mono', monospace",
@@ -82,7 +104,7 @@ export const HeaderNav: React.FC = () => {
             color: '#FFFFFF',
           }}
         >
-          Muhammad Haseef
+          {name || 'Muhammad Haseef'}
         </div>
       </div>
 

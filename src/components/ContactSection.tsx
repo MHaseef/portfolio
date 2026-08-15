@@ -1,9 +1,35 @@
 import React from 'react';
 
-export const ContactSection: React.FC = () => {
+export interface SocialLink {
+  label: string;
+  url: string;
+  value?: string;
+}
+
+export interface ContactData {
+  title?: string;
+  email?: string;
+  location?: string;
+  socialLinks?: SocialLink[];
+}
+
+interface ContactSectionProps {
+  data?: ContactData;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ data }) => {
   const backToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const headline = data?.title || "Let's build something spatial.";
+  const defaultLinks: SocialLink[] = [
+    { label: 'Email', url: 'mailto:hello@haseef.gis', value: 'hello@haseef.gis' },
+    { label: 'GitHub', url: 'https://github.com/yourhandle', value: 'github.com/yourhandle' },
+    { label: 'LinkedIn', url: 'https://linkedin.com/in/yourhandle', value: 'linkedin.com/in/yourhandle' },
+  ];
+
+  const linksList = data?.socialLinks && data.socialLinks.length > 0 ? data.socialLinks : defaultLinks;
 
   return (
     <>
@@ -23,9 +49,10 @@ export const ContactSection: React.FC = () => {
             margin: '0 auto',
             background: '#0F2036',
             border: '1px solid #1C3A57',
-            borderRadius: '12px',
-            padding: '32px 40px',
+            borderRadius: '14px',
+            padding: '36px 40px',
             textAlign: 'center',
+            boxShadow: '0 8px 30px rgba(15,32,54,0.12)',
           }}
         >
           <div
@@ -45,35 +72,38 @@ export const ContactSection: React.FC = () => {
               fontFamily: "'JetBrains Mono', monospace",
               fontWeight: 700,
               fontSize: 'clamp(24px, 3.5vw, 32px)',
-              margin: '0 0 20px',
+              margin: '0 0 24px',
               color: '#FFFFFF',
             }}
           >
-            Let's build something spatial.
+            {headline}
           </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <a
-              href="mailto:hello@haseef.gis"
-              style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '15px', fontWeight: 600 }}
-            >
-              Email — hello@haseef.gis
-            </a>
-            <a
-              href="https://github.com/yourhandle"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '15px', fontWeight: 600 }}
-            >
-              GitHub — github.com/yourhandle
-            </a>
-            <a
-              href="https://linkedin.com/in/yourhandle"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: '15px', fontWeight: 600 }}
-            >
-              LinkedIn — linkedin.com/in/yourhandle
-            </a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'center' }}>
+            {linksList.map((link, idx) => (
+              <a
+                key={idx}
+                href={link.url}
+                target={link.url.startsWith('mailto:') ? '_self' : '_blank'}
+                rel="noopener noreferrer"
+                style={{
+                  color: '#FFFFFF',
+                  textDecoration: 'none',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  padding: '10px 22px',
+                  borderRadius: '30px',
+                  border: '1px solid rgba(95, 168, 211, 0.2)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span style={{ color: '#5FA8D3', fontWeight: 700 }}>{link.label}:</span>
+                <span>{link.value || link.url}</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

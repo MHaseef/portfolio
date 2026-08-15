@@ -39,31 +39,52 @@ collections:
               - { label: "Dates Summary", name: "dates", widget: "string", required: false, hint: "e.g. 2024 — 2028" }
           - { label: "Key Achievements (One achievement per line)", name: "achievementsText", widget: "text", required: false, hint: "Type each key achievement on a new line." }
 
+      - name: "contact"
+        label: "Contact Us & Social Links"
+        file: "src/content/profile/contact.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - { label: "Headline / Subtitle", name: "title", widget: "string", default: "Let's build something spatial." }
+          - { label: "Primary Email Address", name: "email", widget: "string", required: false }
+          - { label: "Location", name: "location", widget: "string", required: false }
+          - label: "Contact & Social Links"
+            name: "socialLinks"
+            widget: "list"
+            fields:
+              - { label: "Contact Type / Platform Name (e.g. Instagram, LinkedIn, GitHub, Email, Phone)", name: "label", widget: "string" }
+              - { label: "URL / Link Address (e.g. https://instagram.com/yourhandle or mailto:hello@haseef.gis)", name: "url", widget: "string" }
+              - { label: "Display Text (e.g. instagram.com/yourhandle)", name: "value", widget: "string", required: false }
+
   - name: "skills"
     label: "Skills & Technologies"
     folder: "src/content/skills"
     create: true
+    delete: true
     extension: "json"
     format: "json"
     slug: "{{slug}}"
     fields:
+      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
       - { label: "Skill Name", name: "name", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["Languages & Frameworks", "Spatial AI & WebGIS", "Tools & Platforms", "Databases & Cloud"] }
       - { label: "Proficiency Level", name: "proficiency", widget: "select", options: ["Expert", "Advanced", "Proficient"], default: "Advanced", required: false }
-      - { label: "Skill Logo / Icon", name: "icon", widget: "image", required: false }
+      - { label: "Skill Logo / Icon Image", name: "icon", widget: "image", required: false, hint: "Upload a small round icon image for this skill" }
 
   - name: "experience"
     label: "Experience Timeline"
     folder: "src/content/experience"
     create: true
+    delete: true
     extension: "json"
     format: "json"
     slug: "{{slug}}"
     fields:
+      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
       - { label: "Job Title / Role", name: "title", widget: "string" }
       - { label: "Company / Organization", name: "company", widget: "string", required: false }
       - { label: "Employment Type", name: "type", widget: "select", options: ["Full-time", "Part-time", "Contract", "Internship", "Freelance"], default: "Full-time", required: false }
-      - { label: "Company Logo", name: "logo", widget: "image", required: false }
+      - { label: "Company Logo / Icon Image", name: "logo", widget: "image", required: false, hint: "Upload company logo image" }
       - { label: "Location", name: "location", widget: "string", required: false }
       - { label: "Start Date", name: "startDate", widget: "string", required: false, hint: "e.g. Jan 2024" }
       - { label: "Currently Working Here?", name: "current", widget: "boolean", default: false, required: false }
@@ -76,10 +97,12 @@ collections:
     label: "Projects Showcase"
     folder: "src/content/projects"
     create: true
+    delete: true
     extension: "json"
     format: "json"
     slug: "{{slug}}"
     fields:
+      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
       - { label: "Project Title", name: "title", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["WebGIS", "Spatial AI", "Analytics", "Tools"] }
       - { label: "Project Thumbnail", name: "thumbnail", widget: "image", required: false }
@@ -102,8 +125,10 @@ collections:
     label: "Blog Posts"
     folder: "src/content/blog"
     create: true
+    delete: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
+      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Category", name: "category", widget: "select", options: ["MAPPING", "BACKEND", "SPATIAL AI", "FRONTEND"] }

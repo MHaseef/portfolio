@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export interface ExperienceData {
   id: string;
   title: string;
   company?: string;
+  type?: string;
   logo?: string;
   location?: string;
   dates?: string;
+  startDate?: string;
+  endDate?: string;
   teaser?: string;
   description?: string;
   bullets?: string[];
@@ -18,6 +21,15 @@ interface ExperienceTimelineProps {
 
 export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items }) => {
   const [activeItem, setActiveItem] = useState<ExperienceData | null>(null);
+
+  useEffect(() => {
+    if (activeItem) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [activeItem]);
 
   return (
     <section
@@ -65,79 +77,103 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
             gap: '12px',
           }}
         >
-          {items.map(job => (
-            <div
-              key={job.id}
-              onClick={() => setActiveItem(job)}
-              style={{
-                position: 'relative',
-                background: '#FFFFFF',
-                border: '1px solid #E6E4DF',
-                borderRadius: '8px',
-                padding: '16px 20px',
-                cursor: 'pointer',
-                boxShadow: '0 1px 2px rgba(16,24,32,0.03), 0 8px 20px rgba(16,24,32,0.04)',
-                transition: 'border-color 0.2s ease',
-              }}
-            >
+          {items.map(job => {
+            const displayDates = job.dates || (job.startDate ? `${job.startDate} — ${job.endDate || 'Present'}` : '');
+            const companyInitial = job.company ? job.company.charAt(0).toUpperCase() : job.title.charAt(0).toUpperCase();
+            return (
               <div
+                key={job.id}
+                onClick={() => setActiveItem(job)}
                 style={{
-                  position: 'absolute',
-                  left: '-29px',
-                  top: '20px',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: '#1B6FA8',
-                }}
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: '8px',
-                  marginBottom: '6px',
+                  position: 'relative',
+                  background: '#FFFFFF',
+                  border: '1px solid #E6E4DF',
+                  borderRadius: '10px',
+                  padding: '18px 22px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 2px rgba(16,24,32,0.03), 0 8px 20px rgba(16,24,32,0.04)',
+                  transition: 'border-color 0.2s ease',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  {job.logo && (
-                    <img
-                      src={job.logo}
-                      alt={job.company || job.title}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        objectFit: 'contain',
-                        border: '1px solid #E6E4DF',
-                        background: '#FFFFFF',
-                        padding: '2px',
-                        flexShrink: 0,
-                      }}
-                    />
-                  )}
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontWeight: 600,
-                        fontSize: '16px',
-                        color: '#16181C',
-                      }}
-                    >
-                      {job.title}
-                    </div>
-                    <div style={{ color: '#1B6FA8', fontSize: '13px', fontWeight: 600 }}>
-                      {job.company}{job.location ? ` · ${job.location}` : ''}
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '-29px',
+                    top: '24px',
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: '#1B6FA8',
+                  }}
+                />
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    {job.logo ? (
+                      <img
+                        src={job.logo}
+                        alt={job.company || job.title}
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '8px',
+                          objectFit: 'contain',
+                          border: '1px solid #E6E4DF',
+                          background: '#FFFFFF',
+                          padding: '4px',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                          flexShrink: 0,
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '8px',
+                          background: '#0F2036',
+                          color: '#5FA8D3',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontWeight: 700,
+                          fontSize: '18px',
+                          flexShrink: 0,
+                        }}
+                      >
+                        {companyInitial}
+                      </div>
+                    )}
+                    <div>
+                      <div
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontWeight: 600,
+                          fontSize: '17px',
+                          color: '#16181C',
+                        }}
+                      >
+                        {job.title}
+                      </div>
+                      <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600, marginTop: '2px' }}>
+                        {job.company}{job.location ? ` · ${job.location}` : ''} {job.type ? ` (${job.type})` : ''}
+                      </div>
                     </div>
                   </div>
+                  <div style={{ fontSize: '13px', color: '#5C6167', fontWeight: 600 }}>{displayDates}</div>
                 </div>
-                <div style={{ fontSize: '13px', color: '#5C6167', fontWeight: 600 }}>{job.dates}</div>
+                <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.55 }}>{job.teaser}</div>
               </div>
-              <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.55 }}>{job.teaser}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

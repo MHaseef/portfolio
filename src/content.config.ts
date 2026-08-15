@@ -4,6 +4,7 @@ import { glob } from 'astro/loaders';
 const skills = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/skills' }),
   schema: z.object({
+    order: z.number().optional().default(999),
     name: z.string(),
     category: z.string().optional().default('Languages & Frameworks'),
     proficiency: z.string().optional().default('Advanced'),
@@ -14,6 +15,7 @@ const skills = defineCollection({
 const experience = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/experience' }),
   schema: z.object({
+    order: z.number().optional().default(999),
     title: z.string(),
     company: z.string().optional().default(''),
     type: z.string().optional().default('Full-time'),
@@ -32,6 +34,7 @@ const experience = defineCollection({
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/projects' }),
   schema: z.object({
+    order: z.number().optional().default(999),
     title: z.string(),
     category: z.string().optional().default('WebGIS'),
     thumbnail: z.string().optional().default(''),
@@ -47,6 +50,7 @@ const projects = defineCollection({
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
+    order: z.number().optional().default(999),
     title: z.string(),
     date: z.string().optional().default(''),
     category: z.string().optional().default('MAPPING'),
@@ -62,5 +66,6 @@ const profile = defineCollection({
 });
 
 export const collections = { profile, skills, experience, projects, blog };
+
 
 

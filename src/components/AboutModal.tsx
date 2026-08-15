@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export interface BioData {
   name?: string;
@@ -27,6 +27,15 @@ interface AboutModalProps {
 }
 
 export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const name = bioData?.name || 'Muhammad Haseef';
@@ -63,8 +72,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
   const achievementsList: string[] = typeof rawAch === 'string'
     ? rawAch.split('\n').map(a => a.trim()).filter(Boolean)
     : Array.isArray(rawAch) ? rawAch : [String(rawAch)];
-
-
 
   return (
     <div
@@ -118,19 +125,20 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
               src={avatar}
               alt={name}
               style={{
-                width: '72px',
-                height: '72px',
+                width: '94px',
+                height: '94px',
                 borderRadius: '50%',
                 objectFit: 'cover',
-                border: '2px solid #1B6FA8',
+                border: '3px solid #1B6FA8',
+                boxShadow: '0 4px 12px rgba(27, 111, 168, 0.2)',
                 flexShrink: 0,
               }}
             />
           ) : (
             <div
               style={{
-                width: '72px',
-                height: '72px',
+                width: '94px',
+                height: '94px',
                 borderRadius: '50%',
                 background: '#1B6FA8',
                 color: '#FFFFFF',
