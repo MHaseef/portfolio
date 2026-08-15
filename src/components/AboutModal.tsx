@@ -6,14 +6,18 @@ export interface BioData {
   initials?: string;
   role?: string;
   location?: string;
-  bio?: string[];
+  bio?: string[] | string;
+  bioText?: string;
   education?: {
     degree?: string;
     university?: string;
     logo?: string;
     dates?: string;
+    startDate?: string;
+    endDate?: string;
   };
-  achievements?: string[];
+  achievements?: string[] | string;
+  achievementsText?: string;
 }
 
 interface AboutModalProps {
@@ -29,24 +33,37 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
   const avatar = bioData?.avatar || '';
   const initials = bioData?.initials || 'MH';
   const role = bioData?.role || 'Geoinformatics Engineer · GIS Developer & Analyst';
-  const bio = bioData?.bio || [
+
+  const rawBio = bioData?.bioText || bioData?.bio || [
     "At my core, I'm a builder who enjoys solving puzzle-like problems.",
     "I've always been fascinated by how small, intentional design choices can completely change the way we interact with information. For me, the beauty of technical work lies in the process: peeling back layers of a problem, asking the right questions, and finding the most elegant, efficient path forward.",
     "I don't believe in overcomplicating things for the sake of it. I value clarity, precision, and building tools that make people's lives just a little bit simpler and more intuitive.",
   ];
 
+  const bioParagraphs: string[] = typeof rawBio === 'string'
+    ? rawBio.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean)
+    : Array.isArray(rawBio) ? rawBio : [String(rawBio)];
+
+  const eduDates = bioData?.education?.dates || 
+    (bioData?.education?.startDate ? `${bioData.education.startDate} — ${bioData.education.endDate || 'Present'}` : '2024 — 2028');
+
   const education = {
     degree: bioData?.education?.degree || 'BE Geoinformatics Engineering',
     university: bioData?.education?.university || 'National University of Sciences and Technology (NUST), Islamabad',
     logo: bioData?.education?.logo || '',
-    dates: bioData?.education?.dates || '2024 — 2028',
+    dates: eduDates,
   };
 
-  const achievements = bioData?.achievements || [
+  const rawAch = bioData?.achievementsText || bioData?.achievements || [
     'Best Final Year Project — Spatial AI for Flood Risk Mapping',
     'Google Earth Engine certified developer',
     'Published technical writing on WebGIS architecture',
   ];
+
+  const achievementsList: string[] = typeof rawAch === 'string'
+    ? rawAch.split('\n').map(a => a.trim()).filter(Boolean)
+    : Array.isArray(rawAch) ? rawAch : [String(rawAch)];
+
 
 
   return (
@@ -159,7 +176,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
         >
           About me
         </div>
-        {bio.map((para, i) => (
+        {bioParagraphs.map((para, i) => (
           <p key={i} style={{ color: '#3E4349', fontSize: '15px', lineHeight: 1.75, margin: '0 0 18px' }}>
             {para}
           </p>
@@ -250,7 +267,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           Achievements
         </div>
         <ul style={{ color: '#3E4349', fontSize: '14px', lineHeight: 1.9, paddingLeft: '20px', margin: 0 }}>
-          {achievements.map((ach, i) => (
+          {achievementsList.map((ach, i) => (
             <li key={i}>{ach}</li>
           ))}
         </ul>

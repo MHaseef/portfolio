@@ -8,8 +8,18 @@ import { MainPortfolioApp } from '../components/MainPortfolioApp';
 
 const rawProfile = await getCollection('profile');
 const bioData = rawProfile.find(entry => entry.id === 'bio')?.data;
-const skillsEntry = rawProfile.find(entry => entry.id === 'skills')?.data;
-const skillsData = skillsEntry?.skills || undefined;
+
+const rawSkills = await getCollection('skills');
+const skillsData = rawSkills.length > 0
+  ? rawSkills.map(entry => ({
+      id: entry.id,
+      name: entry.data.name,
+      category: entry.data.category,
+      icon: entry.data.icon,
+      proficiency: entry.data.proficiency,
+    }))
+  : rawProfile.find(entry => entry.id === 'skills')?.data?.skills;
+
 
 const rawExperience = await getCollection('experience');
 const experienceItems = rawExperience.map(entry => ({

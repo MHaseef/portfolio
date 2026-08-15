@@ -143,7 +143,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
             const skillId = skill.id || `s-${idx}`;
             return (
               <button
-                key={skill.id}
+                key={skill.id || skill.name || idx}
                 onClick={() => handleSkillClick(skill.name)}
                 style={{
                   display: 'inline-flex',
