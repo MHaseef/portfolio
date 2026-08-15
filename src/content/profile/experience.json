@@ -1,0 +1,43 @@
+{
+  "experience": [
+    {
+      "id": "e1",
+      "title": "GIS Developer & Analyst",
+      "company": "GeoSpatial Solutions Pvt Ltd",
+      "type": "Full-time",
+      "location": "Islamabad, PK",
+      "dates": "2024 — Present",
+      "startDate": "Jan 2024",
+      "endDate": "Present",
+      "current": true,
+      "teaser": "Building WebGIS platforms and spatial data pipelines for municipal clients.",
+      "description": "Architected a PostGIS + GeoServer stack serving live municipal asset data to a React/MapLibre front-end. Built automated Python ETL pipelines converting shapefiles and satellite imagery into queryable spatial layers. Reduced map-tile load times 60% by restructuring vector tile generation and caching. Mentored two junior developers on spatial SQL and Leaflet integration."
+    },
+    {
+      "id": "e2",
+      "title": "Research Assistant, Spatial AI Lab",
+      "company": "NUST",
+      "type": "Contract",
+      "location": "Islamabad, PK",
+      "dates": "2023 — 2024",
+      "startDate": "Sep 2023",
+      "endDate": "May 2024",
+      "current": false,
+      "teaser": "Applied remote sensing and machine learning to land-cover change detection.",
+      "description": "Trained land-cover classification models on Sentinel-2 imagery using Google Earth Engine and Python. Co-authored a workflow for flood-risk prediction combining DEM analysis with historical rainfall data. Presented findings at the department research symposium."
+    },
+    {
+      "id": "e3",
+      "title": "WebGIS Intern",
+      "company": "Survey of Pakistan",
+      "type": "Internship",
+      "location": "Rawalpindi, PK",
+      "dates": "2022 — 2023",
+      "startDate": "Jun 2022",
+      "endDate": "Aug 2023",
+      "current": false,
+      "teaser": "Digitized cadastral records and built internal mapping tools.",
+      "description": "Digitized legacy cadastral maps into PostGIS-backed spatial datasets. Built an internal Leaflet-based viewer for field surveyors to validate parcel boundaries. Assisted senior GIS analysts with coordinate system transformations and QA workflows."
+    }
+  ]
+}

@@ -12,11 +12,11 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "profile"
-    label: "Profile & Bio"
+    label: "Profile & Personal Details"
     delete: false
     files:
       - name: "bio"
-        label: "Personal Bio & Details"
+        label: "Personal Bio & Education"
         file: "src/content/profile/bio.json"
         extension: "json"
         format: "json"
@@ -26,7 +26,7 @@ collections:
           - { label: "Initials Avatar (Fallback)", name: "initials", widget: "string" }
           - { label: "Role / Subtitle", name: "role", widget: "string" }
           - { label: "Location", name: "location", widget: "string" }
-          - { label: "Bio Summary (Separate paragraphs with double line breaks)", name: "bioText", widget: "text", hint: "Write your bio paragraphs directly. Separate paragraphs with a blank line.", required: false }
+          - { label: "Bio Summary (Separate paragraphs with double line breaks)", name: "bioText", widget: "text", hint: "Write your bio paragraphs directly.", required: false }
           - label: "Education Details"
             name: "education"
             widget: "object"
@@ -34,13 +34,13 @@ collections:
               - { label: "Degree / Qualification", name: "degree", widget: "string" }
               - { label: "University / Institution", name: "university", widget: "string" }
               - { label: "University Logo", name: "logo", widget: "image", required: false }
-              - { label: "Start Date", name: "startDate", widget: "string", required: false, hint: "e.g. Sep 2024" }
-              - { label: "End Date", name: "endDate", widget: "string", required: false, hint: "e.g. Jun 2028" }
-              - { label: "Dates Summary", name: "dates", widget: "string", required: false, hint: "e.g. 2024 — 2028" }
-          - { label: "Key Achievements (One achievement per line)", name: "achievementsText", widget: "text", required: false, hint: "Type each key achievement on a new line." }
+              - { label: "Start Date", name: "startDate", widget: "string", required: false }
+              - { label: "End Date", name: "endDate", widget: "string", required: false }
+              - { label: "Dates Summary", name: "dates", widget: "string", required: false }
+          - { label: "Key Achievements (One achievement per line)", name: "achievementsText", widget: "text", required: false }
 
       - name: "contact"
-        label: "Contact Us & Social Links"
+        label: "Contact & Social Links"
         file: "src/content/profile/contact.json"
         extension: "json"
         format: "json"
@@ -48,91 +48,103 @@ collections:
           - { label: "Headline / Subtitle", name: "title", widget: "string", default: "Let's build something spatial." }
           - { label: "Primary Email Address", name: "email", widget: "string", required: false }
           - { label: "Location", name: "location", widget: "string", required: false }
-          - label: "Contact & Social Links"
+          - label: "Contact & Social Links (Drag items to re-order)"
             name: "socialLinks"
             widget: "list"
+            summary: "{{fields.label}}: {{fields.value}}"
             fields:
               - { label: "Contact Type / Platform Name (e.g. Instagram, LinkedIn, GitHub, Email, Phone)", name: "label", widget: "string" }
-              - { label: "URL / Link Address (e.g. https://instagram.com/yourhandle or mailto:hello@haseef.gis)", name: "url", widget: "string" }
+              - { label: "URL / Link Address (e.g. https://instagram.com/yourhandle)", name: "url", widget: "string" }
               - { label: "Display Text (e.g. instagram.com/yourhandle)", name: "value", widget: "string", required: false }
 
   - name: "skills"
     label: "Skills & Technologies"
-    folder: "src/content/skills"
-    create: true
-    delete: true
-    extension: "json"
-    format: "json"
-    slug: "{{slug}}"
-    fields:
-      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
-      - { label: "Skill Name", name: "name", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["Languages & Frameworks", "Spatial AI & WebGIS", "Tools & Platforms", "Databases & Cloud"] }
-      - { label: "Proficiency Level", name: "proficiency", widget: "select", options: ["Expert", "Advanced", "Proficient"], default: "Advanced", required: false }
-      - { label: "Skill Logo / Icon Image", name: "icon", widget: "image", required: false, hint: "Upload a small round icon image for this skill" }
+    files:
+      - name: "skills_list"
+        label: "Manage Skills (Drag items up/down to re-order)"
+        file: "src/content/profile/skills.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Skills List (Drag handle = to re-order)"
+            name: "skills"
+            widget: "list"
+            summary: "{{fields.name}} ({{fields.category}})"
+            fields:
+              - { label: "Skill Name", name: "name", widget: "string" }
+              - { label: "Category", name: "category", widget: "select", options: ["Languages & Frameworks", "Spatial AI & WebGIS", "Tools & Platforms", "Databases & Cloud"] }
+              - { label: "Proficiency Level", name: "proficiency", widget: "select", options: ["Expert", "Advanced", "Proficient"], default: "Advanced", required: false }
+              - { label: "Skill Logo / Icon Image", name: "icon", widget: "image", required: false, hint: "Upload small round icon image for this skill" }
 
   - name: "experience"
     label: "Experience Timeline"
-    folder: "src/content/experience"
-    create: true
-    delete: true
-    extension: "json"
-    format: "json"
-    slug: "{{slug}}"
-    fields:
-      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
-      - { label: "Job Title / Role", name: "title", widget: "string" }
-      - { label: "Company / Organization", name: "company", widget: "string", required: false }
-      - { label: "Employment Type", name: "type", widget: "select", options: ["Full-time", "Part-time", "Contract", "Internship", "Freelance"], default: "Full-time", required: false }
-      - { label: "Company Logo / Icon Image", name: "logo", widget: "image", required: false, hint: "Upload company logo image" }
-      - { label: "Location", name: "location", widget: "string", required: false }
-      - { label: "Start Date", name: "startDate", widget: "string", required: false, hint: "e.g. Jan 2024" }
-      - { label: "Currently Working Here?", name: "current", widget: "boolean", default: false, required: false }
-      - { label: "End Date", name: "endDate", widget: "string", required: false, hint: "e.g. Present or Dec 2024" }
-      - { label: "Dates Summary", name: "dates", widget: "string", required: false, hint: "e.g. 2024 — Present" }
-      - { label: "Summary Headline (1-2 sentences)", name: "teaser", widget: "text", required: false }
-      - { label: "Role Description & Accomplishments", name: "description", widget: "text", required: false, hint: "Type your role description or bullet points here." }
+    files:
+      - name: "experience_list"
+        label: "Manage Experience (Drag items up/down to re-order)"
+        file: "src/content/profile/experience.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Experience List (Drag handle = to re-order)"
+            name: "experience"
+            widget: "list"
+            summary: "{{fields.title}} - {{fields.company}}"
+            fields:
+              - { label: "Job Title / Role", name: "title", widget: "string" }
+              - { label: "Company / Organization", name: "company", widget: "string", required: false }
+              - { label: "Employment Type", name: "type", widget: "select", options: ["Full-time", "Part-time", "Contract", "Internship", "Freelance"], default: "Full-time", required: false }
+              - { label: "Company Logo / Icon Image", name: "logo", widget: "image", required: false, hint: "Upload company logo image" }
+              - { label: "Location", name: "location", widget: "string", required: false }
+              - { label: "Start Date", name: "startDate", widget: "string", required: false, hint: "e.g. Jan 2024" }
+              - { label: "Currently Working Here?", name: "current", widget: "boolean", default: false, required: false }
+              - { label: "End Date", name: "endDate", widget: "string", required: false, hint: "e.g. Present or Dec 2024" }
+              - { label: "Dates Summary", name: "dates", widget: "string", required: false, hint: "e.g. 2024 — Present" }
+              - { label: "Summary Headline (1-2 sentences)", name: "teaser", widget: "text", required: false }
+              - { label: "Role Description & Accomplishments", name: "description", widget: "text", required: false }
 
   - name: "projects"
     label: "Projects Showcase"
-    folder: "src/content/projects"
-    create: true
-    delete: true
-    extension: "json"
-    format: "json"
-    slug: "{{slug}}"
-    fields:
-      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
-      - { label: "Project Title", name: "title", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["WebGIS", "Spatial AI", "Analytics", "Tools"] }
-      - { label: "Project Thumbnail", name: "thumbnail", widget: "image", required: false }
-      - label: "Utilized Skills & Technologies"
-        name: "tags"
-        widget: "relation"
-        collection: "skills"
-        search_fields: ["name"]
-        value_field: "name"
-        display_fields: ["name"]
-        multiple: true
-        required: false
-      - { label: "Live Demo Link", name: "demoUrl", widget: "string", required: false }
-      - { label: "GitHub Repo Link", name: "githubUrl", widget: "string", required: false }
-      - { label: "Summary / Teaser Tagline", name: "teaser", widget: "text", required: false }
-      - { label: "Case Study Problem", name: "problem", widget: "text", required: false }
-      - { label: "Case Study Solution & Architecture", name: "solution", widget: "text", required: false }
+    files:
+      - name: "projects_list"
+        label: "Manage Projects (Drag items up/down to re-order)"
+        file: "src/content/profile/projects.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Projects List (Drag handle = to re-order)"
+            name: "projects"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.category}})"
+            fields:
+              - { label: "Project Title", name: "title", widget: "string" }
+              - { label: "Category", name: "category", widget: "select", options: ["WebGIS", "Spatial AI", "Analytics", "Tools"] }
+              - { label: "Project Thumbnail", name: "thumbnail", widget: "image", required: false }
+              - { label: "Utilized Skills / Tags", name: "tags", widget: "list", required: false, field: { label: "Tag", name: "tag", widget: "string" } }
+              - { label: "Live Demo Link", name: "demoUrl", widget: "string", required: false }
+              - { label: "GitHub Repo Link", name: "githubUrl", widget: "string", required: false }
+              - { label: "Summary / Teaser Tagline", name: "teaser", widget: "text", required: false }
+              - { label: "Case Study Problem", name: "problem", widget: "text", required: false }
+              - { label: "Case Study Solution & Architecture", name: "solution", widget: "text", required: false }
 
   - name: "blog"
     label: "Blog Posts"
-    folder: "src/content/blog"
-    create: true
-    delete: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Sort Order / Position (1 = First, 2, 3...)", name: "order", widget: "number", value_type: "int", default: 1, required: false }
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Category", name: "category", widget: "select", options: ["MAPPING", "BACKEND", "SPATIAL AI", "FRONTEND"] }
-      - { label: "Read Time", name: "readTime", widget: "string", default: "5 min" }
-      - { label: "Cover Image", name: "heroImage", widget: "image", required: false }
-      - { label: "Excerpt", name: "excerpt", widget: "text" }
-      - { label: "Article Body (Use toolbar to insert inline images)", name: "body", widget: "markdown" }
+    files:
+      - name: "blog_list"
+        label: "Manage Blog Posts (Drag items up/down to re-order)"
+        file: "src/content/profile/blog.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - label: "Blog Posts List (Drag handle = to re-order)"
+            name: "blog"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.category}})"
+            fields:
+              - { label: "Slug / ID", name: "slug", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Publish Date", name: "date", widget: "string", required: false }
+              - { label: "Category", name: "category", widget: "select", options: ["MAPPING", "BACKEND", "SPATIAL AI", "FRONTEND"] }
+              - { label: "Read Time", name: "readTime", widget: "string", default: "5 min" }
+              - { label: "Cover Image", name: "heroImage", widget: "image", required: false }
+              - { label: "Excerpt", name: "excerpt", widget: "text" }
+              - { label: "Article Body (Use toolbar to insert inline images)", name: "body", widget: "markdown" }

@@ -1,0 +1,59 @@
+{
+  "projects": [
+    {
+      "id": "p2",
+      "title": "TerraWatch",
+      "category": "Spatial AI",
+      "tags": ["Google Earth Engine", "Python", "Geopandas", "MapLibre GL"],
+      "teaser": "Satellite land-cover change detector for agricultural monitoring.",
+      "problem": "Regional agencies lacked an accessible way to monitor deforestation and land-use change over time.",
+      "solution": "Combined Earth Engine time-series analysis with a Python/Geopandas backend, surfacing change heatmaps on a MapLibre GL viewer.",
+      "demoUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourhandle/p2"
+    },
+    {
+      "id": "p3",
+      "title": "GeoServe Analytics",
+      "category": "WebGIS",
+      "tags": ["GeoServer", "PostGIS", "Angular", "Java"],
+      "teaser": "Municipal asset management WebGIS for utility infrastructure.",
+      "problem": "A municipal utility tracked infrastructure assets across disconnected spreadsheets and paper maps.",
+      "solution": "Delivered a GeoServer/PostGIS backend with an Angular dashboard for asset lifecycle tracking and map-based inspection scheduling.",
+      "demoUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourhandle/p3"
+    },
+    {
+      "id": "p4",
+      "title": "FloodRisk AI",
+      "category": "Spatial AI",
+      "tags": ["Remote Sensing", "Python", "Turf.js", "Firebase"],
+      "teaser": "Predictive flood risk mapping using terrain and rainfall data.",
+      "problem": "Flood-prone districts had no forward-looking risk model to guide evacuation planning.",
+      "solution": "Fused DEM-derived terrain features with rainfall forecasts in a Python model, serving risk zones through Firebase to a Turf.js-powered map client.",
+      "demoUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourhandle/p4"
+    },
+    {
+      "id": "p5",
+      "title": "CampusNav",
+      "category": "WebGIS",
+      "tags": ["MapLibre GL", "React", "Supabase", "JavaScript"],
+      "teaser": "Indoor/outdoor wayfinding app for a university campus.",
+      "problem": "New students struggled to navigate a sprawling campus with mixed indoor/outdoor routes.",
+      "solution": "Built a React + MapLibre GL wayfinding app with Supabase-backed routing graphs spanning indoor floor plans and outdoor paths.",
+      "demoUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourhandle/p5"
+    },
+    {
+      "id": "p6",
+      "title": "AgriSense",
+      "category": "Spatial AI",
+      "tags": ["QGIS", "Google Earth Engine", "Astro", "Python"],
+      "teaser": "Crop health monitoring dashboard using satellite vegetation indices.",
+      "problem": "Smallholder farmers lacked affordable tools to catch crop stress before yield loss.",
+      "solution": "Automated NDVI extraction via Earth Engine, processed in Python, published to an Astro dashboard for weekly field health reports.",
+      "demoUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourhandle/p6"
+    }
+  ]
+}
