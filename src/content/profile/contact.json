@@ -1,12 +1,12 @@
 {
   "title": "Let's build something spatial.",
-  "email": "hello@haseef.gis",
+  "email": "m.haseef135@gmail.com",
   "location": "Islamabad, PK",
   "socialLinks": [
     {
       "label": "Email",
-      "url": "mailto:hello@haseef.gis",
-      "value": "hello@haseef.gis"
+      "url": "m.haseef135@gmail.com",
+      "value": "m.haseef135@gmail.com"
     },
     {
       "label": "GitHub",
@@ -17,11 +17,6 @@
       "label": "LinkedIn",
       "url": "https://linkedin.com/in/yourhandle",
       "value": "linkedin.com/in/yourhandle"
-    },
-    {
-      "label": "Instagram",
-      "url": "https://instagram.com/yourhandle",
-      "value": "instagram.com/yourhandle"
     }
   ]
 }
