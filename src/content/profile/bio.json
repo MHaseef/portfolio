@@ -1,9 +1,9 @@
 {
-  "name": "Muhammad Haseef",
-  "initials": "MH",
-  "avatar": "",
-  "role": "Geoinformatics Engineer · GIS Developer & Analyst",
-  "location": "Islamabad, Pakistan",
+  "achievements": [
+    "Best Final Year Project — Spatial AI for Flood Risk Mapping",
+    "Google Earth Engine certified developer",
+    "Published technical writing on WebGIS architecture"
+  ],
   "bio": [
     "At my core, I'm a builder who enjoys solving puzzle-like problems.",
     "I've always been fascinated by how small, intentional design choices can completely change the way we interact with information. For me, the beauty of technical work lies in the process: peeling back layers of a problem, asking the right questions, and finding the most elegant, efficient path forward.",
@@ -15,9 +15,10 @@
     "dates": "2024 — 2028",
     "logo": ""
   },
-  "achievements": [
-    "Best Final Year Project — Spatial AI for Flood Risk Mapping",
-    "Google Earth Engine certified developer",
-    "Published technical writing on WebGIS architecture"
-  ]
+  "name": "Muhammad Haseef",
+  "initials": "MH",
+  "bioText": "",
+  "location": "Islamabad, Pakistan",
+  "role": "Geoinformatics Engineer · GIS Developer & Analyst",
+  "avatar": "/images/uploads/profile-picture.png"
 }
