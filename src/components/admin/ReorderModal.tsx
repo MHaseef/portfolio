@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export interface ReorderItem {
   id: string;
-  title: string;
+  title?: string;
+  name?: string;
   subtitle?: string;
+  company?: string;
+  category?: string;
   logo?: string;
+  thumbnail?: string;
+  icon?: string;
   dates?: string;
   [key: string]: any;
 }
@@ -28,6 +33,9 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
   const [saving, setSaving] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
+
   useEffect(() => {
     setList([...items]);
   }, [items, isOpen]);
@@ -35,23 +43,35 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
   if (!isOpen) return null;
 
   const handleDragStart = (e: React.DragEvent, index: number) => {
+    dragItem.current = index;
     setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(index));
+    }
   };
 
-  const handleDragOver = (e: React.DragEvent, index: number) => {
+  const handleDragEnter = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    if (draggedIndex === null || draggedIndex === index) return;
+    dragOverItem.current = index;
+    if (dragItem.current !== null && dragItem.current !== index) {
+      const newList = [...list];
+      const draggedObj = newList[dragItem.current];
+      newList.splice(dragItem.current, 1);
+      newList.splice(index, 0, draggedObj);
+      dragItem.current = index;
+      setDraggedIndex(index);
+      setList(newList);
+    }
+  };
 
-    const newList = [...list];
-    const draggedItem = newList[draggedIndex];
-    newList.splice(draggedIndex, 1);
-    newList.splice(index, 0, draggedItem);
-    setDraggedIndex(index);
-    setList(newList);
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
   };
 
   const handleDragEnd = () => {
+    dragItem.current = null;
+    dragOverItem.current = null;
     setDraggedIndex(null);
   };
 
@@ -156,31 +176,36 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
         <div style={{ padding: '16px 24px', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {list.map((item, idx) => {
             const isBeingDragged = draggedIndex === idx;
+            const itemTitle = item.title || item.name || `Item ${idx + 1}`;
+            const itemSubtitle = [item.company || item.category, item.dates].filter(Boolean).join(' — ');
+
             return (
               <div
                 key={item.id || item.name || idx}
                 draggable
                 onDragStart={e => handleDragStart(e, idx)}
-                onDragOver={e => handleDragOver(e, idx)}
+                onDragEnter={e => handleDragEnter(e, idx)}
+                onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '14px',
                   background: isBeingDragged ? '#E3F1FB' : '#FFFFFF',
-                  border: `1px solid ${isBeingDragged ? '#1B6FA8' : '#E6E4DF'}`,
+                  border: `1.5px solid ${isBeingDragged ? '#1B6FA8' : '#E6E4DF'}`,
                   borderRadius: '8px',
                   padding: '12px 16px',
-                  opacity: isBeingDragged ? 0.6 : 1,
+                  opacity: isBeingDragged ? 0.5 : 1,
                   boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-                  transition: 'background 0.15s ease',
+                  transition: 'transform 0.15s ease, background 0.15s ease',
+                  cursor: 'grab',
                 }}
               >
                 {/* Logo / Thumbnail */}
                 {item.logo || item.thumbnail || item.icon ? (
                   <img
                     src={item.logo || item.thumbnail || item.icon}
-                    alt={item.title || item.name}
+                    alt={itemTitle}
                     style={{
                       width: '36px',
                       height: '36px',
@@ -209,7 +234,7 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
                       flexShrink: 0,
                     }}
                   >
-                    {(item.title || item.name || '?').charAt(0).toUpperCase()}
+                    {itemTitle.charAt(0).toUpperCase()}
                   </div>
                 )}
 
@@ -226,11 +251,11 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    {item.title || item.name}
+                    {itemTitle}
                   </div>
-                  {(item.subtitle || item.company || item.category || item.dates) && (
+                  {itemSubtitle && (
                     <div style={{ fontSize: '12px', color: '#5C6167' }}>
-                      {[item.company || item.category, item.dates].filter(Boolean).join(' — ')}
+                      {itemSubtitle}
                     </div>
                   )}
                 </div>
@@ -239,7 +264,10 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <button
                     type="button"
-                    onClick={() => moveUp(idx)}
+                    onClick={e => {
+                      e.stopPropagation();
+                      moveUp(idx);
+                    }}
                     disabled={idx === 0}
                     style={{
                       background: '#F7F6F3',
@@ -255,7 +283,10 @@ export const ReorderModal: React.FC<ReorderModalProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => moveDown(idx)}
+                    onClick={e => {
+                      e.stopPropagation();
+                      moveDown(idx);
+                    }}
                     disabled={idx === list.length - 1}
                     style={{
                       background: '#F7F6F3',
