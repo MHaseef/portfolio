@@ -1,0 +1,62 @@
+---
+export const prerender = false;
+import { getCollection } from 'astro:content';
+import '../../styles/global.css';
+import { ThreeGlobeCanvas } from '../../components/ThreeGlobeCanvas';
+import { SmoothScroll } from '../../components/SmoothScroll';
+import { AdminPortfolioApp } from '../../components/admin/AdminPortfolioApp';
+
+const rawProfile = await getCollection('profile');
+const bioData = rawProfile.find(entry => entry.id === 'bio')?.data;
+const contactData = rawProfile.find(entry => entry.id === 'contact')?.data;
+
+const skillsEntry = rawProfile.find(entry => entry.id === 'skills')?.data;
+const skillsData = skillsEntry?.skills || [];
+
+const expEntry = rawProfile.find(entry => entry.id === 'experience')?.data;
+const experienceItems = expEntry?.experience || [];
+
+const projEntry = rawProfile.find(entry => entry.id === 'projects')?.data;
+const projectItems = projEntry?.projects || [];
+
+const blogEntry = rawProfile.find(entry => entry.id === 'blog')?.data;
+const blogItems = blogEntry?.blog || [];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muhammad Haseef — Portfolio Command Center (Admin)</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Include Netlify Identity Widget for optional Auth login -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <ThreeGlobeCanvas client:only="react" />
+    <SmoothScroll client:load>
+      <AdminPortfolioApp
+        client:load
+        initialExperienceItems={experienceItems}
+        initialProjectItems={projectItems}
+        initialBlogItems={blogItems}
+        initialBioData={bioData}
+        initialSkillsData={skillsData}
+        initialContactData={contactData}
+      />
+    </SmoothScroll>
+
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user: any) => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.reload();
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
