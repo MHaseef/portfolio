@@ -54,12 +54,8 @@ collections:
               - { label: "End Date (or Present)", name: "endDate", widget: "string", required: false }
               - { label: "Dates Summary", name: "dates", widget: "string", required: false }
               - { label: "Summary Teaser", name: "teaser", widget: "text", required: false }
-              - { label: "Role Description & Accomplishments (0/2000)", name: "description", widget: "text", required: false }
-              - label: "Linked Skills"
-                name: "linkedSkills"
-                widget: "list"
-                required: false
-                field: { label: "Skill Tag", name: "skill", widget: "string" }
+              - { label: "Role Description & Accomplishments", name: "description", widget: "text", required: false }
+              - { label: "Linked Skills", name: "linkedSkills", widget: "list", required: false }
 
   - name: "projects"
     label: "Projects Showcase (Reorder & Edit)"
@@ -78,24 +74,16 @@ collections:
               - { label: "Project Title (Max 255)", name: "title", widget: "string" }
               - { label: "Category", name: "category", widget: "select", options: ["WebGIS", "Spatial AI", "Analytics", "Tools", "Remote Sensing"] }
               - { label: "Primary Card Thumbnail", name: "thumbnail", widget: "image", required: false }
-              - label: "Media Gallery (Screenshots / UI Photos)", name: "mediaGallery", widget: "list", required: false, field: { label: "Image", name: "image", widget: "image" }
+              - { label: "Media Gallery (Screenshots / UI Photos)", name: "mediaGallery", widget: "list", required: false }
               - { label: "Summary / Teaser Tagline", name: "teaser", widget: "text", required: false }
               - { label: "Case Study Problem", name: "problem", widget: "text", required: false }
-              - { label: "Case Study Solution & Architecture (0/2000)", name: "solution", widget: "text", required: false }
+              - { label: "Case Study Solution & Architecture", name: "solution", widget: "text", required: false }
               - { label: "Currently Working on this Project?", name: "current", widget: "boolean", default: false, required: false }
               - { label: "Timeline Dates", name: "dates", widget: "string", required: false }
               - { label: "Live Demo Link", name: "demoUrl", widget: "string", required: false }
               - { label: "GitHub Repo Link", name: "githubUrl", widget: "string", required: false }
-              - label: "Utilized Skills / Tags"
-                name: "tags"
-                widget: "list"
-                required: false
-                field: { label: "Tag", name: "tag", widget: "string" }
-              - label: "Contributors / Profile Links"
-                name: "contributors"
-                widget: "list"
-                required: false
-                field: { label: "Contributor", name: "contributor", widget: "string" }
+              - { label: "Utilized Skills / Tags", name: "tags", widget: "list", required: false }
+              - { label: "Contributors / Profile Links", name: "contributors", widget: "list", required: false }
 
   - name: "blog"
     label: "Blog & Publications (Reorder & Edit)"
@@ -135,7 +123,7 @@ collections:
           - { label: "Initials Avatar (Fallback)", name: "initials", widget: "string" }
           - { label: "Role / Subtitle", name: "role", widget: "string" }
           - { label: "Location", name: "location", widget: "string" }
-          - { label: "Hero Main Headline", name: "heroHeadline", widget: "string", default: "Spatial thinking, engineered.", required: false }
+          - { label: "Hero Main Headline", name: "heroHeadline", widget: "string", required: false }
           - { label: "Hero Subtitle / Intro Bio", name: "heroBio", widget: "text", required: false }
           - { label: "Detailed About Me Paragraphs", name: "bioText", widget: "text", required: false }
           - label: "Education Details"
@@ -149,8 +137,8 @@ collections:
               - { label: "Start Date", name: "startDate", widget: "string", required: false }
               - { label: "End Date / Expected", name: "endDate", widget: "string", required: false }
               - { label: "Dates Summary", name: "dates", widget: "string", required: false }
-              - { label: "Grade / Activities & Honors (0/500)", name: "gradeActivities", widget: "text", required: false }
-              - { label: "Program Description (0/1000)", name: "description", widget: "text", required: false }
+              - { label: "Grade / Activities & Honors", name: "gradeActivities", widget: "text", required: false }
+              - { label: "Program Description", name: "description", widget: "text", required: false }
 
       - name: "contact"
         label: "Contact & Social Links"
