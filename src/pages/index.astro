@@ -10,17 +10,38 @@ const rawProfile = await getCollection('profile');
 const bioData = rawProfile.find(entry => entry.id === 'bio')?.data;
 const contactData = rawProfile.find(entry => entry.id === 'contact')?.data;
 
-const skillsEntry = rawProfile.find(entry => entry.id === 'skills')?.data;
-const skillsData = skillsEntry?.skills || undefined;
+const rawSkills = await getCollection('skills');
+const skillsData = rawSkills.length > 0
+  ? rawSkills.map(entry => ({
+      id: entry.id,
+      name: entry.data.name,
+      category: entry.data.category,
+      icon: entry.data.icon,
+      proficiency: entry.data.proficiency,
+    }))
+  : rawProfile.find(entry => entry.id === 'skills')?.data?.skills;
 
-const expEntry = rawProfile.find(entry => entry.id === 'experience')?.data;
-const experienceItems = expEntry?.experience || [];
+const rawExperience = await getCollection('experience');
+const experienceItems = rawExperience.map(entry => ({
+  id: entry.id,
+  ...entry.data,
+}));
 
-const projEntry = rawProfile.find(entry => entry.id === 'projects')?.data;
-const projectItems = projEntry?.projects || [];
+const rawProjects = await getCollection('projects');
+const projectItems = rawProjects.map(entry => ({
+  id: entry.id,
+  ...entry.data,
+}));
 
-const blogEntry = rawProfile.find(entry => entry.id === 'blog')?.data;
-const blogItems = blogEntry?.blog || [];
+const rawBlogs = await getCollection('blog');
+const blogItems = rawBlogs.map(entry => ({
+  slug: entry.id,
+  title: entry.data.title,
+  date: entry.data.date,
+  category: entry.data.category,
+  excerpt: entry.data.excerpt,
+  readTime: entry.data.readTime,
+}));
 
 
 ---
