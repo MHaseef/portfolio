@@ -130,17 +130,16 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
           style={{
             background: '#FFFFFF',
             border: '1px solid #E6E4DF',
-            borderRadius: '10px',
-            padding: '24px 28px',
+            borderRadius: '12px',
+            padding: '32px 36px',
             boxShadow: '0 1px 2px rgba(16,24,32,0.03), 0 8px 20px rgba(16,24,32,0.04)',
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '10px',
+            gap: '14px',
           }}
         >
           {skillList.map((skill, idx) => {
             const isSelected = activeFilter === skill.name;
-            const skillId = skill.id || `s-${idx}`;
             return (
               <button
                 key={skill.id || skill.name || idx}
@@ -148,15 +147,18 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '7px',
-                  fontSize: '13px',
+                  gap: '10px',
+                  fontSize: '15px',
                   fontWeight: 600,
-                  padding: '7px 14px',
-                  borderRadius: '20px',
+                  padding: '10px 20px',
+                  borderRadius: '30px',
                   cursor: 'pointer',
-                  border: `1px solid ${isSelected ? '#1B6FA8' : '#E6E4DF'}`,
+                  border: `1px solid ${isSelected ? '#1B6FA8' : '#D5D9DE'}`,
                   background: isSelected ? '#E3F1FB' : '#FFFFFF',
-                  color: isSelected ? '#1B6FA8' : '#5C6167',
+                  color: isSelected ? '#1B6FA8' : '#2D3136',
+                  boxShadow: isSelected
+                    ? '0 2px 8px rgba(27,111,168,0.2)'
+                    : '0 2px 6px rgba(0,0,0,0.02)',
                   transition: 'all 0.2s ease',
                 }}
               >
@@ -165,28 +167,28 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                     src={skill.icon}
                     alt={skill.name}
                     style={{
-                      width: '22px',
-                      height: '22px',
+                      width: '28px',
+                      height: '28px',
                       borderRadius: '50%',
                       objectFit: 'contain',
                       background: '#FFFFFF',
                       border: '1px solid #D5D9DE',
-                      padding: '2px',
+                      padding: '3px',
                       flexShrink: 0,
                     }}
                   />
                 ) : (
                   <div
                     style={{
-                      width: '22px',
-                      height: '22px',
+                      width: '28px',
+                      height: '28px',
                       borderRadius: '50%',
                       background: isSelected ? '#1B6FA8' : '#EAF2F8',
                       color: isSelected ? '#FFFFFF' : '#1B6FA8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '11px',
+                      fontSize: '13px',
                       fontWeight: 700,
                       fontFamily: "'JetBrains Mono', monospace",
                       flexShrink: 0,
