@@ -147,18 +147,18 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  fontSize: '15px',
+                  gap: '12px',
+                  fontSize: '16px',
                   fontWeight: 600,
-                  padding: '10px 20px',
-                  borderRadius: '30px',
+                  padding: '11px 22px',
+                  borderRadius: '36px',
                   cursor: 'pointer',
-                  border: `1px solid ${isSelected ? '#1B6FA8' : '#D5D9DE'}`,
+                  border: `1.5px solid ${isSelected ? '#1B6FA8' : '#D5D9DE'}`,
                   background: isSelected ? '#E3F1FB' : '#FFFFFF',
                   color: isSelected ? '#1B6FA8' : '#2D3136',
                   boxShadow: isSelected
-                    ? '0 2px 8px rgba(27,111,168,0.2)'
-                    : '0 2px 6px rgba(0,0,0,0.02)',
+                    ? '0 3px 10px rgba(27,111,168,0.22)'
+                    : '0 2px 8px rgba(0,0,0,0.04)',
                   transition: 'all 0.2s ease',
                 }}
               >
@@ -167,30 +167,32 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                     src={skill.icon}
                     alt={skill.name}
                     style={{
-                      width: '28px',
-                      height: '28px',
+                      width: '34px',
+                      height: '34px',
                       borderRadius: '50%',
                       objectFit: 'contain',
                       background: '#FFFFFF',
-                      border: '1px solid #D5D9DE',
+                      border: '1.5px solid #D5D9DE',
                       padding: '3px',
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.06)',
                       flexShrink: 0,
                     }}
                   />
                 ) : (
                   <div
                     style={{
-                      width: '28px',
-                      height: '28px',
+                      width: '34px',
+                      height: '34px',
                       borderRadius: '50%',
                       background: isSelected ? '#1B6FA8' : '#EAF2F8',
                       color: isSelected ? '#FFFFFF' : '#1B6FA8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '13px',
+                      fontSize: '15px',
                       fontWeight: 700,
                       fontFamily: "'JetBrains Mono', monospace",
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.04)',
                       flexShrink: 0,
                     }}
                   >
