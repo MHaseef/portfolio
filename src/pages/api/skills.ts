@@ -40,15 +40,26 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     if (body.name) {
-      const idx = list.findIndex((item: any) => item.name.toLowerCase() === body.name.toLowerCase());
+      const searchKey = (body.oldName || body.name).toLowerCase();
+      const idx = list.findIndex(
+        (item: any) =>
+          (item.id && body.id && item.id === body.id) ||
+          item.name.toLowerCase() === searchKey
+      );
+
+      const skillObj = {
+        id: body.id || `skill_${Date.now()}`,
+        name: body.name,
+        category: body.category || 'Languages & Frameworks',
+        proficiency: body.proficiency || 'Advanced',
+        icon: body.icon || '',
+        is_published: body.is_published !== false,
+      };
+
       if (idx !== -1) {
-        list[idx] = { ...list[idx], ...body };
+        list[idx] = { ...list[idx], ...skillObj };
       } else {
-        list.push({
-          id: `skill_${Date.now()}`,
-          is_published: true,
-          ...body,
-        });
+        list.push(skillObj);
       }
     }
 
@@ -68,10 +79,15 @@ export const DELETE: APIRoute = async ({ request }) => {
   try {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get('name');
-    if (!name) return new Response(JSON.stringify({ error: 'Missing name' }), { status: 400 });
+    const id = searchParams.get('id');
+    if (!name && !id) return new Response(JSON.stringify({ error: 'Missing name or id' }), { status: 400 });
 
     const currentData = await readSkills();
-    currentData.skills = (currentData.skills || []).filter((item: any) => item.name.toLowerCase() !== name.toLowerCase());
+    currentData.skills = (currentData.skills || []).filter((item: any) => {
+      if (id && item.id === id) return false;
+      if (name && item.name.toLowerCase() === name.toLowerCase()) return false;
+      return true;
+    });
     await writeSkills(currentData);
 
     return new Response(JSON.stringify({ success: true, skills: currentData.skills }), { status: 200 });

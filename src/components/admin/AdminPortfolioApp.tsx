@@ -11,6 +11,7 @@ import type { ProjectData } from '../ProjectsGrid';
 import { BlogsPreview } from '../BlogsPreview';
 import type { BlogItem } from '../BlogsPreview';
 import { ContactSection } from '../ContactSection';
+import type { ContactData } from '../ContactSection';
 
 import { AdminFloatingBar } from './AdminFloatingBar';
 import { SectionAdminHeader } from './SectionAdminHeader';
@@ -23,6 +24,12 @@ import { ProjectFormModal } from './ProjectFormModal';
 import type { ProjectFormValues } from './ProjectFormModal';
 import { SkillFormModal } from './SkillFormModal';
 import type { SkillFormValues } from './SkillFormModal';
+import { BlogFormModal } from './BlogFormModal';
+import type { BlogFormValues } from './BlogFormModal';
+import { ContactFormModal } from './ContactFormModal';
+import type { ContactFormValues } from './ContactFormModal';
+import { HeroProfileFormModal } from './HeroProfileFormModal';
+import type { HeroProfileFormValues } from './HeroProfileFormModal';
 import { ReorderModal } from './ReorderModal';
 import type { ReorderItem } from './ReorderModal';
 
@@ -32,7 +39,7 @@ interface AdminPortfolioAppProps {
   initialBlogItems: BlogItem[];
   initialBioData?: BioData;
   initialSkillsData?: SkillItem[];
-  initialContactData?: any;
+  initialContactData?: ContactData;
 }
 
 export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
@@ -47,7 +54,15 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
   const [experienceList, setExperienceList] = useState<ExperienceData[]>(initialExperienceItems);
   const [projectsList, setProjectsList] = useState<ProjectData[]>(initialProjectItems);
   const [skillsList, setSkillsList] = useState<SkillItem[]>(initialSkillsData);
+  const [blogList, setBlogList] = useState<BlogItem[]>(initialBlogItems);
   const [bio, setBio] = useState<BioData | undefined>(initialBioData);
+  const [contact, setContact] = useState<ContactData | undefined>(initialContactData);
+
+  // Hero Section Dynamic Overrides
+  const [heroHeadline, setHeroHeadline] = useState('Spatial thinking, engineered.');
+  const [heroBio, setHeroBio] = useState(
+    "Welcome. I'm Haseef — a GIS developer and spatial data analyst who enjoys turning raw geographic data into tools people can actually use. I build WebGIS platforms, automate spatial workflows, and dig into geospatial datasets to find patterns worth acting on."
+  );
 
   // Admin State
   const [isPreviewMode, setIsPreviewMode] = useState(false);
@@ -59,6 +74,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
     experience: true,
     projects: true,
     blog: true,
+    contact: true,
   });
 
   // Modal Control States
@@ -74,7 +90,13 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
   const [skillModalOpen, setSkillModalOpen] = useState(false);
   const [editingSkill, setEditingSkill] = useState<SkillFormValues | null>(null);
 
-  const [reorderTarget, setReorderTarget] = useState<'experience' | 'projects' | 'skills' | null>(null);
+  const [blogModalOpen, setBlogModalOpen] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<BlogFormValues | null>(null);
+
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [heroModalOpen, setHeroModalOpen] = useState(false);
+
+  const [reorderTarget, setReorderTarget] = useState<'experience' | 'projects' | 'skills' | 'blog' | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const showToast = (msg: string) => {
@@ -85,6 +107,39 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
   };
 
   const availableSkillNames = skillsList.map(s => s.name);
+
+  // ----------------------------------------------------
+  // HERO & PROFILE HANDLER
+  // ----------------------------------------------------
+  const handleSaveHeroProfile = async (values: HeroProfileFormValues) => {
+    try {
+      const updatedBio = {
+        ...bio,
+        name: values.name,
+        role: values.role,
+        avatar: values.avatar,
+        initials: values.initials,
+        location: values.location,
+        bioText: values.bioText || values.heroBio,
+      };
+
+      if (values.heroHeadline) setHeroHeadline(values.heroHeadline);
+      if (values.heroBio) setHeroBio(values.heroBio);
+
+      const res = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedBio),
+      });
+      const data = await res.json();
+      if (res.ok && data.bio) {
+        setBio(data.bio);
+        showToast('Hero section & profile updated!');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // ----------------------------------------------------
   // EXPERIENCE HANDLERS
@@ -99,7 +154,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       const data = await res.json();
       if (res.ok && data.experience) {
         setExperienceList(data.experience);
-        showToast('Experience successfully saved to portfolio!');
+        showToast('Experience successfully saved!');
       } else {
         alert(data.error || 'Failed to save experience');
       }
@@ -175,7 +230,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       const data = await res.json();
       if (res.ok && data.skills) {
         setSkillsList(data.skills);
-        showToast('Skill tag saved!');
+        showToast('Skill tag saved successfully!');
       } else {
         alert(data.error || 'Failed to save skill');
       }
@@ -193,7 +248,62 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       const data = await res.json();
       if (res.ok && data.skills) {
         setSkillsList(data.skills);
-        showToast('Skill deleted');
+        showToast('Skill tag deleted');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // ----------------------------------------------------
+  // BLOG HANDLERS
+  // ----------------------------------------------------
+  const handleSaveBlog = async (values: BlogFormValues) => {
+    try {
+      const res = await fetch('/api/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (res.ok && data.blog) {
+        setBlogList(data.blog);
+        showToast('Blog article published!');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteBlog = async (slug: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!confirm('Are you sure you want to delete this blog post?')) return;
+    try {
+      const res = await fetch(`/api/blog?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (res.ok && data.blog) {
+        setBlogList(data.blog);
+        showToast('Blog article deleted');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // ----------------------------------------------------
+  // CONTACT HANDLERS
+  // ----------------------------------------------------
+  const handleSaveContact = async (values: ContactFormValues) => {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (res.ok && data.contact) {
+        setContact(data.contact);
+        showToast('Contact section updated!');
       }
     } catch (err) {
       console.error(err);
@@ -238,6 +348,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
 
     try {
       if (reorderTarget === 'experience') {
+        setExperienceList(reordered as any);
         const res = await fetch('/api/experience', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -246,6 +357,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
         const data = await res.json();
         if (res.ok && data.experience) setExperienceList(data.experience);
       } else if (reorderTarget === 'projects') {
+        setProjectsList(reordered as any);
         const res = await fetch('/api/projects', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -254,6 +366,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
         const data = await res.json();
         if (res.ok && data.projects) setProjectsList(data.projects);
       } else if (reorderTarget === 'skills') {
+        setSkillsList(reordered as any);
         const res = await fetch('/api/skills', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -261,8 +374,17 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
         });
         const data = await res.json();
         if (res.ok && data.skills) setSkillsList(data.skills);
+      } else if (reorderTarget === 'blog') {
+        setBlogList(reordered as any);
+        const res = await fetch('/api/blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reorder: reordered }),
+        });
+        const data = await res.json();
+        if (res.ok && data.blog) setBlogList(data.blog);
       }
-      showToast(`${reorderTarget.toUpperCase()} sequence updated!`);
+      showToast(`${reorderTarget.toUpperCase()} order saved!`);
     } catch (err) {
       console.error(err);
     }
@@ -272,7 +394,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
     <div style={{ position: 'relative', zIndex: 1, paddingBottom: '90px' }}>
       <HeaderNav avatar={bio?.avatar} initials={bio?.initials} name={bio?.name} />
 
-      {/* Hero Section */}
+      {/* HERO SECTION WITH IN-CONTEXT CONTROLS */}
       <section
         id="home"
         style={{
@@ -293,7 +415,29 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             zIndex: 0,
           }}
         />
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', textAlign: 'left' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '640px', textAlign: 'left' }}>
+          {!isPreviewMode && (
+            <div style={{ marginBottom: '14px' }}>
+              <button
+                type="button"
+                onClick={() => setHeroModalOpen(true)}
+                style={{
+                  background: '#0F2036',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                }}
+              >
+                ✏️ Edit Hero Headline & Profile Bio
+              </button>
+            </div>
+          )}
+
           <h1
             style={{
               fontFamily: "'JetBrains Mono', monospace",
@@ -304,13 +448,12 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
               color: '#16181C',
             }}
           >
-            Spatial thinking, engineered.
+            {heroHeadline}
           </h1>
           <p style={{ color: '#3E4349', fontSize: '17px', lineHeight: 1.75, margin: '0 0 36px' }}>
-            Welcome. I'm Haseef — a GIS developer and spatial data analyst who enjoys turning raw
-            geographic data into tools people can actually use. I build WebGIS platforms, automate
-            spatial workflows, and dig into geospatial datasets to find patterns worth acting on.
+            {heroBio}
           </p>
+
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <button
               onClick={() => setAboutOpen(true)}
@@ -894,13 +1037,137 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
         </section>
       )}
 
-      {/* Blogs Preview */}
       <div style={{ height: '80px' }} />
-      <BlogsPreview posts={initialBlogItems} />
 
-      {/* Contact Section & Footer */}
+      {/* BLOG SECTION WITH IN-CONTEXT CONTROLS */}
+      {(sectionVisibilities.blog || !isPreviewMode) && (
+        <section
+          id="blog"
+          style={{
+            background: '#F7F6F3',
+            padding: '48px 32px',
+            borderTop: '1px solid #E6E4DF',
+            position: 'relative',
+            opacity: !sectionVisibilities.blog && !isPreviewMode ? 0.6 : 1,
+          }}
+        >
+          <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+            <SectionAdminHeader
+              sectionLabel="Writing & Research"
+              sectionTitle="Blog & Publications"
+              isSectionVisible={sectionVisibilities.blog}
+              isPreviewMode={isPreviewMode}
+              onToggleSectionVisibility={() =>
+                setSectionVisibilities(prev => ({ ...prev, blog: !prev.blog }))
+              }
+              onAddNewItem={() => {
+                setEditingBlog(null);
+                setBlogModalOpen(true);
+              }}
+              onOpenReorder={() => setReorderTarget('blog')}
+            />
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '20px',
+              }}
+            >
+              {blogList.map((post, idx) => (
+                <div
+                  key={post.slug || idx}
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid #E6E4DF',
+                    borderRadius: '10px',
+                    padding: '20px',
+                    position: 'relative',
+                    boxShadow: '0 1px 2px rgba(16,24,32,0.03)',
+                  }}
+                >
+                  {!isPreviewMode && (
+                    <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '4px' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingBlog(post);
+                          setBlogModalOpen(true);
+                        }}
+                        style={{
+                          background: '#1B6FA8',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '4px 8px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={e => handleDeleteBlog(post.slug, e)}
+                        style={{
+                          background: '#FFEBEE',
+                          color: '#D32F2F',
+                          border: '1px solid #D32F2F',
+                          borderRadius: '4px',
+                          padding: '4px 6px',
+                          fontSize: '11px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  )}
+
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#1B6FA8', textTransform: 'uppercase', marginBottom: '8px' }}>
+                    {post.category} · {post.readTime}
+                  </div>
+                  <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '16px', color: '#16181C', margin: '0 0 8px' }}>
+                    {post.title}
+                  </h3>
+                  <p style={{ fontSize: '13px', color: '#5C6167', margin: 0, lineHeight: 1.5 }}>
+                    {post.excerpt}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <div style={{ height: '80px' }} />
-      <ContactSection data={initialContactData} />
+
+      {/* CONTACT SECTION WITH IN-CONTEXT CONTROLS */}
+      <div style={{ position: 'relative' }}>
+        {!isPreviewMode && (
+          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+            <button
+              type="button"
+              onClick={() => setContactModalOpen(true)}
+              style={{
+                background: '#0F2036',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '8px 18px',
+                fontSize: '13px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(15,32,54,0.2)',
+              }}
+            >
+              ✏️ Edit Contact Section & Social Links
+            </button>
+          </div>
+        )}
+        <ContactSection data={contact} />
+      </div>
 
       {/* About & Education Modal */}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} bioData={bio} />
@@ -936,6 +1203,22 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       <ToastNotification message={toastMessage} onClose={() => setToastMessage(null)} />
 
       {/* FORM MODALS */}
+      <HeroProfileFormModal
+        isOpen={heroModalOpen}
+        initialValues={{
+          name: bio?.name || 'Muhammad Haseef',
+          role: bio?.role || 'Geoinformatics Engineer · GIS Developer & Analyst',
+          avatar: bio?.avatar || '',
+          initials: bio?.initials || 'MH',
+          location: bio?.location || 'Islamabad, PK',
+          heroHeadline,
+          heroBio,
+          bioText: typeof bio?.bio === 'string' ? bio.bio : Array.isArray(bio?.bio) ? bio.bio.join('\n\n') : '',
+        }}
+        onSave={handleSaveHeroProfile}
+        onClose={() => setHeroModalOpen(false)}
+      />
+
       <ExperienceFormModal
         isOpen={expModalOpen}
         initialValues={editingExp}
@@ -967,6 +1250,25 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
         onClose={() => setSkillModalOpen(false)}
       />
 
+      <BlogFormModal
+        isOpen={blogModalOpen}
+        initialValues={editingBlog}
+        onSave={handleSaveBlog}
+        onClose={() => setBlogModalOpen(false)}
+      />
+
+      <ContactFormModal
+        isOpen={contactModalOpen}
+        initialValues={{
+          title: contact?.title || "Let's build something spatial.",
+          email: contact?.email || '',
+          location: contact?.location || '',
+          socialLinks: contact?.socialLinks || [],
+        }}
+        onSave={handleSaveContact}
+        onClose={() => setContactModalOpen(false)}
+      />
+
       {/* REORDER MODAL */}
       <ReorderModal
         isOpen={Boolean(reorderTarget)}
@@ -975,14 +1277,18 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             ? 'Reorder Experience'
             : reorderTarget === 'projects'
             ? 'Reorder Projects'
-            : 'Reorder Skills'
+            : reorderTarget === 'skills'
+            ? 'Reorder Skills'
+            : 'Reorder Blog Articles'
         }
         items={
           reorderTarget === 'experience'
             ? experienceList
             : reorderTarget === 'projects'
             ? (projectsList as any)
-            : (skillsList as any)
+            : reorderTarget === 'skills'
+            ? (skillsList as any)
+            : (blogList as any)
         }
         onSave={handleSaveReorder}
         onClose={() => setReorderTarget(null)}
