@@ -7,7 +7,6 @@ interface AdminFloatingBarProps {
   onAddProject: () => void;
   onAddSkill: () => void;
   onEditEducation: () => void;
-  onLockSession?: () => void;
 }
 
 export const AdminFloatingBar: React.FC<AdminFloatingBarProps> = ({
@@ -17,7 +16,6 @@ export const AdminFloatingBar: React.FC<AdminFloatingBarProps> = ({
   onAddProject,
   onAddSkill,
   onEditEducation,
-  onLockSession,
 }) => {
   return (
     <div
@@ -127,8 +125,8 @@ export const AdminFloatingBar: React.FC<AdminFloatingBarProps> = ({
         </div>
       )}
 
-      {/* Preview Toggle & Lock Controls */}
-      <div style={{ borderLeft: '1px solid #1C3A57', paddingLeft: '12px', display: 'flex', gap: '8px' }}>
+      {/* Preview Toggle Switch */}
+      <div style={{ borderLeft: '1px solid #1C3A57', paddingLeft: '12px' }}>
         <button
           type="button"
           onClick={onTogglePreviewMode}
@@ -148,26 +146,6 @@ export const AdminFloatingBar: React.FC<AdminFloatingBarProps> = ({
         >
           <span>{isPreviewMode ? '✏️ Edit Mode' : '👁️ Preview Public View'}</span>
         </button>
-
-        {onLockSession && (
-          <button
-            type="button"
-            onClick={onLockSession}
-            style={{
-              background: '#D32F2F',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-            title="Lock Admin Session"
-          >
-            🔒 Lock
-          </button>
-        )}
       </div>
     </div>
   );
