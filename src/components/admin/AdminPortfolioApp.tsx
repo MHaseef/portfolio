@@ -16,6 +16,7 @@ import type { ContactData } from '../ContactSection';
 import { AdminFloatingBar } from './AdminFloatingBar';
 import { SectionAdminHeader } from './SectionAdminHeader';
 import { ToastNotification } from './ToastNotification';
+import { AdminAuthModal } from './AdminAuthModal';
 import { ExperienceFormModal } from './ExperienceFormModal';
 import type { ExperienceFormValues } from './ExperienceFormModal';
 import { EducationFormModal } from './EducationFormModal';
@@ -64,9 +65,18 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
     "Welcome. I'm Haseef — a GIS developer and spatial data analyst who enjoys turning raw geographic data into tools people can actually use. I build WebGIS platforms, automate spatial workflows, and dig into geospatial datasets to find patterns worth acting on."
   );
 
-  // Admin State
+  // Admin Authentication & Session State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('admin_authenticated') === 'true';
+    }
+    return false;
+  });
+
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const effectivePreviewMode = !isAuthenticated || isPreviewMode;
 
   // Section Visibilities
   const [sectionVisibilities, setSectionVisibilities] = useState({
@@ -416,7 +426,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
           }}
         />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '640px', textAlign: 'left' }}>
-          {!isPreviewMode && (
+          {!effectivePreviewMode && (
             <div style={{ marginBottom: '14px' }}>
               <button
                 type="button"
@@ -471,7 +481,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             >
               About Me & Education
             </button>
-            {!isPreviewMode && (
+            {!effectivePreviewMode && (
               <button
                 onClick={() => {
                   setEditingEdu({
@@ -503,7 +513,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       <div style={{ height: '80px' }} />
 
       {/* SKILLS SECTION WITH IN-CONTEXT CONTROLS */}
-      {(sectionVisibilities.skills || !isPreviewMode) && (
+      {(sectionVisibilities.skills || !effectivePreviewMode) && (
         <section
           id="skills"
           style={{
@@ -511,7 +521,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             padding: '48px 32px',
             borderTop: '1px solid #E6E4DF',
             position: 'relative',
-            opacity: !sectionVisibilities.skills && !isPreviewMode ? 0.6 : 1,
+            opacity: !sectionVisibilities.skills && !effectivePreviewMode ? 0.6 : 1,
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -605,7 +615,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                   </div>
 
                   {/* Skill Item Admin Controls */}
-                  {!isPreviewMode && (
+                  {!effectivePreviewMode && (
                     <div
                       style={{
                         display: 'flex',
@@ -672,7 +682,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       <div style={{ height: '80px' }} />
 
       {/* EXPERIENCE SECTION WITH IN-CONTEXT CONTROLS */}
-      {(sectionVisibilities.experience || !isPreviewMode) && (
+      {(sectionVisibilities.experience || !effectivePreviewMode) && (
         <section
           id="experience"
           style={{
@@ -680,7 +690,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             padding: '48px 32px',
             borderTop: '1px solid #E6E4DF',
             position: 'relative',
-            opacity: !sectionVisibilities.experience && !isPreviewMode ? 0.6 : 1,
+            opacity: !sectionVisibilities.experience && !effectivePreviewMode ? 0.6 : 1,
           }}
         >
           <div style={{ maxWidth: '920px', margin: '0 auto' }}>
@@ -741,7 +751,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                     />
 
                     {/* Item Admin Action Bar */}
-                    {!isPreviewMode && (
+                    {!effectivePreviewMode && (
                       <div
                         style={{
                           position: 'absolute',
@@ -797,7 +807,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                         flexWrap: 'wrap',
                         gap: '12px',
                         marginBottom: '10px',
-                        paddingRight: !isPreviewMode ? '120px' : '0',
+                        paddingRight: !effectivePreviewMode ? '120px' : '0',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -867,7 +877,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       <div style={{ height: '80px' }} />
 
       {/* PROJECTS SECTION WITH IN-CONTEXT CONTROLS */}
-      {(sectionVisibilities.projects || !isPreviewMode) && (
+      {(sectionVisibilities.projects || !effectivePreviewMode) && (
         <section
           id="projects"
           style={{
@@ -875,7 +885,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             padding: '48px 32px',
             borderTop: '1px solid #E6E4DF',
             position: 'relative',
-            opacity: !sectionVisibilities.projects && !isPreviewMode ? 0.6 : 1,
+            opacity: !sectionVisibilities.projects && !effectivePreviewMode ? 0.6 : 1,
           }}
         >
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -916,7 +926,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                   }}
                 >
                   {/* Item Admin Action Buttons */}
-                  {!isPreviewMode && (
+                  {!effectivePreviewMode && (
                     <div
                       style={{
                         position: 'absolute',
@@ -1040,7 +1050,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       <div style={{ height: '80px' }} />
 
       {/* BLOG SECTION WITH IN-CONTEXT CONTROLS */}
-      {(sectionVisibilities.blog || !isPreviewMode) && (
+      {(sectionVisibilities.blog || !effectivePreviewMode) && (
         <section
           id="blog"
           style={{
@@ -1048,7 +1058,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             padding: '48px 32px',
             borderTop: '1px solid #E6E4DF',
             position: 'relative',
-            opacity: !sectionVisibilities.blog && !isPreviewMode ? 0.6 : 1,
+            opacity: !sectionVisibilities.blog && !effectivePreviewMode ? 0.6 : 1,
           }}
         >
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -1086,7 +1096,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                     boxShadow: '0 1px 2px rgba(16,24,32,0.03)',
                   }}
                 >
-                  {!isPreviewMode && (
+                  {!effectivePreviewMode && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '4px' }}>
                       <button
                         type="button"
@@ -1145,7 +1155,7 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
 
       {/* CONTACT SECTION WITH IN-CONTEXT CONTROLS */}
       <div style={{ position: 'relative' }}>
-        {!isPreviewMode && (
+        {!effectivePreviewMode && (
           <div style={{ textAlign: 'center', marginBottom: '16px' }}>
             <button
               type="button"
@@ -1172,9 +1182,19 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
       {/* About & Education Modal */}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} bioData={bio} />
 
+      {/* AUTHENTICATION LOCK MODAL */}
+      <AdminAuthModal
+        isOpen={!isAuthenticated}
+        onAuthenticate={() => {
+          setIsAuthenticated(true);
+          sessionStorage.setItem('admin_authenticated', 'true');
+          showToast('Admin Command Center Unlocked!');
+        }}
+      />
+
       {/* PINNED GLOBAL ADMINISTRATIVE FLOATING BAR */}
       <AdminFloatingBar
-        isPreviewMode={isPreviewMode}
+        isPreviewMode={effectivePreviewMode}
         onTogglePreviewMode={() => setIsPreviewMode(!isPreviewMode)}
         onAddExperience={() => {
           setEditingExp(null);
@@ -1196,6 +1216,11 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
             logo: bio?.education?.logo || '',
           });
           setEduModalOpen(true);
+        }}
+        onLockSession={() => {
+          setIsAuthenticated(false);
+          sessionStorage.removeItem('admin_authenticated');
+          showToast('Admin session locked.');
         }}
       />
 
