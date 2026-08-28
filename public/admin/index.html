@@ -204,9 +204,25 @@
     </div>
 
     <!-- Include Decap CMS -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
     <script>
+      // Initialize Decap CMS with dynamic origin pointing to self-hosted Astro OAuth endpoints
+      CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'MHaseef/portfolio',
+            branch: 'main',
+            base_url: window.location.origin,
+            auth_endpoint: '/api/auth'
+          }
+        }
+      });
+
       // Netlify Identity Login Listener
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", (user) => {

@@ -2,8 +2,8 @@ backend:
   name: github
   repo: MHaseef/portfolio
   branch: main
-  base_url: https://decap-cms-oauth-provider-sigma.vercel.app
-  auth_endpoint: /auth
+  base_url: https://portfolio-mu-coral-72.vercel.app
+  auth_endpoint: /api/auth
 
 local_backend: true
 
