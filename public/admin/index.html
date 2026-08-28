@@ -4,255 +4,1121 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Muhammad Haseef — Portfolio Command Center (Admin)</title>
+
+    <!-- Google Fonts & Netlify Identity Widget -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Include Netlify Identity Widget for Authentication -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
+    <!-- React 18 & Babel Standalone -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <style>
-      /* Global Reset & Base Typography */
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
-        font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        margin: 0;
-        background-color: #F7F6F3 !important;
-        color: #16181C !important;
-      }
-
-      /* Decap CMS Header Bar Override */
-      header[class*="AppHeader"], div[class*="AppHeader"] {
-        background-color: #0F2036 !important;
-        border-bottom: 1px solid #1C3A57 !important;
-        padding: 0 16px !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
-      }
-
-      /* Brand Navigation Title */
-      a[class*="AppHeaderNavLink"], span[class*="AppHeaderNav"] {
-        font-family: 'JetBrains Mono', monospace !important;
-        font-weight: 600 !important;
-        color: #FFFFFF !important;
-      }
-
-      /* Decap CMS Sidebar */
-      aside[class*="SidebarContainer"], div[class*="SidebarContainer"] {
-        background-color: #0F2036 !important;
-        border-right: 1px solid #1C3A57 !important;
-        color: #FFFFFF !important;
-      }
-
-      div[class*="SidebarNavGroupTitle"] {
-        font-family: 'JetBrains Mono', monospace !important;
-        color: #5FA8D3 !important;
-        font-size: 11px !important;
-        letter-spacing: 1.5px !important;
-        text-transform: uppercase !important;
-        margin-top: 16px !important;
-      }
-
-      a[class*="SidebarNavLink"] {
-        font-family: 'Source Sans 3', sans-serif !important;
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        color: #C0D6EC !important;
-        border-radius: 6px !important;
-        margin: 4px 8px !important;
-        padding: 10px 14px !important;
-        transition: all 0.15s ease !important;
-      }
-
-      a[class*="SidebarNavLink"]:hover {
-        background-color: #1A3454 !important;
-        color: #FFFFFF !important;
-      }
-
-      a[class*="SidebarNavLink"][class*="active"], a[class*="SidebarNavLink"][aria-current="page"] {
-        background-color: #1B6FA8 !important;
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
-        box-shadow: 0 2px 6px rgba(27, 111, 168, 0.4) !important;
-      }
-
-      /* Form Cards & Fields Layout */
-      div[class*="EditorContainer"] {
-        background-color: #F7F6F3 !important;
-      }
-
-      div[class*="ControlContainer"] {
-        background-color: #FFFFFF !important;
-        border: 1px solid #E6E4DF !important;
-        border-radius: 10px !important;
-        padding: 20px 24px !important;
-        margin-bottom: 20px !important;
-        box-shadow: 0 2px 8px rgba(16, 24, 32, 0.04) !important;
-      }
-
-      label[class*="ControlLabel"] {
-        font-family: 'JetBrains Mono', monospace !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        color: #0F2036 !important;
-        letter-spacing: 0.5px !important;
-        text-transform: uppercase !important;
-        margin-bottom: 8px !important;
-        display: block !important;
-      }
-
-      /* Form Text Inputs & Textareas */
-      input[type="text"], input[type="url"], input[type="email"], textarea, select {
-        font-family: 'Source Sans 3', sans-serif !important;
-        font-size: 15px !important;
-        border: 1px solid #D5D9DE !important;
-        border-radius: 6px !important;
-        padding: 10px 14px !important;
-        color: #16181C !important;
-        background-color: #FAFAFA !important;
-        transition: all 0.2s ease !important;
-      }
-
-      input[type="text"]:focus, textarea:focus, select:focus {
-        border-color: #1B6FA8 !important;
-        background-color: #FFFFFF !important;
-        outline: none !important;
-        box-shadow: 0 0 0 3px rgba(27, 111, 168, 0.15) !important;
-      }
-
-      /* Buttons & Action Bar */
-      button[class*="Button"] {
-        border-radius: 6px !important;
-        font-family: 'Source Sans 3', sans-serif !important;
-        font-weight: 600 !important;
-        transition: all 0.2s ease !important;
-      }
-
-      button[class*="PublishButton"] {
-        background-color: #1B6FA8 !important;
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
-        padding: 10px 20px !important;
-      }
-
-      button[class*="PublishButton"]:hover {
-        background-color: #145582 !important;
-      }
-
-      /* Live Styled Preview Frame */
-      iframe[class*="PreviewPaneFrame"] {
-        background-color: #F7F6F3 !important;
-        border-left: 1px solid #E6E4DF !important;
-      }
-
-      /* Custom Top Banner Bar */
-      #custom-admin-bar {
+        font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: #0B1727;
-        color: #FFFFFF;
-        padding: 8px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        color: #E2E8F0;
+        min-height: 100vh;
+      }
+      button { font-family: inherit; cursor: pointer; border: none; }
+      input, textarea, select {
+        font-family: 'Source Sans 3', sans-serif;
+        font-size: 14px;
+        background: #112238;
+        border: 1px solid #1C3A57;
+        color: #F8FAFC;
+        border-radius: 6px;
+        padding: 10px 14px;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      input:focus, textarea:focus, select:focus {
+        border-color: #1B6FA8;
+        box-shadow: 0 0 0 2px rgba(27, 111, 168, 0.25);
+      }
+      label {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 13px;
-        border-bottom: 1px solid #1C3A57;
+        font-size: 12px;
+        font-weight: 600;
+        color: #94A3B8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+        display: block;
       }
-
-      #custom-admin-bar .brand-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 700;
-      }
-
-      #custom-admin-bar .brand-badge {
-        background: #1B6FA8;
-        color: #FFFFFF;
-        padding: 2px 8px;
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
         border-radius: 12px;
         font-size: 11px;
         font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
       }
-
-      #custom-admin-bar a.view-portfolio-btn {
-        background: #1B6FA8;
-        color: #FFFFFF;
-        text-decoration: none;
-        padding: 5px 14px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 12px;
-        transition: background 0.2s ease;
-      }
-
-      #custom-admin-bar a.view-portfolio-btn:hover {
-        background: #5FA8D3;
-        color: #0F2036;
-      }
+      .badge-blue { background: #1B6FA8; color: #FFFFFF; }
+      .badge-dark { background: #1C3A57; color: #94A3B8; }
+      
+      /* Scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: #0B1727; }
+      ::-webkit-scrollbar-thumb { background: #1C3A57; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #1B6FA8; }
     </style>
   </head>
   <body>
-    <!-- Top Branded Header -->
-    <div id="custom-admin-bar">
-      <div class="brand-title">
-        <span>⚡ MUHAMMAD HASEEF</span>
-        <span class="brand-badge">Command Center</span>
-      </div>
-      <div>
-        <a href="/" target="_blank" class="view-portfolio-btn">View Live Portfolio ↗</a>
-      </div>
-    </div>
+    <div id="root"></div>
 
-    <!-- Include Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
 
-    <script>
-      // Netlify Identity Login Listener
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", (user) => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.reload();
-            });
+      // Top Admin Navigation Header
+      const Header = ({ user, onLogout }) => (
+        <header style={{
+          background: '#070F1E',
+          borderBottom: '1px solid #1C3A57',
+          padding: '12px 28px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{
+              background: '#1B6FA8',
+              color: '#FFF',
+              fontFamily: "'JetBrains Mono', monospace",
+              fontWeight: 700,
+              padding: '6px 12px',
+              borderRadius: '6px',
+              fontSize: '13px',
+              letterSpacing: '1px'
+            }}>
+              ⚡ MUHAMMAD HASEEF
+            </div>
+            <span style={{
+              color: '#64748B',
+              fontSize: '13px',
+              fontFamily: "'JetBrains Mono', monospace"
+            }}>
+              / Admin Command Center
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {user && (
+              <span style={{ fontSize: '13px', color: '#94A3B8' }}>
+                Logged in as: <strong style={{ color: '#E2E8F0' }}>{user.email}</strong>
+              </span>
+            )}
+            <a 
+              href="/" 
+              target="_blank" 
+              rel="noreferrer"
+              style={{
+                color: '#38BDF8',
+                textDecoration: 'none',
+                fontSize: '13px',
+                fontWeight: 600,
+                padding: '6px 14px',
+                borderRadius: '6px',
+                background: 'rgba(56, 189, 248, 0.1)',
+                border: '1px solid rgba(56, 189, 248, 0.2)',
+                transition: 'all 0.2s'
+              }}
+            >
+              View Live Site ↗
+            </a>
+            {user && (
+              <button 
+                onClick={onLogout}
+                style={{
+                  background: '#EF4444',
+                  color: '#FFF',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  padding: '6px 14px',
+                  borderRadius: '6px',
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        </header>
+      );
+
+      // Login Shield Component
+      const LoginShield = ({ onLogin }) => (
+        <div style={{
+          minHeight: '85vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#0F2036',
+            border: '1px solid #1C3A57',
+            borderRadius: '16px',
+            padding: '44px',
+            maxWidth: '460px',
+            width: '100%',
+            textAlign: 'center',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+          }}>
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔐</div>
+            <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', marginBottom: '12px' }}>
+              Admin Access Required
+            </h2>
+            <p style={{ color: '#94A3B8', fontSize: '14px', lineHeight: 1.6, marginBottom: '28px' }}>
+              Please authenticate using your Netlify Identity credentials to access the portfolio command center.
+            </p>
+            <button
+              onClick={onLogin}
+              style={{
+                width: '100%',
+                background: '#1B6FA8',
+                color: '#FFFFFF',
+                fontWeight: 700,
+                fontSize: '15px',
+                padding: '14px',
+                borderRadius: '8px',
+                boxShadow: '0 4px 14px rgba(27, 111, 168, 0.4)',
+                transition: 'background 0.2s'
+              }}
+            >
+              Login with Netlify Identity
+            </button>
+          </div>
+        </div>
+      );
+
+      // Toast Notification Component
+      const Toast = ({ toast }) => {
+        if (!toast) return null;
+        const isError = toast.type === 'error';
+        return (
+          <div style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            zIndex: 1000,
+            background: isError ? '#7F1D1D' : '#065F46',
+            color: '#FFFFFF',
+            border: `1px solid ${isError ? '#F87171' : '#34D399'}`,
+            borderRadius: '8px',
+            padding: '12px 20px',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.4)',
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '13px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <span>{isError ? '⚠️' : '✅'}</span>
+            <span>{toast.message}</span>
+          </div>
+        );
+      };
+
+      // File Dropzone Component
+      const FileDropzone = ({ label, currentUrl, onUploadComplete }) => {
+        const [uploading, setUploading] = useState(false);
+
+        const handleFileChange = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          setUploading(true);
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.url) {
+              onUploadComplete(data.url);
+            } else {
+              alert(data.error || 'Upload failed');
+            }
+          } catch (err) {
+            alert('Upload failed: ' + err.message);
+          } finally {
+            setUploading(false);
           }
-        });
-      }
+        };
 
-      // Inject Custom Live Component Styles into Decap CMS Preview Pane
-      const previewStyles = `
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
-        body {
-          font-family: 'Source Sans 3', sans-serif;
-          background-color: #F7F6F3;
-          color: #16181C;
-          padding: 32px;
-          line-height: 1.6;
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <label>{label}</label>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              background: '#112238',
+              border: '1px dashed #1C3A57',
+              borderRadius: '8px',
+              padding: '12px 16px'
+            }}>
+              {currentUrl ? (
+                <img src={currentUrl} alt="Preview" style={{ width: '44px', height: '44px', objectFit: 'cover', borderRadius: '6px' }} />
+              ) : (
+                <div style={{ width: '44px', height: '44px', background: '#0B1727', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748B', fontSize: '20px' }}>🖼️</div>
+              )}
+              <div style={{ flex: 1 }}>
+                <input 
+                  type="text" 
+                  value={currentUrl || ''} 
+                  onChange={(e) => onUploadComplete(e.target.value)} 
+                  placeholder="Paste URL or upload image file..."
+                  style={{ marginBottom: '6px' }}
+                />
+                <input type="file" onChange={handleFileChange} disabled={uploading} style={{ fontSize: '12px', padding: '4px' }} />
+              </div>
+              {uploading && <span style={{ fontSize: '12px', color: '#38BDF8' }}>Uploading...</span>}
+            </div>
+          </div>
+        );
+      };
+
+      // Reorder Modal Component (↕ Section Reordering)
+      const ReorderModal = ({ isOpen, title, items, keyField = 'id', labelField = 'title', onClose, onSave }) => {
+        if (!isOpen) return null;
+        const [list, setList] = useState([...items]);
+
+        const moveItem = (index, direction) => {
+          const newList = [...list];
+          const targetIndex = index + direction;
+          if (targetIndex < 0 || targetIndex >= newList.length) return;
+          const temp = newList[index];
+          newList[index] = newList[targetIndex];
+          newList[targetIndex] = temp;
+          setList(newList);
+        };
+
+        return (
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 500,
+            background: 'rgba(5, 11, 20, 0.8)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+          }}>
+            <div style={{
+              background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px',
+              padding: '28px', maxWidth: '560px', width: '100%', maxHeight: '85vh', display: 'flex', flexDirection: 'column'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h3 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', fontSize: '18px' }}>
+                  ↕ Reorder {title}
+                </h3>
+                <button onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', fontSize: '20px' }}>✕</button>
+              </div>
+              <p style={{ color: '#94A3B8', fontSize: '13px', marginBottom: '16px' }}>
+                Use the Up (▲) and Down (▼) buttons to adjust the order of items as they appear on your site.
+              </p>
+
+              <div style={{ flex: 1, overflowY: 'auto', paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {list.map((item, idx) => (
+                  <div key={item[keyField] || idx} style={{
+                    background: '#112238', border: '1px solid #1C3A57', borderRadius: '8px',
+                    padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ color: '#64748B', fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', width: '20px' }}>
+                        #{idx + 1}
+                      </span>
+                      <span style={{ fontWeight: 600, color: '#F8FAFC', fontSize: '14px' }}>
+                        {item[labelField] || item.name || item.title || 'Untitled'}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <button 
+                        onClick={() => moveItem(idx, -1)} 
+                        disabled={idx === 0}
+                        style={{
+                          background: idx === 0 ? '#0B1727' : '#1C3A57',
+                          color: idx === 0 ? '#475569' : '#FFF',
+                          padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700
+                        }}
+                      >
+                        ▲ Up
+                      </button>
+                      <button 
+                        onClick={() => moveItem(idx, 1)} 
+                        disabled={idx === list.length - 1}
+                        style={{
+                          background: idx === list.length - 1 ? '#0B1727' : '#1C3A57',
+                          color: idx === list.length - 1 ? '#475569' : '#FFF',
+                          padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700
+                        }}
+                      >
+                        ▼ Down
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px', pt: '16px', borderTop: '1px solid #1C3A57' }}>
+                <button onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', padding: '10px 18px' }}>Cancel</button>
+                <button onClick={() => onSave(list)} style={{ background: '#1B6FA8', color: '#FFF', padding: '10px 24px', borderRadius: '6px', fontWeight: 700 }}>
+                  Save New Order
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // Main Admin Command Center Application
+      const AdminApp = ({ user, onLogout }) => {
+        const [activeTab, setActiveTab] = useState('overview');
+        const [loading, setLoading] = useState(true);
+        const [toast, setToast] = useState(null);
+
+        // Data state
+        const [bio, setBio] = useState({});
+        const [projects, setProjects] = useState([]);
+        const [skills, setSkills] = useState([]);
+        const [experience, setExperience] = useState([]);
+        const [blog, setBlog] = useState([]);
+        const [contact, setContact] = useState({});
+
+        // Modal states
+        const [reorderModal, setReorderModal] = useState({ isOpen: false, section: '', items: [] });
+        const [editModal, setEditModal] = useState({ isOpen: false, type: '', item: null });
+
+        const showToast = (message, type = 'success') => {
+          setToast({ message, type });
+          setTimeout(() => setToast(null), 3500);
+        };
+
+        const fetchAllData = async () => {
+          setLoading(true);
+          try {
+            const [bioRes, projRes, skillRes, expRes, blogRes, contactRes] = await Promise.all([
+              fetch('/api/profile').then(r => r.json()),
+              fetch('/api/projects').then(r => r.json()),
+              fetch('/api/skills').then(r => r.json()),
+              fetch('/api/experience').then(r => r.json()),
+              fetch('/api/blog').then(r => r.json()),
+              fetch('/api/contact').then(r => r.json()),
+            ]);
+            setBio(bioRes || {});
+            setProjects(projRes.projects || []);
+            setSkills(skillRes.skills || []);
+            setExperience(expRes.experience || []);
+            setBlog(blogRes.blog || []);
+            setContact(contactRes || {});
+          } catch (err) {
+            showToast('Failed to load portfolio data: ' + err.message, 'error');
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        useEffect(() => {
+          fetchAllData();
+        }, []);
+
+        // Delete handler
+        const handleDelete = async (apiEndpoint, queryParam, value, sectionName) => {
+          if (!confirm(`Are you sure you want to delete this ${sectionName} item?`)) return;
+          try {
+            const res = await fetch(`${apiEndpoint}?${queryParam}=${encodeURIComponent(value)}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+              showToast(`Item deleted from ${sectionName}`);
+              fetchAllData();
+            } else {
+              showToast(result.error || 'Delete failed', 'error');
+            }
+          } catch (err) {
+            showToast('Error deleting item: ' + err.message, 'error');
+          }
+        };
+
+        // Reorder Save Handler
+        const handleSaveOrder = async (section, reorderedList) => {
+          try {
+            const endpointMap = {
+              projects: '/api/projects',
+              skills: '/api/skills',
+              experience: '/api/experience',
+              blog: '/api/blog',
+            };
+            const res = await fetch(endpointMap[section], {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ reorder: reorderedList }),
+            });
+            const data = await res.json();
+            if (data.success) {
+              showToast(`Updated ${section} order successfully`);
+              setReorderModal({ isOpen: false, section: '', items: [] });
+              fetchAllData();
+            } else {
+              showToast(data.error || 'Reorder failed', 'error');
+            }
+          } catch (err) {
+            showToast('Reorder save error: ' + err.message, 'error');
+          }
+        };
+
+        // Form Submit Handler
+        const handleSaveItem = async (type, itemData) => {
+          try {
+            const endpointMap = {
+              profile: '/api/profile',
+              project: '/api/projects',
+              skill: '/api/skills',
+              experience: '/api/experience',
+              blog: '/api/blog',
+              contact: '/api/contact',
+            };
+
+            const res = await fetch(endpointMap[type], {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(itemData),
+            });
+            const data = await res.json();
+            if (data.success || data.bio || data.contact) {
+              showToast(`${type.toUpperCase()} saved successfully`);
+              setEditModal({ isOpen: false, type: '', item: null });
+              fetchAllData();
+            } else {
+              showToast(data.error || 'Save failed', 'error');
+            }
+          } catch (err) {
+            showToast('Save error: ' + err.message, 'error');
+          }
+        };
+
+        return (
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <Header user={user} onLogout={onLogout} />
+            <Toast toast={toast} />
+
+            <div style={{ flex: 1, display: 'flex' }}>
+              {/* Sidebar */}
+              <aside style={{
+                width: '260px',
+                background: '#091322',
+                borderRight: '1px solid #1C3A57',
+                padding: '24px 16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px'
+              }}>
+                <div style={{
+                  fontSize: '11px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: '#1B6FA8',
+                  letterSpacing: '1.5px',
+                  marginBottom: '10px',
+                  paddingLeft: '12px'
+                }}>
+                  NAVIGATION SECTIONS
+                </div>
+
+                {[
+                  { id: 'overview', label: '📊 Dashboard Overview' },
+                  { id: 'profile', label: '👤 Profile & Bio' },
+                  { id: 'skills', label: `🛠️ Skills (${skills.length})` },
+                  { id: 'experience', label: `💼 Experience (${experience.length})` },
+                  { id: 'projects', label: `💻 Projects (${projects.length})` },
+                  { id: 'blog', label: `📝 Blog (${blog.length})` },
+                  { id: 'contact', label: '📬 Contact Info' },
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    style={{
+                      textAlign: 'left',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      color: activeTab === tab.id ? '#FFFFFF' : '#94A3B8',
+                      background: activeTab === tab.id ? '#1B6FA8' : 'transparent',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </aside>
+
+              {/* Main Workspace */}
+              <main style={{ flex: 1, padding: '36px 44px', background: '#0B1727', overflowY: 'auto' }}>
+                {loading ? (
+                  <div style={{ textAlign: 'center', padding: '80px 0', color: '#94A3B8' }}>
+                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>🔄</div>
+                    <p style={{ fontFamily: "'JetBrains Mono', monospace" }}>Loading portfolio command center data...</p>
+                  </div>
+                ) : (
+                  <>
+                    {/* TAB: OVERVIEW */}
+                    {activeTab === 'overview' && (
+                      <div>
+                        <div style={{
+                          background: 'linear-gradient(135deg, #0F2036 0%, #162C46 100%)',
+                          border: '1px solid #1C3A57', borderRadius: '16px', padding: '32px', marginBottom: '32px'
+                        }}>
+                          <h2 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '26px', color: '#F8FAFC', marginBottom: '8px' }}>
+                            Welcome back, Haseef 👋
+                          </h2>
+                          <p style={{ color: '#94A3B8', fontSize: '15px', lineHeight: 1.6 }}>
+                            This is your portfolio command center. Use the sidebar tabs to modify content, upload new media assets, and reorder sections.
+                          </p>
+                        </div>
+
+                        {/* Stat Cards */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+                          {[
+                            { title: 'Total Projects', count: projects.length, icon: '💻', tab: 'projects' },
+                            { title: 'Total Skills', count: skills.length, icon: '🛠️', tab: 'skills' },
+                            { title: 'Experience Entries', count: experience.length, icon: '💼', tab: 'experience' },
+                            { title: 'Published Posts', count: blog.length, icon: '📝', tab: 'blog' },
+                          ].map((stat, i) => (
+                            <div 
+                              key={i} 
+                              onClick={() => setActiveTab(stat.tab)}
+                              style={{
+                                background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '12px',
+                                padding: '24px', cursor: 'pointer', transition: 'transform 0.2s'
+                              }}
+                            >
+                              <div style={{ fontSize: '28px', marginBottom: '10px' }}>{stat.icon}</div>
+                              <div style={{ fontSize: '32px', fontWeight: 700, color: '#F8FAFC', fontFamily: "'JetBrains Mono', monospace" }}>{stat.count}</div>
+                              <div style={{ color: '#94A3B8', fontSize: '13px', fontWeight: 600, marginTop: '4px' }}>{stat.title}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Quick Actions */}
+                        <h3 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', marginBottom: '16px' }}>Quick Actions</h3>
+                        <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                          <button onClick={() => setEditModal({ isOpen: true, type: 'project', item: null })} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 20px', borderRadius: '8px', fontWeight: 700 }}>+ Add New Project</button>
+                          <button onClick={() => setEditModal({ isOpen: true, type: 'skill', item: null })} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 20px', borderRadius: '8px', fontWeight: 700 }}>+ Add New Skill</button>
+                          <button onClick={() => setEditModal({ isOpen: true, type: 'experience', item: null })} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 20px', borderRadius: '8px', fontWeight: 700 }}>+ Add Experience</button>
+                          <button onClick={() => setEditModal({ isOpen: true, type: 'blog', item: null })} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 20px', borderRadius: '8px', fontWeight: 700 }}>+ Write Blog Post</button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB: PROFILE & BIO */}
+                    {activeTab === 'profile' && (
+                      <ProfileTab bio={bio} onSave={(updated) => handleSaveItem('profile', updated)} />
+                    )}
+
+                    {/* TAB: SKILLS */}
+                    {activeTab === 'skills' && (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                          <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC' }}>Skills & Toolkit</h2>
+                          <div style={{ display: 'flex', gap: '12px' }}>
+                            <button 
+                              onClick={() => setReorderModal({ isOpen: true, section: 'skills', items: skills })}
+                              style={{ background: '#1C3A57', color: '#38BDF8', border: '1px solid #2A4A68', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              ↕ Reorder Skills
+                            </button>
+                            <button 
+                              onClick={() => setEditModal({ isOpen: true, type: 'skill', item: null })}
+                              style={{ background: '#1B6FA8', color: '#FFF', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              + Add Skill
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px' }}>
+                          {skills.map((skill, idx) => (
+                            <div key={skill.id || idx} style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '10px', padding: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                {skill.icon ? <img src={skill.icon} alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} /> : <span>⚡</span>}
+                                <div>
+                                  <div style={{ fontWeight: 700, color: '#F8FAFC' }}>{skill.name}</div>
+                                  <div style={{ fontSize: '12px', color: '#94A3B8' }}>{skill.category} • <span style={{ color: '#38BDF8' }}>{skill.proficiency}</span></div>
+                                </div>
+                              </div>
+                              <div style={{ display: 'flex', gap: '6px' }}>
+                                <button onClick={() => setEditModal({ isOpen: true, type: 'skill', item: skill })} style={{ background: '#1C3A57', color: '#FFF', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Edit</button>
+                                <button onClick={() => handleDelete('/api/skills', 'id', skill.id || skill.name, 'skills')} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB: EXPERIENCE */}
+                    {activeTab === 'experience' && (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                          <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC' }}>Experience Timeline</h2>
+                          <div style={{ display: 'flex', gap: '12px' }}>
+                            <button 
+                              onClick={() => setReorderModal({ isOpen: true, section: 'experience', items: experience })}
+                              style={{ background: '#1C3A57', color: '#38BDF8', border: '1px solid #2A4A68', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              ↕ Reorder Timeline
+                            </button>
+                            <button 
+                              onClick={() => setEditModal({ isOpen: true, type: 'experience', item: null })}
+                              style={{ background: '#1B6FA8', color: '#FFF', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              + Add Experience
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                          {experience.map((exp, idx) => (
+                            <div key={exp.id || idx} style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '12px', padding: '24px', display: 'flex', justifyContent: 'space-between' }}>
+                              <div style={{ display: 'flex', gap: '16px' }}>
+                                {exp.logo ? <img src={exp.logo} alt="" style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} /> : <div style={{ width: '48px', height: '48px', background: '#112238', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🏢</div>}
+                                <div>
+                                  <h3 style={{ color: '#F8FAFC', fontSize: '18px', marginBottom: '4px' }}>{exp.title}</h3>
+                                  <div style={{ color: '#38BDF8', fontWeight: 600, fontSize: '14px', marginBottom: '8px' }}>{exp.company} • {exp.dates}</div>
+                                  <p style={{ color: '#94A3B8', fontSize: '14px', lineHeight: 1.6 }}>{exp.description || exp.teaser}</p>
+                                </div>
+                              </div>
+                              <div style={{ display: 'flex', gap: '8px', height: 'fit-content' }}>
+                                <button onClick={() => setEditModal({ isOpen: true, type: 'experience', item: exp })} style={{ background: '#1C3A57', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Edit</button>
+                                <button onClick={() => handleDelete('/api/experience', 'id', exp.id, 'experience')} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB: PROJECTS */}
+                    {activeTab === 'projects' && (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                          <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC' }}>Projects Showcase</h2>
+                          <div style={{ display: 'flex', gap: '12px' }}>
+                            <button 
+                              onClick={() => setReorderModal({ isOpen: true, section: 'projects', items: projects })}
+                              style={{ background: '#1C3A57', color: '#38BDF8', border: '1px solid #2A4A68', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              ↕ Reorder Showcase
+                            </button>
+                            <button 
+                              onClick={() => setEditModal({ isOpen: true, type: 'project', item: null })}
+                              style={{ background: '#1B6FA8', color: '#FFF', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              + Add Project
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+                          {projects.map((proj, idx) => (
+                            <div key={proj.id || idx} style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                              {proj.thumbnail && <img src={proj.thumbnail} alt="" style={{ width: '100%', height: '160px', objectFit: 'cover' }} />}
+                              <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                <div>
+                                  <span className="badge badge-blue" style={{ marginBottom: '10px' }}>{proj.category || 'WebGIS'}</span>
+                                  <h3 style={{ color: '#F8FAFC', fontSize: '18px', marginBottom: '8px' }}>{proj.title}</h3>
+                                  <p style={{ color: '#94A3B8', fontSize: '13px', lineHeight: 1.5, marginBottom: '14px' }}>{proj.teaser || proj.problem}</p>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid #1C3A57' }}>
+                                  <div style={{ display: 'flex', gap: '8px' }}>
+                                    {proj.demoUrl && <a href={proj.demoUrl} target="_blank" style={{ color: '#38BDF8', fontSize: '12px' }}>Live Demo ↗</a>}
+                                    {proj.githubUrl && <a href={proj.githubUrl} target="_blank" style={{ color: '#94A3B8', fontSize: '12px' }}>GitHub ↗</a>}
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '6px' }}>
+                                    <button onClick={() => setEditModal({ isOpen: true, type: 'project', item: proj })} style={{ background: '#1C3A57', color: '#FFF', padding: '4px 10px', borderRadius: '4px', fontSize: '12px' }}>Edit</button>
+                                    <button onClick={() => handleDelete('/api/projects', 'id', proj.id, 'projects')} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 10px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB: BLOG */}
+                    {activeTab === 'blog' && (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                          <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC' }}>Blog Posts</h2>
+                          <div style={{ display: 'flex', gap: '12px' }}>
+                            <button 
+                              onClick={() => setReorderModal({ isOpen: true, section: 'blog', items: blog })}
+                              style={{ background: '#1C3A57', color: '#38BDF8', border: '1px solid #2A4A68', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              ↕ Reorder Posts
+                            </button>
+                            <button 
+                              onClick={() => setEditModal({ isOpen: true, type: 'blog', item: null })}
+                              style={{ background: '#1B6FA8', color: '#FFF', padding: '8px 16px', borderRadius: '6px', fontWeight: 700 }}
+                            >
+                              + New Post
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                          {blog.map((post, idx) => (
+                            <div key={post.slug || idx} style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div>
+                                <span className="badge badge-dark" style={{ marginRight: '8px' }}>{post.category}</span>
+                                <span style={{ color: '#64748B', fontSize: '12px' }}>{post.date} • {post.readTime}</span>
+                                <h3 style={{ color: '#F8FAFC', fontSize: '18px', marginTop: '6px' }}>{post.title}</h3>
+                                <p style={{ color: '#94A3B8', fontSize: '13px', marginTop: '4px' }}>{post.excerpt}</p>
+                              </div>
+                              <div style={{ display: 'flex', gap: '8px' }}>
+                                <button onClick={() => setEditModal({ isOpen: true, type: 'blog', item: post })} style={{ background: '#1C3A57', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Edit</button>
+                                <button onClick={() => handleDelete('/api/blog', 'slug', post.slug, 'blog')} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB: CONTACT */}
+                    {activeTab === 'contact' && (
+                      <ContactTab contact={contact} onSave={(updated) => handleSaveItem('contact', updated)} />
+                    )}
+                  </>
+                )}
+              </main>
+            </div>
+
+            {/* Reorder Modal */}
+            <ReorderModal
+              isOpen={reorderModal.isOpen}
+              title={reorderModal.section.toUpperCase()}
+              items={reorderModal.items}
+              keyField={reorderModal.section === 'blog' ? 'slug' : 'id'}
+              onClose={() => setReorderModal({ isOpen: false, section: '', items: [] })}
+              onSave={(newList) => handleSaveOrder(reorderModal.section, newList)}
+            />
+
+            {/* Edit / Add Item Modals */}
+            <ItemEditModal
+              isOpen={editModal.isOpen}
+              type={editModal.type}
+              item={editModal.item}
+              onClose={() => setEditModal({ isOpen: false, type: '', item: null })}
+              onSave={(itemData) => handleSaveItem(editModal.type, itemData)}
+            />
+          </div>
+        );
+      };
+
+      // Profile Tab Form Component
+      const ProfileTab = ({ bio, onSave }) => {
+        const [form, setForm] = useState({ ...bio });
+
+        return (
+          <div style={{ maxWidth: '800px' }}>
+            <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', marginBottom: '24px' }}>Profile & Hero Bio Settings</h2>
+            
+            <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+              <h3 style={{ color: '#38BDF8', marginBottom: '16px', fontSize: '16px' }}>Personal Identity</h3>
+              <FileDropzone label="Profile Avatar Image" currentUrl={form.avatar} onUploadComplete={(url) => setForm({ ...form, avatar: url })} />
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label>Full Name</label>
+                  <input type="text" value={form.name || ''} onChange={e => setForm({ ...form, name: e.target.value })} />
+                </div>
+                <div>
+                  <label>Initials (Fallback)</label>
+                  <input type="text" value={form.initials || ''} onChange={e => setForm({ ...form, initials: e.target.value })} />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label>Role / Subtitle</label>
+                  <input type="text" value={form.role || ''} onChange={e => setForm({ ...form, role: e.target.value })} />
+                </div>
+                <div>
+                  <label>Location</label>
+                  <input type="text" value={form.location || ''} onChange={e => setForm({ ...form, location: e.target.value })} />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label>Hero Main Headline</label>
+                <input type="text" value={form.heroHeadline || ''} onChange={e => setForm({ ...form, heroHeadline: e.target.value })} />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label>Hero Teaser Bio</label>
+                <textarea rows="3" value={form.heroBio || ''} onChange={e => setForm({ ...form, heroBio: e.target.value })} />
+              </div>
+
+              <div>
+                <label>Detailed About Me Bio</label>
+                <textarea rows="5" value={form.bioText || ''} onChange={e => setForm({ ...form, bioText: e.target.value })} />
+              </div>
+            </div>
+
+            <button onClick={() => onSave(form)} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 28px', borderRadius: '8px', fontWeight: 700, fontSize: '15px' }}>
+              Save Profile Changes
+            </button>
+          </div>
+        );
+      };
+
+      // Contact Tab Component
+      const ContactTab = ({ contact, onSave }) => {
+        const [form, setForm] = useState({ ...contact });
+
+        return (
+          <div style={{ maxWidth: '800px' }}>
+            <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', marginBottom: '24px' }}>Contact & Social Details</h2>
+            <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+              <div style={{ marginBottom: '16px' }}>
+                <label>Contact Section Headline</label>
+                <input type="text" value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label>Primary Email</label>
+                  <input type="text" value={form.email || ''} onChange={e => setForm({ ...form, email: e.target.value })} />
+                </div>
+                <div>
+                  <label>Location</label>
+                  <input type="text" value={form.location || ''} onChange={e => setForm({ ...form, location: e.target.value })} />
+                </div>
+              </div>
+            </div>
+            <button onClick={() => onSave(form)} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 28px', borderRadius: '8px', fontWeight: 700 }}>
+              Save Contact Details
+            </button>
+          </div>
+        );
+      };
+
+      // Dynamic Item Edit Modal (Project, Skill, Experience, Blog)
+      const ItemEditModal = ({ isOpen, type, item, onClose, onSave }) => {
+        if (!isOpen) return null;
+        const [form, setForm] = useState(item ? { ...item } : {});
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          onSave(form);
+        };
+
+        return (
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 600,
+            background: 'rgba(5, 11, 20, 0.85)', backdropFilter: 'blur(5px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+          }}>
+            <div style={{
+              background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '16px',
+              padding: '32px', maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <h3 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', fontSize: '20px' }}>
+                  {item ? 'Edit' : 'Add'} {type.toUpperCase()}
+                </h3>
+                <button onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', fontSize: '22px' }}>✕</button>
+              </div>
+
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* PROJECT FIELDS */}
+                {type === 'project' && (
+                  <>
+                    <FileDropzone label="Project Thumbnail Image" currentUrl={form.thumbnail} onUploadComplete={(url) => setForm({ ...form, thumbnail: url })} />
+                    <div>
+                      <label>Project Title</label>
+                      <input type="text" required value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Category</label>
+                      <select value={form.category || 'WebGIS'} onChange={e => setForm({ ...form, category: e.target.value })}>
+                        <option value="WebGIS">WebGIS</option>
+                        <option value="Spatial AI">Spatial AI</option>
+                        <option value="Analytics">Analytics</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Remote Sensing">Remote Sensing</option>
+                      </select>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <div>
+                        <label>Live Demo URL</label>
+                        <input type="text" value={form.demoUrl || ''} onChange={e => setForm({ ...form, demoUrl: e.target.value })} />
+                      </div>
+                      <div>
+                        <label>GitHub Repo URL</label>
+                        <input type="text" value={form.githubUrl || ''} onChange={e => setForm({ ...form, githubUrl: e.target.value })} />
+                      </div>
+                    </div>
+                    <div>
+                      <label>Teaser Summary</label>
+                      <textarea rows="2" value={form.teaser || ''} onChange={e => setForm({ ...form, teaser: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Case Study Problem</label>
+                      <textarea rows="3" value={form.problem || ''} onChange={e => setForm({ ...form, problem: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Case Study Solution</label>
+                      <textarea rows="3" value={form.solution || ''} onChange={e => setForm({ ...form, solution: e.target.value })} />
+                    </div>
+                  </>
+                )}
+
+                {/* SKILL FIELDS */}
+                {type === 'skill' && (
+                  <>
+                    <FileDropzone label="Skill SVG/PNG Icon" currentUrl={form.icon} onUploadComplete={(url) => setForm({ ...form, icon: url })} />
+                    <div>
+                      <label>Skill Name</label>
+                      <input type="text" required value={form.name || ''} onChange={e => setForm({ ...form, name: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Category</label>
+                      <input type="text" value={form.category || 'Languages & Frameworks'} onChange={e => setForm({ ...form, category: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Proficiency</label>
+                      <select value={form.proficiency || 'Advanced'} onChange={e => setForm({ ...form, proficiency: e.target.value })}>
+                        <option value="Expert">Expert</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Proficient">Proficient</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+
+                {/* EXPERIENCE FIELDS */}
+                {type === 'experience' && (
+                  <>
+                    <FileDropzone label="Company Logo Image" currentUrl={form.logo} onUploadComplete={(url) => setForm({ ...form, logo: url })} />
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <div>
+                        <label>Job Title / Role</label>
+                        <input type="text" required value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
+                      </div>
+                      <div>
+                        <label>Company / Organization</label>
+                        <input type="text" value={form.company || ''} onChange={e => setForm({ ...form, company: e.target.value })} />
+                      </div>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <div>
+                        <label>Dates Summary (e.g. 2023 - Present)</label>
+                        <input type="text" value={form.dates || ''} onChange={e => setForm({ ...form, dates: e.target.value })} />
+                      </div>
+                      <div>
+                        <label>Location</label>
+                        <input type="text" value={form.location || ''} onChange={e => setForm({ ...form, location: e.target.value })} />
+                      </div>
+                    </div>
+                    <div>
+                      <label>Description & Accomplishments</label>
+                      <textarea rows="4" value={form.description || ''} onChange={e => setForm({ ...form, description: e.target.value })} />
+                    </div>
+                  </>
+                )}
+
+                {/* BLOG FIELDS */}
+                {type === 'blog' && (
+                  <>
+                    <FileDropzone label="Cover Hero Image" currentUrl={form.heroImage} onUploadComplete={(url) => setForm({ ...form, heroImage: url })} />
+                    <div>
+                      <label>Article Title</label>
+                      <input type="text" required value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                      <div>
+                        <label>Category</label>
+                        <select value={form.category || 'MAPPING'} onChange={e => setForm({ ...form, category: e.target.value })}>
+                          <option value="MAPPING">MAPPING</option>
+                          <option value="BACKEND">BACKEND</option>
+                          <option value="SPATIAL AI">SPATIAL AI</option>
+                          <option value="FRONTEND">FRONTEND</option>
+                          <option value="TUTORIALS">TUTORIALS</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>Publish Date</label>
+                        <input type="text" value={form.date || new Date().toISOString().split('T')[0]} onChange={e => setForm({ ...form, date: e.target.value })} />
+                      </div>
+                      <div>
+                        <label>Read Time</label>
+                        <input type="text" value={form.readTime || '5 min'} onChange={e => setForm({ ...form, readTime: e.target.value })} />
+                      </div>
+                    </div>
+                    <div>
+                      <label>Excerpt Summary</label>
+                      <textarea rows="2" value={form.excerpt || ''} onChange={e => setForm({ ...form, excerpt: e.target.value })} />
+                    </div>
+                    <div>
+                      <label>Full Article Body (Markdown supported)</label>
+                      <textarea rows="8" value={form.body || ''} onChange={e => setForm({ ...form, body: e.target.value })} />
+                    </div>
+                  </>
+                )}
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px' }}>
+                  <button type="button" onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', padding: '10px 18px' }}>Cancel</button>
+                  <button type="submit" style={{ background: '#1B6FA8', color: '#FFF', padding: '10px 24px', borderRadius: '6px', fontWeight: 700 }}>
+                    Save {type.toUpperCase()}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      };
+
+      // Root App Container & Authentication Listener
+      const Root = () => {
+        const [user, setUser] = useState(null);
+
+        useEffect(() => {
+          if (window.netlifyIdentity) {
+            setUser(window.netlifyIdentity.currentUser());
+            window.netlifyIdentity.on("login", u => {
+              setUser(u);
+              window.netlifyIdentity.close();
+            });
+            window.netlifyIdentity.on("logout", () => setUser(null));
+          }
+        }, []);
+
+        const handleLogin = () => {
+          if (window.netlifyIdentity) window.netlifyIdentity.open();
+        };
+
+        const handleLogout = () => {
+          if (window.netlifyIdentity) window.netlifyIdentity.logout();
+        };
+
+        if (!user) {
+          return (
+            <div>
+              <Header user={null} />
+              <LoginShield onLogin={handleLogin} />
+            </div>
+          );
         }
-        h1, h2, h3, h4 {
-          font-family: 'JetBrains Mono', monospace;
-          color: #16181C;
-        }
-        .preview-card {
-          background: #FFFFFF;
-          border: 1px solid #E6E4DF;
-          border-radius: 10px;
-          padding: 24px;
-          box-shadow: 0 4px 12px rgba(16,24,32,0.05);
-          margin-bottom: 20px;
-        }
-        .tag-badge {
-          display: inline-block;
-          background: #E3F1FB;
-          color: #1B6FA8;
-          font-weight: 600;
-          font-size: 12px;
-          padding: 4px 10px;
-          border-radius: 12px;
-          margin-right: 6px;
-          margin-bottom: 6px;
-        }
-      `;
-      CMS.registerPreviewStyle(previewStyles, { raw: true });
+
+        return <AdminApp user={user} onLogout={handleLogout} />;
+      };
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
     </script>
   </body>
 </html>
