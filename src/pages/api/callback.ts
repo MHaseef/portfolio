@@ -6,8 +6,15 @@ export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
 
-  const clientId = process.env.OAUTH_CLIENT_ID || process.env.GITHUB_CLIENT_ID;
-  const clientSecret = process.env.OAUTH_CLIENT_SECRET || process.env.GITHUB_CLIENT_SECRET;
+  const clientId = 
+    process.env.OAUTH_GITHUB_CLIENT_ID || 
+    process.env.OAUTH_CLIENT_ID || 
+    process.env.GITHUB_CLIENT_ID;
+
+  const clientSecret = 
+    process.env.OAUTH_GITHUB_CLIENT_SECRET || 
+    process.env.OAUTH_CLIENT_SECRET || 
+    process.env.GITHUB_CLIENT_SECRET;
 
   if (!code) {
     return new Response('Missing authorization code parameter.', { status: 400 });
@@ -15,7 +22,7 @@ export const GET: APIRoute = async ({ request }) => {
 
   if (!clientId || !clientSecret) {
     return new Response(
-      'Missing OAUTH_CLIENT_ID / OAUTH_CLIENT_SECRET or GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET environment variables.',
+      'Missing OAUTH_GITHUB_CLIENT_ID or OAUTH_GITHUB_CLIENT_SECRET environment variable on Vercel.',
       { status: 500 }
     );
   }
@@ -48,7 +55,7 @@ export const GET: APIRoute = async ({ request }) => {
       <html>
         <head><title>Authorizing...</title></head>
         <body>
-          <p>Authorizing Decap CMS...</p>
+          <p>Authorizing Admin Access...</p>
           <script>
             (function() {
               function receiveMessage(e) {
