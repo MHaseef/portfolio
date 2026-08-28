@@ -16,6 +16,8 @@ export const GET: APIRoute = async ({ request }) => {
     process.env.OAUTH_CLIENT_SECRET || 
     process.env.GITHUB_CLIENT_SECRET;
 
+  const redirectUri = process.env.OAUTH_REDIRECT_URI || `${url.protocol}//${url.host}/api/callback`;
+
   if (!code) {
     return new Response('Missing authorization code parameter.', { status: 400 });
   }
@@ -38,6 +40,7 @@ export const GET: APIRoute = async ({ request }) => {
         client_id: clientId,
         client_secret: clientSecret,
         code,
+        redirect_uri: redirectUri,
       }),
     });
 
