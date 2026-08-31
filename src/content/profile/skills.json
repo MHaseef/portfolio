@@ -1,9 +1,12 @@
 {
   "skills": [
     {
+      "name": "Python",
+      "id": "skill_1788157194477"
+    },
+    {
       "name": "angular",
-      "id": "skill_1788156945797",
-      "icon": "/images/uploads/angular_logo_webp_1788157045894.webp"
+      "id": "skill_1788156945797"
     }
   ]
 }
