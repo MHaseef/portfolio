@@ -57,19 +57,23 @@ export const GET: APIRoute = async ({ request }) => {
       <!DOCTYPE html>
       <html>
         <head><title>Authorizing...</title></head>
-        <body>
-          <p>Authorizing Admin Access...</p>
+        <body style="font-family: sans-serif; text-align: center; padding: 40px; background: #0B1727; color: #E2E8F0;">
+          <h3>✓ Authorization Successful!</h3>
+          <p>Redirecting to Command Center...</p>
           <script>
             (function() {
-              function receiveMessage(e) {
-                console.log("OAuth callback receiveMessage:", e);
-                window.opener.postMessage(
-                  'authorization:${provider}:success:${JSON.stringify({ token, provider })}',
-                  e.origin
-                );
+              const token = "${token}";
+              const provider = "${provider}";
+              const payload = 'authorization:' + provider + ':success:' + JSON.stringify({ token: token, provider: provider });
+
+              if (window.opener) {
+                window.opener.postMessage(payload, "*");
+                window.opener.postMessage("authorizing:" + provider, "*");
               }
-              window.addEventListener("message", receiveMessage, false);
-              window.opener.postMessage("authorizing:${provider}", "*");
+              
+              setTimeout(function() {
+                window.close();
+              }, 400);
             })();
           </script>
         </body>
