@@ -73,6 +73,94 @@
 
     <script type="text/babel">
       const { useState, useEffect } = React;
+      const GITHUB_REPO = "MHaseef/portfolio";
+
+      // GitHub REST API Helper Functions
+      async function saveToGitHub({ path, content, message, token }) {
+        if (!token) {
+          throw new Error("No GitHub access token found. Please re-login with GitHub.");
+        }
+        
+        let sha = undefined;
+        try {
+          const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+            headers: {
+              'Authorization': `token ${token}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          if (getRes.ok) {
+            const fileData = await getRes.json();
+            sha = fileData.sha;
+          }
+        } catch (e) {
+          console.warn("Could not fetch existing file SHA:", e);
+        }
+
+        const jsonStr = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
+        const base64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+
+        const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: message || `Update ${path} via Portfolio Command Center`,
+            content: base64Content,
+            sha: sha,
+            branch: 'main'
+          })
+        });
+
+        const resData = await putRes.json();
+        if (!putRes.ok) {
+          throw new Error(resData.message || 'GitHub API commit failed');
+        }
+        return resData;
+      }
+
+      async function uploadImageToGitHub({ file, token }) {
+        if (!token) {
+          throw new Error("No GitHub access token found. Please re-login with GitHub.");
+        }
+
+        const ext = file.name.substring(file.name.lastIndexOf('.')) || '.png';
+        const baseName = file.name.replace(/[^a-zA-Z0-9_-]/g, '_');
+        const fileName = `${baseName}_${Date.now()}${ext}`;
+        const path = `public/images/uploads/${fileName}`;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        const base64Content = btoa(binary);
+
+        const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: `Upload ${fileName} via Portfolio Command Center`,
+            content: base64Content,
+            branch: 'main'
+          })
+        });
+
+        const resData = await putRes.json();
+        if (!putRes.ok) {
+          throw new Error(resData.message || 'GitHub image upload failed');
+        }
+
+        return `/images/uploads/${fileName}`;
+      }
 
       // Top Admin Navigation Header
       const Header = ({ user, onLogout }) => (
@@ -152,7 +240,7 @@
         </header>
       );
 
-      // Login Shield Component using Self-Hosted OAuth
+      // Login Shield Component
       const LoginShield = ({ onGitHubLogin }) => (
         <div style={{
           minHeight: '85vh',
@@ -235,8 +323,8 @@
         );
       };
 
-      // File Dropzone Component
-      const FileDropzone = ({ label, currentUrl, onUploadComplete }) => {
+      // File Dropzone Component using GitHub REST API Commit
+      const FileDropzone = ({ label, currentUrl, userToken, onUploadComplete }) => {
         const [uploading, setUploading] = useState(false);
 
         const handleFileChange = async (e) => {
@@ -244,14 +332,16 @@
           if (!file) return;
           setUploading(true);
           try {
-            const formData = new FormData();
-            formData.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body: formData });
-            const data = await res.json();
-            if (data.url) {
-              onUploadComplete(data.url);
+            if (userToken) {
+              const uploadedUrl = await uploadImageToGitHub({ file, token: userToken });
+              onUploadComplete(uploadedUrl);
             } else {
-              alert(data.error || 'Upload failed');
+              const formData = new FormData();
+              formData.append('file', file);
+              const res = await fetch('/api/upload', { method: 'POST', body: formData });
+              const data = await res.json();
+              if (data.url) onUploadComplete(data.url);
+              else alert(data.error || 'Upload failed');
             }
           } catch (err) {
             alert('Upload failed: ' + err.message);
@@ -287,13 +377,13 @@
                 />
                 <input type="file" onChange={handleFileChange} disabled={uploading} style={{ fontSize: '12px', padding: '4px' }} />
               </div>
-              {uploading && <span style={{ fontSize: '12px', color: '#38BDF8' }}>Uploading...</span>}
+              {uploading && <span style={{ fontSize: '12px', color: '#38BDF8' }}>Committing to GitHub...</span>}
             </div>
           </div>
         );
       };
 
-      // Reorder Modal Component (↕ Section Reordering)
+      // Reorder Modal Component
       const ReorderModal = ({ isOpen, title, items, keyField = 'id', labelField = 'title', onClose, onSave }) => {
         if (!isOpen) return null;
         const [list, setList] = useState([...items]);
@@ -326,7 +416,7 @@
                 <button onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', fontSize: '20px' }}>✕</button>
               </div>
               <p style={{ color: '#94A3B8', fontSize: '13px', marginBottom: '16px' }}>
-                Use the Up (▲) and Down (▼) buttons to adjust the order of items as they appear on your site.
+                Use the Up (▲) and Down (▼) buttons to adjust item order, then click Save to commit to GitHub.
               </p>
 
               <div style={{ flex: 1, overflowY: 'auto', paddingRight: '6px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -375,7 +465,7 @@
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px', pt: '16px', borderTop: '1px solid #1C3A57' }}>
                 <button onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', padding: '10px 18px' }}>Cancel</button>
                 <button onClick={() => onSave(list)} style={{ background: '#1B6FA8', color: '#FFF', padding: '10px 24px', borderRadius: '6px', fontWeight: 700 }}>
-                  Save New Order
+                  Save & Commit Order
                 </button>
               </div>
             </div>
@@ -403,7 +493,7 @@
 
         const showToast = (message, type = 'success') => {
           setToast({ message, type });
-          setTimeout(() => setToast(null), 3500);
+          setTimeout(() => setToast(null), 4000);
         };
 
         const fetchAllData = async () => {
@@ -434,75 +524,151 @@
           fetchAllData();
         }, []);
 
-        // Delete handler
-        const handleDelete = async (apiEndpoint, queryParam, value, sectionName) => {
-          if (!confirm(`Are you sure you want to delete this ${sectionName} item?`)) return;
+        // Delete Handler (Commits directly to GitHub via REST API)
+        const handleDelete = async (sectionKey, itemKey, itemVal) => {
+          if (!confirm(`Are you sure you want to delete this item?`)) return;
           try {
-            const res = await fetch(`${apiEndpoint}?${queryParam}=${encodeURIComponent(value)}`, { method: 'DELETE' });
-            const result = await res.json();
-            if (result.success) {
-              showToast(`Item deleted from ${sectionName}`);
+            const pathMap = {
+              skills: 'src/content/profile/skills.json',
+              experience: 'src/content/profile/experience.json',
+              projects: 'src/content/profile/projects.json',
+              blog: 'src/content/profile/blog.json',
+            };
+
+            let currentList = [];
+            if (sectionKey === 'skills') currentList = [...skills];
+            if (sectionKey === 'experience') currentList = [...experience];
+            if (sectionKey === 'projects') currentList = [...projects];
+            if (sectionKey === 'blog') currentList = [...blog];
+
+            const updatedList = currentList.filter(item => {
+              if (itemKey === 'id') return item.id !== itemVal;
+              if (itemKey === 'slug') return item.slug !== itemVal;
+              if (itemKey === 'name') return item.name.toLowerCase() !== itemVal.toLowerCase();
+              return true;
+            });
+
+            const contentObj = {};
+            contentObj[sectionKey] = updatedList;
+
+            if (user.token) {
+              await saveToGitHub({
+                path: pathMap[sectionKey],
+                content: contentObj,
+                message: `Delete item from ${sectionKey} via Admin Command Center`,
+                token: user.token,
+              });
+              showToast(`✓ Item deleted & committed to GitHub! Vercel is updating your site.`);
               fetchAllData();
             } else {
-              showToast(result.error || 'Delete failed', 'error');
+              showToast("No GitHub access token. Please re-login.", "error");
             }
           } catch (err) {
-            showToast('Error deleting item: ' + err.message, 'error');
+            showToast('Delete error: ' + err.message, 'error');
           }
         };
 
-        // Reorder Save Handler
+        // Reorder Save Handler (Commits directly to GitHub via REST API)
         const handleSaveOrder = async (section, reorderedList) => {
           try {
-            const endpointMap = {
-              projects: '/api/projects',
-              skills: '/api/skills',
-              experience: '/api/experience',
-              blog: '/api/blog',
+            const pathMap = {
+              skills: 'src/content/profile/skills.json',
+              experience: 'src/content/profile/experience.json',
+              projects: 'src/content/profile/projects.json',
+              blog: 'src/content/profile/blog.json',
             };
-            const res = await fetch(endpointMap[section], {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ reorder: reorderedList }),
-            });
-            const data = await res.json();
-            if (data.success) {
-              showToast(`Updated ${section} order successfully`);
+
+            const contentObj = {};
+            contentObj[section] = reorderedList;
+
+            if (user.token) {
+              await saveToGitHub({
+                path: pathMap[section],
+                content: contentObj,
+                message: `Reorder ${section} via Admin Command Center`,
+                token: user.token,
+              });
+              showToast(`✓ Updated ${section} order & committed to GitHub!`);
               setReorderModal({ isOpen: false, section: '', items: [] });
               fetchAllData();
             } else {
-              showToast(data.error || 'Reorder failed', 'error');
+              showToast("No GitHub access token. Please re-login.", "error");
             }
           } catch (err) {
             showToast('Reorder save error: ' + err.message, 'error');
           }
         };
 
-        // Form Submit Handler
+        // Form Submit Handler (Commits directly to GitHub via REST API)
         const handleSaveItem = async (type, itemData) => {
           try {
-            const endpointMap = {
-              profile: '/api/profile',
-              project: '/api/projects',
-              skill: '/api/skills',
-              experience: '/api/experience',
-              blog: '/api/blog',
-              contact: '/api/contact',
-            };
-
-            const res = await fetch(endpointMap[type], {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(itemData),
-            });
-            const data = await res.json();
-            if (data.success || data.bio || data.contact) {
-              showToast(`${type.toUpperCase()} saved successfully`);
-              setEditModal({ isOpen: false, type: '', item: null });
-              fetchAllData();
-            } else {
-              showToast(data.error || 'Save failed', 'error');
+            if (!user.token) {
+              showToast("No GitHub access token. Please re-login.", "error");
+              return;
             }
+
+            if (type === 'profile') {
+              const updatedBio = { ...bio, ...itemData };
+              await saveToGitHub({
+                path: 'src/content/profile/bio.json',
+                content: updatedBio,
+                message: 'Update profile bio via Admin Command Center',
+                token: user.token,
+              });
+              showToast('✓ Profile saved & committed to GitHub!');
+            } else if (type === 'contact') {
+              const updatedContact = { ...contact, ...itemData };
+              await saveToGitHub({
+                path: 'src/content/profile/contact.json',
+                content: updatedContact,
+                message: 'Update contact details via Admin Command Center',
+                token: user.token,
+              });
+              showToast('✓ Contact details saved & committed to GitHub!');
+            } else {
+              const sectionMap = {
+                skill: { key: 'skills', path: 'src/content/profile/skills.json' },
+                experience: { key: 'experience', path: 'src/content/profile/experience.json' },
+                project: { key: 'projects', path: 'src/content/profile/projects.json' },
+                blog: { key: 'blog', path: 'src/content/profile/blog.json' },
+              };
+
+              const config = sectionMap[type];
+              let list = [];
+              if (type === 'skill') list = [...skills];
+              if (type === 'experience') list = [...experience];
+              if (type === 'project') list = [...projects];
+              if (type === 'blog') list = [...blog];
+
+              // Add or Edit item
+              const targetId = itemData.id || itemData.slug || itemData.name;
+              const idx = list.findIndex(i => (i.id && i.id === targetId) || (i.slug && i.slug === targetId) || (i.name && i.name === targetId));
+
+              const newItem = {
+                ...itemData,
+                id: itemData.id || (type === 'blog' ? (itemData.slug || `blog_${Date.now()}`) : `${type}_${Date.now()}`),
+              };
+
+              if (idx !== -1) {
+                list[idx] = { ...list[idx], ...newItem };
+              } else {
+                list.unshift(newItem);
+              }
+
+              const contentObj = {};
+              contentObj[config.key] = list;
+
+              await saveToGitHub({
+                path: config.path,
+                content: contentObj,
+                message: `Update ${type} item via Admin Command Center`,
+                token: user.token,
+              });
+              showToast(`✓ ${type.toUpperCase()} saved & committed to GitHub! Vercel is updating your site.`);
+            }
+
+            setEditModal({ isOpen: false, type: '', item: null });
+            fetchAllData();
           } catch (err) {
             showToast('Save error: ' + err.message, 'error');
           }
@@ -583,7 +749,7 @@
                             Welcome back, Haseef 👋
                           </h2>
                           <p style={{ color: '#94A3B8', fontSize: '15px', lineHeight: 1.6 }}>
-                            This is your portfolio command center. Use the sidebar tabs to modify content, upload new media assets, and reorder sections.
+                            This is your portfolio command center. Use the sidebar tabs to modify content, upload new media assets, and reorder sections with direct GitHub & Vercel deployment.
                           </p>
                         </div>
 
@@ -623,7 +789,7 @@
 
                     {/* TAB: PROFILE & BIO */}
                     {activeTab === 'profile' && (
-                      <ProfileTab bio={bio} onSave={(updated) => handleSaveItem('profile', updated)} />
+                      <ProfileTab bio={bio} userToken={user.token} onSave={(updated) => handleSaveItem('profile', updated)} />
                     )}
 
                     {/* TAB: SKILLS */}
@@ -659,7 +825,7 @@
                               </div>
                               <div style={{ display: 'flex', gap: '6px' }}>
                                 <button onClick={() => setEditModal({ isOpen: true, type: 'skill', item: skill })} style={{ background: '#1C3A57', color: '#FFF', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Edit</button>
-                                <button onClick={() => handleDelete('/api/skills', 'id', skill.id || skill.name, 'skills')} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
+                                <button onClick={() => handleDelete('skills', 'id', skill.id || skill.name)} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
                               </div>
                             </div>
                           ))}
@@ -701,7 +867,7 @@
                               </div>
                               <div style={{ display: 'flex', gap: '8px', height: 'fit-content' }}>
                                 <button onClick={() => setEditModal({ isOpen: true, type: 'experience', item: exp })} style={{ background: '#1C3A57', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Edit</button>
-                                <button onClick={() => handleDelete('/api/experience', 'id', exp.id, 'experience')} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
+                                <button onClick={() => handleDelete('experience', 'id', exp.id)} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
                               </div>
                             </div>
                           ))}
@@ -747,7 +913,7 @@
                                   </div>
                                   <div style={{ display: 'flex', gap: '6px' }}>
                                     <button onClick={() => setEditModal({ isOpen: true, type: 'project', item: proj })} style={{ background: '#1C3A57', color: '#FFF', padding: '4px 10px', borderRadius: '4px', fontSize: '12px' }}>Edit</button>
-                                    <button onClick={() => handleDelete('/api/projects', 'id', proj.id, 'projects')} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 10px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
+                                    <button onClick={() => handleDelete('projects', 'id', proj.id)} style={{ background: '#7F1D1D', color: '#FFF', padding: '4px 10px', borderRadius: '4px', fontSize: '12px' }}>Delete</button>
                                   </div>
                                 </div>
                               </div>
@@ -789,7 +955,7 @@
                               </div>
                               <div style={{ display: 'flex', gap: '8px' }}>
                                 <button onClick={() => setEditModal({ isOpen: true, type: 'blog', item: post })} style={{ background: '#1C3A57', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Edit</button>
-                                <button onClick={() => handleDelete('/api/blog', 'slug', post.slug, 'blog')} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
+                                <button onClick={() => handleDelete('blog', 'slug', post.slug)} style={{ background: '#7F1D1D', color: '#FFF', padding: '6px 12px', borderRadius: '6px', fontSize: '13px' }}>Delete</button>
                               </div>
                             </div>
                           ))}
@@ -799,7 +965,7 @@
 
                     {/* TAB: CONTACT */}
                     {activeTab === 'contact' && (
-                      <ContactTab contact={contact} onSave={(updated) => handleSaveItem('contact', updated)} />
+                      <ContactTab contact={contact} userToken={user.token} onSave={(updated) => handleSaveItem('contact', updated)} />
                     )}
                   </>
                 )}
@@ -821,6 +987,7 @@
               isOpen={editModal.isOpen}
               type={editModal.type}
               item={editModal.item}
+              userToken={user.token}
               onClose={() => setEditModal({ isOpen: false, type: '', item: null })}
               onSave={(itemData) => handleSaveItem(editModal.type, itemData)}
             />
@@ -829,7 +996,7 @@
       };
 
       // Profile Tab Form Component
-      const ProfileTab = ({ bio, onSave }) => {
+      const ProfileTab = ({ bio, userToken, onSave }) => {
         const [form, setForm] = useState({ ...bio });
 
         return (
@@ -838,7 +1005,7 @@
             
             <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
               <h3 style={{ color: '#38BDF8', marginBottom: '16px', fontSize: '16px' }}>Personal Identity</h3>
-              <FileDropzone label="Profile Avatar Image" currentUrl={form.avatar} onUploadComplete={(url) => setForm({ ...form, avatar: url })} />
+              <FileDropzone label="Profile Avatar Image" currentUrl={form.avatar} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, avatar: url })} />
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                 <div>
@@ -879,14 +1046,14 @@
             </div>
 
             <button onClick={() => onSave(form)} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 28px', borderRadius: '8px', fontWeight: 700, fontSize: '15px' }}>
-              Save Profile Changes
+              Save Profile Changes & Commit to GitHub
             </button>
           </div>
         );
       };
 
       // Contact Tab Component
-      const ContactTab = ({ contact, onSave }) => {
+      const ContactTab = ({ contact, userToken, onSave }) => {
         const [form, setForm] = useState({ ...contact });
 
         return (
@@ -909,14 +1076,14 @@
               </div>
             </div>
             <button onClick={() => onSave(form)} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 28px', borderRadius: '8px', fontWeight: 700 }}>
-              Save Contact Details
+              Save Contact Details & Commit to GitHub
             </button>
           </div>
         );
       };
 
       // Dynamic Item Edit Modal (Project, Skill, Experience, Blog)
-      const ItemEditModal = ({ isOpen, type, item, onClose, onSave }) => {
+      const ItemEditModal = ({ isOpen, type, item, userToken, onClose, onSave }) => {
         if (!isOpen) return null;
         const [form, setForm] = useState(item ? { ...item } : {});
 
@@ -946,7 +1113,7 @@
                 {/* PROJECT FIELDS */}
                 {type === 'project' && (
                   <>
-                    <FileDropzone label="Project Thumbnail Image" currentUrl={form.thumbnail} onUploadComplete={(url) => setForm({ ...form, thumbnail: url })} />
+                    <FileDropzone label="Project Thumbnail Image" currentUrl={form.thumbnail} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, thumbnail: url })} />
                     <div>
                       <label>Project Title</label>
                       <input type="text" required value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
@@ -989,7 +1156,7 @@
                 {/* SKILL FIELDS */}
                 {type === 'skill' && (
                   <>
-                    <FileDropzone label="Skill SVG/PNG Icon" currentUrl={form.icon} onUploadComplete={(url) => setForm({ ...form, icon: url })} />
+                    <FileDropzone label="Skill SVG/PNG Icon" currentUrl={form.icon} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, icon: url })} />
                     <div>
                       <label>Skill Name</label>
                       <input type="text" required value={form.name || ''} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -1012,7 +1179,7 @@
                 {/* EXPERIENCE FIELDS */}
                 {type === 'experience' && (
                   <>
-                    <FileDropzone label="Company Logo Image" currentUrl={form.logo} onUploadComplete={(url) => setForm({ ...form, logo: url })} />
+                    <FileDropzone label="Company Logo Image" currentUrl={form.logo} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, logo: url })} />
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       <div>
                         <label>Job Title / Role</label>
@@ -1043,7 +1210,7 @@
                 {/* BLOG FIELDS */}
                 {type === 'blog' && (
                   <>
-                    <FileDropzone label="Cover Hero Image" currentUrl={form.heroImage} onUploadComplete={(url) => setForm({ ...form, heroImage: url })} />
+                    <FileDropzone label="Cover Hero Image" currentUrl={form.heroImage} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, heroImage: url })} />
                     <div>
                       <label>Article Title</label>
                       <input type="text" required value={form.title || ''} onChange={e => setForm({ ...form, title: e.target.value })} />
@@ -1082,7 +1249,7 @@
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px' }}>
                   <button type="button" onClick={onClose} style={{ background: 'transparent', color: '#94A3B8', padding: '10px 18px' }}>Cancel</button>
                   <button type="submit" style={{ background: '#1B6FA8', color: '#FFF', padding: '10px 24px', borderRadius: '6px', fontWeight: 700 }}>
-                    Save {type.toUpperCase()}
+                    Save & Commit to GitHub
                   </button>
                 </div>
               </form>
