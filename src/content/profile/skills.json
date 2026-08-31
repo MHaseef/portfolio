@@ -1,3 +1,9 @@
 {
-  "skills": []
+  "skills": [
+    {
+      "icon": "/images/uploads/angular_logo_webp_1788156894839.webp",
+      "name": "Angular",
+      "id": "skill_1788156904522"
+    }
+  ]
 }
