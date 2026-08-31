@@ -383,6 +383,102 @@
         );
       };
 
+      // Standardized Calendar Date Period Picker Component
+      const DatePeriodPicker = ({ label, value = '', onChange }) => {
+        const isPresentInit = value.toLowerCase().includes('present');
+        const [isPresent, setIsPresent] = useState(isPresentInit);
+
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <label>{label}</label>
+            <div style={{
+              background: '#112238',
+              border: '1px solid #1C3A57',
+              borderRadius: '8px',
+              padding: '14px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <span style={{ fontSize: '11px', color: '#94A3B8', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
+                    📅 START DATE (CALENDAR)
+                  </span>
+                  <input 
+                    type="month" 
+                    style={{ background: '#0B1727', border: '1px solid #1C3A57', color: '#FFF' }}
+                    onChange={(e) => {
+                      if (!e.target.value) return;
+                      const [y, m] = e.target.value.split('-');
+                      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                      const startStr = `${months[parseInt(m)-1]} ${y}`;
+                      const endStr = isPresent ? 'Present' : (value.split(/—|-/)[1]?.trim() || y);
+                      onChange(`${startStr} — ${endStr}`);
+                    }}
+                  />
+                </div>
+                <div>
+                  <span style={{ fontSize: '11px', color: '#94A3B8', display: 'block', marginBottom: '4px', fontWeight: 600 }}>
+                    📅 END DATE (CALENDAR)
+                  </span>
+                  <input 
+                    type="month" 
+                    disabled={isPresent}
+                    style={{ 
+                      background: isPresent ? '#070F1E' : '#0B1727', 
+                      border: '1px solid #1C3A57', 
+                      color: isPresent ? '#64748B' : '#FFF',
+                      opacity: isPresent ? 0.5 : 1
+                    }}
+                    onChange={(e) => {
+                      if (!e.target.value) return;
+                      const [y, m] = e.target.value.split('-');
+                      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                      const endStr = `${months[parseInt(m)-1]} ${y}`;
+                      const startStr = value.split(/—|-/)[0]?.trim() || y;
+                      onChange(`${startStr} — ${endStr}`);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid #1C3A57' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', margin: 0, textTransform: 'none', color: '#E2E8F0', fontSize: '13px' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={isPresent} 
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setIsPresent(checked);
+                      const startStr = value.split(/—|-/)[0]?.trim() || '2024';
+                      if (checked) {
+                        onChange(`${startStr} — Present`);
+                      } else {
+                        onChange(`${startStr} — ${new Date().getFullYear()}`);
+                      }
+                    }} 
+                    style={{ width: 'auto', margin: 0 }}
+                  />
+                  Currently Ongoing / Present
+                </label>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '12px', color: '#94A3B8' }}>Formatted:</span>
+                  <input 
+                    type="text" 
+                    value={value || ''} 
+                    onChange={(e) => onChange(e.target.value)} 
+                    placeholder="e.g. 2024 — Present"
+                    style={{ background: '#0B1727', padding: '6px 10px', fontSize: '13px', color: '#38BDF8', width: '180px' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
       // Reorder Modal Component
       const ReorderModal = ({ isOpen, title, items, keyField = 'id', labelField = 'title', onClose, onSave }) => {
         if (!isOpen) return null;
@@ -1070,27 +1166,8 @@
                 userToken={userToken} 
                 onUploadComplete={(url) => setForm({ ...form, education: { ...form.education, logo: url } })} 
               />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-                <div>
-                  <label>Degree / Qualification</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. BE Geoinformatics Engineering"
-                    value={form.education?.degree || ''} 
-                    onChange={e => setForm({ ...form, education: { ...form.education, degree: e.target.value } })} 
-                  />
-                </div>
-                <div>
-                  <label>Study Period / Dates</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. 2024 — 2028"
-                    value={form.education?.dates || ''} 
-                    onChange={e => setForm({ ...form, education: { ...form.education, dates: e.target.value } })} 
-                  />
-                </div>
-              </div>
-              <div>
+              
+              <div style={{ marginBottom: '16px' }}>
                 <label>University / Institution Name</label>
                 <input 
                   type="text" 
@@ -1099,6 +1176,22 @@
                   onChange={e => setForm({ ...form, education: { ...form.education, university: e.target.value } })} 
                 />
               </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label>Degree / Qualification</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. BE Geoinformatics Engineering"
+                  value={form.education?.degree || ''} 
+                  onChange={e => setForm({ ...form, education: { ...form.education, degree: e.target.value } })} 
+                />
+              </div>
+
+              <DatePeriodPicker 
+                label="Education Study Period (Calendar Picker)"
+                value={form.education?.dates || ''}
+                onChange={(newDates) => setForm({ ...form, education: { ...form.education, dates: newDates } })}
+              />
             </div>
 
             {/* Achievements & Tags Card */}
@@ -1260,16 +1353,18 @@
                         <input type="text" value={form.company || ''} onChange={e => setForm({ ...form, company: e.target.value })} />
                       </div>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                      <div>
-                        <label>Dates Summary (e.g. 2023 - Present)</label>
-                        <input type="text" value={form.dates || ''} onChange={e => setForm({ ...form, dates: e.target.value })} />
-                      </div>
-                      <div>
-                        <label>Location</label>
-                        <input type="text" value={form.location || ''} onChange={e => setForm({ ...form, location: e.target.value })} />
-                      </div>
+                    
+                    <DatePeriodPicker 
+                      label="Job Duration (Calendar Picker)"
+                      value={form.dates || ''}
+                      onChange={(newDates) => setForm({ ...form, dates: newDates })}
+                    />
+
+                    <div>
+                      <label>Location</label>
+                      <input type="text" value={form.location || ''} onChange={e => setForm({ ...form, location: e.target.value })} />
                     </div>
+
                     <div>
                       <label>Description & Accomplishments</label>
                       <textarea rows="4" value={form.description || ''} onChange={e => setForm({ ...form, description: e.target.value })} />
@@ -1297,9 +1392,19 @@
                         </select>
                       </div>
                       <div>
-                        <label>Publish Date</label>
-                        <input type="text" value={form.date || new Date().toISOString().split('T')[0]} onChange={e => setForm({ ...form, date: e.target.value })} />
+                        <label>Publish Date (Calendar)</label>
+                        <input 
+                          type="date" 
+                          value={form.date || new Date().toISOString().split('T')[0]} 
+                          onChange={e => setForm({ ...form, date: e.target.value })} 
+                          style={{ colorScheme: 'dark' }}
+                        />
                       </div>
+                      <div>
+                        <label>Read Time</label>
+                        <input type="text" value={form.readTime || '5 min'} onChange={e => setForm({ ...form, readTime: e.target.value })} />
+                      </div>
+                    </div>
                       <div>
                         <label>Read Time</label>
                         <input type="text" value={form.readTime || '5 min'} onChange={e => setForm({ ...form, readTime: e.target.value })} />
