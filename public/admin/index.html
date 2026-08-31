@@ -997,12 +997,28 @@
 
       // Profile Tab Form Component
       const ProfileTab = ({ bio, userToken, onSave }) => {
-        const [form, setForm] = useState({ ...bio });
+        const [form, setForm] = useState({ 
+          ...bio,
+          education: bio.education || { degree: '', university: '', dates: '', logo: '' },
+          achievementsText: Array.isArray(bio.achievements) ? bio.achievements.join('\n') : (bio.achievementsText || '')
+        });
+
+        const handleSave = () => {
+          const achievementsArray = form.achievementsText
+            ? form.achievementsText.split('\n').map(a => a.trim()).filter(Boolean)
+            : (bio.achievements || []);
+
+          onSave({
+            ...form,
+            achievements: achievementsArray
+          });
+        };
 
         return (
           <div style={{ maxWidth: '800px' }}>
             <h2 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', marginBottom: '24px' }}>Profile & Hero Bio Settings</h2>
             
+            {/* Identity Card */}
             <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
               <h3 style={{ color: '#38BDF8', marginBottom: '16px', fontSize: '16px' }}>Personal Identity</h3>
               <FileDropzone label="Profile Avatar Image" currentUrl={form.avatar} userToken={userToken} onUploadComplete={(url) => setForm({ ...form, avatar: url })} />
@@ -1045,8 +1061,62 @@
               </div>
             </div>
 
-            <button onClick={() => onSave(form)} style={{ background: '#1B6FA8', color: '#FFF', padding: '12px 28px', borderRadius: '8px', fontWeight: 700, fontSize: '15px' }}>
-              Save Profile Changes & Commit to GitHub
+            {/* Education Card */}
+            <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+              <h3 style={{ color: '#38BDF8', marginBottom: '16px', fontSize: '16px' }}>🎓 Education Section</h3>
+              <FileDropzone 
+                label="University Logo / Crest Image" 
+                currentUrl={form.education?.logo} 
+                userToken={userToken} 
+                onUploadComplete={(url) => setForm({ ...form, education: { ...form.education, logo: url } })} 
+              />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div>
+                  <label>Degree / Qualification</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. BE Geoinformatics Engineering"
+                    value={form.education?.degree || ''} 
+                    onChange={e => setForm({ ...form, education: { ...form.education, degree: e.target.value } })} 
+                  />
+                </div>
+                <div>
+                  <label>Study Period / Dates</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. 2024 — 2028"
+                    value={form.education?.dates || ''} 
+                    onChange={e => setForm({ ...form, education: { ...form.education, dates: e.target.value } })} 
+                  />
+                </div>
+              </div>
+              <div>
+                <label>University / Institution Name</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. National University of Sciences and Technology (NUST), Islamabad"
+                  value={form.education?.university || ''} 
+                  onChange={e => setForm({ ...form, education: { ...form.education, university: e.target.value } })} 
+                />
+              </div>
+            </div>
+
+            {/* Achievements & Tags Card */}
+            <div style={{ background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+              <h3 style={{ color: '#38BDF8', marginBottom: '16px', fontSize: '16px' }}>🏆 Key Achievements & Education Tags</h3>
+              <p style={{ color: '#94A3B8', fontSize: '13px', marginBottom: '12px' }}>
+                Enter your key achievements and education tags below (one per line):
+              </p>
+              <textarea 
+                rows="4" 
+                placeholder="Best Final Year Project — Spatial AI for Flood Risk Mapping&#10;Google Earth Engine certified developer&#10;Published technical writing on WebGIS architecture"
+                value={form.achievementsText || ''} 
+                onChange={e => setForm({ ...form, achievementsText: e.target.value })} 
+              />
+            </div>
+
+            <button onClick={handleSave} style={{ background: '#1B6FA8', color: '#FFF', padding: '14px 32px', borderRadius: '8px', fontWeight: 700, fontSize: '15px' }}>
+              Save Profile & Education Changes to GitHub
             </button>
           </div>
         );
