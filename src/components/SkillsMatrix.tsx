@@ -60,7 +60,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
       id="skills"
       style={{
         background: '#FFFFFF',
-        padding: '48px 32px',
+        padding: '36px 32px',
         borderTop: '1px solid #E6E4DF',
         position: 'relative',
         zIndex: 1,
@@ -69,12 +69,12 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: 700,
-            letterSpacing: '2px',
+            letterSpacing: '1.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            marginBottom: '8px',
+            marginBottom: '6px',
           }}
         >
           Tech Stack
@@ -83,28 +83,28 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 'clamp(28px, 4vw, 36px)',
-            margin: '0 0 12px',
+            fontSize: 'clamp(26px, 3.5vw, 32px)',
+            margin: '0 0 8px',
             color: '#16181C',
           }}
         >
           Skills & Toolkit
         </h2>
-        <p style={{ color: '#5C6167', fontSize: '15px', margin: '0 0 24px' }}>
+        <p style={{ color: '#5C6167', fontSize: '14px', margin: '0 0 20px' }}>
           Click any skill to see related projects.
         </p>
 
         {activeFilter && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '14px', color: '#5C6167', fontWeight: 600 }}>Filtering by:</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '13px', color: '#5C6167', fontWeight: 600 }}>Filtering by:</span>
             <span
               style={{
                 background: '#E3F1FB',
                 color: '#1B6FA8',
                 border: '1px solid #1B6FA8',
-                padding: '6px 16px',
+                padding: '4px 14px',
                 borderRadius: '20px',
-                fontSize: '14px',
+                fontSize: '13px',
                 fontWeight: 600,
               }}
             >
@@ -117,7 +117,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                 border: 'none',
                 color: '#5C6167',
                 textDecoration: 'underline',
-                fontSize: '14px',
+                fontSize: '13px',
                 cursor: 'pointer',
               }}
             >
@@ -131,11 +131,11 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
             background: '#FFFFFF',
             border: '1px solid #E6E4DF',
             borderRadius: '12px',
-            padding: '32px 36px',
+            padding: '24px 28px',
             boxShadow: '0 1px 2px rgba(16,24,32,0.03), 0 8px 20px rgba(16,24,32,0.04)',
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '14px',
+            gap: '10px',
           }}
         >
           {skillList.map((skill, idx) => {
@@ -147,10 +147,10 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '12px',
-                  fontSize: '16px',
+                  gap: '8px',
+                  fontSize: '14px',
                   fontWeight: 600,
-                  padding: '11px 22px',
+                  padding: '8px 16px',
                   borderRadius: '36px',
                   cursor: 'pointer',
                   border: `1.5px solid ${isSelected ? '#1B6FA8' : '#D5D9DE'}`,
@@ -167,13 +167,13 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                     src={skill.icon}
                     alt={skill.name}
                     style={{
-                      width: '34px',
-                      height: '34px',
+                      width: '26px',
+                      height: '26px',
                       borderRadius: '50%',
                       objectFit: 'contain',
                       background: '#FFFFFF',
-                      border: '1.5px solid #D5D9DE',
-                      padding: '3px',
+                      border: '1px solid #D5D9DE',
+                      padding: '2px',
                       boxShadow: '0 2px 5px rgba(0,0,0,0.06)',
                       flexShrink: 0,
                     }}
@@ -181,15 +181,15 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ activeFilter, onSele
                 ) : (
                   <div
                     style={{
-                      width: '34px',
-                      height: '34px',
+                      width: '26px',
+                      height: '26px',
                       borderRadius: '50%',
                       background: isSelected ? '#1B6FA8' : '#EAF2F8',
                       color: isSelected ? '#FFFFFF' : '#1B6FA8',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '15px',
+                      fontSize: '12px',
                       fontWeight: 700,
                       fontFamily: "'JetBrains Mono', monospace",
                       boxShadow: '0 2px 5px rgba(0,0,0,0.04)',

@@ -56,7 +56,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ avatar, initials, name }) 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '10px 56px',
+        padding: '12px 44px',
         background: '#0F2036',
         borderBottom: '1px solid #1C3A57',
         backdropFilter: 'blur(8px)',
@@ -68,8 +68,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ avatar, initials, name }) 
             src={avatar}
             alt={name || 'Muhammad Haseef'}
             style={{
-              width: '38px',
-              height: '38px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
               objectFit: 'cover',
               border: '2px solid #1B6FA8',
@@ -79,8 +79,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ avatar, initials, name }) 
         ) : (
           <div
             style={{
-              width: '38px',
-              height: '38px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
               background: '#1B6FA8',
               color: '#FFFFFF',
@@ -100,7 +100,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ avatar, initials, name }) 
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: '20px',
+            fontSize: '18px',
             color: '#FFFFFF',
           }}
         >

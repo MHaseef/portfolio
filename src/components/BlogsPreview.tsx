@@ -19,7 +19,7 @@ export const BlogsPreview: React.FC<BlogsPreviewProps> = ({ posts }) => {
       id="blogs"
       style={{
         background: '#F7F6F3',
-        padding: '48px 32px',
+        padding: '36px 32px',
         borderTop: '1px solid #E6E4DF',
         position: 'relative',
         zIndex: 1,
@@ -28,12 +28,12 @@ export const BlogsPreview: React.FC<BlogsPreviewProps> = ({ posts }) => {
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: 700,
-            letterSpacing: '2px',
+            letterSpacing: '1.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            marginBottom: '8px',
+            marginBottom: '6px',
           }}
         >
           Technical Blog
@@ -42,8 +42,8 @@ export const BlogsPreview: React.FC<BlogsPreviewProps> = ({ posts }) => {
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 'clamp(28px, 4vw, 36px)',
-            margin: '0 0 24px',
+            fontSize: 'clamp(26px, 3.5vw, 32px)',
+            margin: '0 0 20px',
             color: '#16181C',
           }}
         >
@@ -94,15 +94,15 @@ export const BlogsPreview: React.FC<BlogsPreviewProps> = ({ posts }) => {
               <div
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontWeight: 600,
-                  fontSize: '16px',
+                  fontWeight: 700,
+                  fontSize: '18px',
                   lineHeight: 1.35,
                   color: '#16181C',
                 }}
               >
                 {post.title}
               </div>
-              <div style={{ color: '#5C6167', fontSize: '13px', lineHeight: 1.5, flex: 1 }}>
+              <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.6, flex: 1 }}>
                 {post.excerpt}
               </div>
             </a>

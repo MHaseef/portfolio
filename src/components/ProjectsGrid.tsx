@@ -37,7 +37,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
       id="projects"
       style={{
         background: '#FFFFFF',
-        padding: '48px 32px',
+        padding: '36px 32px',
         borderTop: '1px solid #E6E4DF',
         position: 'relative',
         zIndex: 1,
@@ -46,12 +46,12 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: 700,
-            letterSpacing: '2px',
+            letterSpacing: '1.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            marginBottom: '8px',
+            marginBottom: '6px',
           }}
         >
           Projects
@@ -60,8 +60,8 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 'clamp(28px, 4vw, 36px)',
-            margin: '0 0 24px',
+            fontSize: 'clamp(26px, 3.5vw, 32px)',
+            margin: '0 0 20px',
             color: '#16181C',
           }}
         >
@@ -125,7 +125,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
                     alt={proj.title}
                     style={{
                       width: '100%',
-                      height: '180px',
+                      height: '210px',
                       objectFit: 'cover',
                       borderBottom: '1px solid #E6E4DF',
                     }}
@@ -134,7 +134,7 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
                   <div
                     style={{
                       width: '100%',
-                      height: '140px',
+                      height: '160px',
                       background: 'linear-gradient(135deg, #0F2036 0%, #1B6FA8 100%)',
                       display: 'flex',
                       alignItems: 'center',
@@ -155,14 +155,14 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
                   <div
                     style={{
                       fontFamily: "'JetBrains Mono', monospace",
-                      fontWeight: 600,
-                      fontSize: '16px',
+                      fontWeight: 700,
+                      fontSize: '18px',
                       color: '#16181C',
                     }}
                   >
                     {proj.title}
                   </div>
-                  <div style={{ color: '#5C6167', fontSize: '13px', lineHeight: 1.5, flex: 1 }}>
+                  <div style={{ color: '#5C6167', fontSize: '14px', lineHeight: 1.55, flex: 1 }}>
                     {proj.teaser}
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>

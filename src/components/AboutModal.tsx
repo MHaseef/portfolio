@@ -94,11 +94,11 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           background: '#FFFFFF',
           border: '1px solid #E6E4DF',
           borderRadius: '14px',
-          maxWidth: '720px',
+          maxWidth: '680px',
           width: '100%',
           maxHeight: '88vh',
           overflowY: 'auto',
-          padding: '44px',
+          padding: '32px 36px',
           position: 'relative',
           boxShadow: '0 20px 60px rgba(16,24,32,0.2)',
         }}
@@ -119,14 +119,14 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           ✕
         </button>
 
-        <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '36px' }}>
+        <div style={{ display: 'flex', gap: '18px', alignItems: 'center', marginBottom: '24px' }}>
           {avatar ? (
             <img
               src={avatar}
               alt={name}
               style={{
-                width: '94px',
-                height: '94px',
+                width: '80px',
+                height: '80px',
                 borderRadius: '50%',
                 objectFit: 'cover',
                 border: '3px solid #1B6FA8',
@@ -137,8 +137,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           ) : (
             <div
               style={{
-                width: '94px',
-                height: '94px',
+                width: '80px',
+                height: '80px',
                 borderRadius: '50%',
                 background: '#1B6FA8',
                 color: '#FFFFFF',
@@ -147,7 +147,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
                 justifyContent: 'center',
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: 700,
-                fontSize: '24px',
+                fontSize: '22px',
                 flexShrink: 0,
               }}
             >
@@ -159,13 +159,13 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: 700,
-                fontSize: '22px',
+                fontSize: '20px',
                 color: '#16181C',
               }}
             >
               {name}
             </div>
-            <div style={{ color: '#1B6FA8', fontSize: '14px', fontWeight: 600, marginTop: '4px' }}>
+            <div style={{ color: '#1B6FA8', fontSize: '13px', fontWeight: 600, marginTop: '2px' }}>
               {role}
             </div>
           </div>
@@ -175,17 +175,17 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 600,
-            fontSize: '13px',
+            fontSize: '12px',
             letterSpacing: '0.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            marginBottom: '12px',
+            marginBottom: '10px',
           }}
         >
           About me
         </div>
         {bioParagraphs.map((para, i) => (
-          <p key={i} style={{ color: '#3E4349', fontSize: '15px', lineHeight: 1.75, margin: '0 0 18px' }}>
+          <p key={i} style={{ color: '#3E4349', fontSize: '14px', lineHeight: 1.7, margin: '0 0 14px' }}>
             {para}
           </p>
         ))}
@@ -194,11 +194,11 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 600,
-            fontSize: '13px',
+            fontSize: '12px',
             letterSpacing: '0.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            margin: '28px 0 12px',
+            margin: '22px 0 10px',
           }}
         >
           Education
@@ -208,10 +208,10 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
             background: '#F7F6F3',
             border: '1px solid #E6E4DF',
             borderRadius: '10px',
-            padding: '18px',
-            marginBottom: '28px',
+            padding: '16px',
+            marginBottom: '22px',
             display: 'flex',
-            gap: '16px',
+            gap: '14px',
             alignItems: 'center',
           }}
         >
@@ -220,8 +220,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
               src={education.logo}
               alt={education.university}
               style={{
-                width: '48px',
-                height: '48px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '8px',
                 objectFit: 'contain',
                 background: '#FFFFFF',
@@ -233,8 +233,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, bioData
           ) : (
             <div
               style={{
-                width: '48px',
-                height: '48px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '8px',
                 background: '#0F2036',
                 color: '#5FA8D3',

@@ -36,7 +36,7 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
       id="experience"
       style={{
         background: '#F7F6F3',
-        padding: '48px 32px',
+        padding: '36px 32px',
         borderTop: '1px solid #E6E4DF',
         position: 'relative',
         zIndex: 1,
@@ -45,12 +45,12 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
       <div style={{ maxWidth: '920px', margin: '0 auto' }}>
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '13px',
             fontWeight: 700,
-            letterSpacing: '2px',
+            letterSpacing: '1.5px',
             color: '#1B6FA8',
             textTransform: 'uppercase',
-            marginBottom: '8px',
+            marginBottom: '6px',
           }}
         >
           Experience
@@ -59,8 +59,8 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
           style={{
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 700,
-            fontSize: 'clamp(28px, 4vw, 36px)',
-            margin: '0 0 24px',
+            fontSize: 'clamp(26px, 3.5vw, 32px)',
+            margin: '0 0 20px',
             color: '#16181C',
           }}
         >
@@ -121,8 +121,8 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
                         src={job.logo}
                         alt={job.company || job.title}
                         style={{
-                          width: '44px',
-                          height: '44px',
+                          width: '52px',
+                          height: '52px',
                           borderRadius: '8px',
                           objectFit: 'contain',
                           border: '1px solid #E6E4DF',
@@ -135,8 +135,8 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
                     ) : (
                       <div
                         style={{
-                          width: '44px',
-                          height: '44px',
+                          width: '52px',
+                          height: '52px',
                           borderRadius: '8px',
                           background: '#0F2036',
                           color: '#5FA8D3',
@@ -156,8 +156,8 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
                       <div
                         style={{
                           fontFamily: "'JetBrains Mono', monospace",
-                          fontWeight: 600,
-                          fontSize: '17px',
+                          fontWeight: 700,
+                          fontSize: '18px',
                           color: '#16181C',
                         }}
                       >

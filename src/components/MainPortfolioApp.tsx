@@ -62,21 +62,21 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{ position: 'relative', zIndex: 1, maxWidth: '600px', textAlign: 'left' }}
+          style={{ position: 'relative', zIndex: 1, maxWidth: '680px', textAlign: 'left' }}
         >
           <h1
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontWeight: 700,
-              fontSize: 'clamp(32px, 5vw, 54px)',
-              lineHeight: 1.35,
-              margin: '0 0 26px',
+              fontSize: 'clamp(36px, 5.5vw, 58px)',
+              lineHeight: 1.25,
+              margin: '0 0 20px',
               color: '#16181C',
             }}
           >
             Spatial thinking, engineered.
           </h1>
-          <p style={{ color: '#3E4349', fontSize: '17px', lineHeight: 1.75, margin: '0 0 36px' }}>
+          <p style={{ color: '#3E4349', fontSize: '16px', lineHeight: 1.7, margin: '0 0 28px' }}>
             Welcome. I'm Haseef — a GIS developer and spatial data analyst who enjoys turning raw
             geographic data into tools people can actually use. I build WebGIS platforms, automate
             spatial workflows, and dig into geospatial datasets to find patterns worth acting on.
@@ -88,7 +88,7 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
               color: '#FFFFFF',
               fontWeight: 600,
               fontSize: '15px',
-              padding: '14px 30px',
+              padding: '12px 26px',
               borderRadius: '6px',
               border: 'none',
               cursor: 'pointer',
@@ -101,27 +101,27 @@ export const MainPortfolioApp: React.FC<MainPortfolioAppProps> = ({
         </motion.div>
       </section>
 
-      <div style={{ height: '110px', background: 'transparent' }} />
+      <div style={{ height: '48px', background: 'transparent' }} />
 
       {/* Skills Matrix */}
       <SkillsMatrix activeFilter={activeFilter} onSelectSkill={setActiveFilter} skills={skillsData} />
 
-      <div style={{ height: '110px', background: 'transparent' }} />
+      <div style={{ height: '48px', background: 'transparent' }} />
 
       {/* Experience Timeline */}
       <ExperienceTimeline items={experienceItems} />
 
-      <div style={{ height: '110px', background: 'transparent' }} />
+      <div style={{ height: '48px', background: 'transparent' }} />
 
       {/* Projects Grid */}
       <ProjectsGrid items={projectItems} activeFilter={activeFilter} />
 
-      <div style={{ height: '110px', background: 'transparent' }} />
+      <div style={{ height: '48px', background: 'transparent' }} />
 
       {/* Blog Preview */}
       <BlogsPreview posts={blogItems} />
 
-      <div style={{ height: '110px', background: 'transparent' }} />
+      <div style={{ height: '48px', background: 'transparent' }} />
 
       {/* Contact & Footer */}
       <ContactSection data={contactData} />
