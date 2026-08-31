@@ -1,6 +1,14 @@
 {
   "experience": [
     {
+      "logo": "/images/uploads/The_Map_Ventures_Logo_png_1788159983376.png",
+      "title": "GIS Intern",
+      "company": "Map Ventures",
+      "dates": "May 2026 — Jun 2026",
+      "description": "During my internship at The Map Ventures, I collaborated with a developer team to build a comprehensive cross-platform travel and tourism product, spanning both mobile and web applications. Key technical contributions included:\n\nBackend & API Architecture: Designed and deployed scalable REST APIs using FastAPI, establishing fast, asynchronous communication between application interfaces and server data.\n\nSpatial Data Management: Provisioned and managed cloud spatial databases using Supabase and PostGIS to store, index, and query location-based travel content efficiently.\n\nCross-Platform Mobile Development: Worked on frontend application features using Flutter to deliver responsive user experiences for mobile and web users.",
+      "id": "experience_1788160078693"
+    },
+    {
       "logo": "/images/uploads/images_jpg_1788158735133.jpg",
       "title": "GIS Intern (Paid)",
       "company": "LMKR",
