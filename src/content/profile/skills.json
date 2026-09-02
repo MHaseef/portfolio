@@ -1,10 +1,9 @@
 {
   "skills": [
     {
-      "name": "QGIS",
-      "proficiency": "Proficient",
-      "icon": "/images/uploads/ggis_logo_png_1788353727522.png",
-      "id": "skill_1788353731935"
+      "name": "Google Earth Engine",
+      "icon": "/images/uploads/GEE_logo_png_1788353821991.png",
+      "id": "skill_1788353825606"
     },
     {
       "name": "ArcGIS",
