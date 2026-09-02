@@ -1,6 +1,11 @@
 {
   "skills": [
     {
+      "name": "ArcGIS",
+      "proficiency": "Proficient",
+      "id": "skill_1788353580551"
+    },
+    {
       "name": "Python",
       "id": "skill_1788157194477"
     },
