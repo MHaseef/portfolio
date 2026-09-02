@@ -7,6 +7,7 @@ export const SmoothScroll: React.FC<{ children: React.ReactNode }> = ({ children
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      prevent: (node) => !!node.closest('[data-lenis-prevent]'),
     });
 
     function raf(time: number) {

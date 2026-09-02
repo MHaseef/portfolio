@@ -180,6 +180,9 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
       {activeItem && (
         <div
           onClick={() => setActiveItem(null)}
+          onWheel={(e) => e.stopPropagation()}
+          data-lenis-prevent
+          data-lenis-prevent-wheel
           style={{
             position: 'fixed',
             inset: 0,
@@ -194,6 +197,9 @@ export const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({ items })
         >
           <div
             onClick={e => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
+            data-lenis-prevent
+            data-lenis-prevent-wheel
             style={{
               background: '#FFFFFF',
               border: '1px solid #E6E4DF',

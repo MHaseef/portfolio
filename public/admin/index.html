@@ -495,16 +495,26 @@
         };
 
         return (
-          <div style={{
-            position: 'fixed', inset: 0, zIndex: 500,
-            background: 'rgba(5, 11, 20, 0.8)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
-          }}>
-            <div style={{
-              background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px',
-              padding: '28px', maxWidth: '560px', width: '100%', maxHeight: '85vh', display: 'flex', flexDirection: 'column'
-            }}>
+          <div 
+            onWheel={(e) => e.stopPropagation()}
+            data-lenis-prevent
+            data-lenis-prevent-wheel
+            style={{
+              position: 'fixed', inset: 0, zIndex: 500,
+              background: 'rgba(5, 11, 20, 0.8)',
+              backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+            }}
+          >
+            <div 
+              onWheel={(e) => e.stopPropagation()}
+              data-lenis-prevent
+              data-lenis-prevent-wheel
+              style={{
+                background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '14px',
+                padding: '28px', maxWidth: '560px', width: '100%', maxHeight: '85vh', display: 'flex', flexDirection: 'column'
+              }}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h3 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', fontSize: '18px' }}>
                   ↕ Reorder {title}
@@ -1256,15 +1266,25 @@
         };
 
         return (
-          <div style={{
-            position: 'fixed', inset: 0, zIndex: 600,
-            background: 'rgba(5, 11, 20, 0.85)', backdropFilter: 'blur(5px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
-          }}>
-            <div style={{
-              background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '16px',
-              padding: '32px', maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto'
-            }}>
+          <div 
+            onWheel={(e) => e.stopPropagation()}
+            data-lenis-prevent
+            data-lenis-prevent-wheel
+            style={{
+              position: 'fixed', inset: 0, zIndex: 600,
+              background: 'rgba(5, 11, 20, 0.85)', backdropFilter: 'blur(5px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+            }}
+          >
+            <div 
+              onWheel={(e) => e.stopPropagation()}
+              data-lenis-prevent
+              data-lenis-prevent-wheel
+              style={{
+                background: '#0F2036', border: '1px solid #1C3A57', borderRadius: '16px',
+                padding: '32px', maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto'
+              }}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h3 style={{ fontFamily: "'JetBrains Mono', monospace", color: '#F8FAFC', fontSize: '20px' }}>
                   {item ? 'Edit' : 'Add'} {type.toUpperCase()}

@@ -21,6 +21,15 @@ interface ProjectsGridProps {
 export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter }) => {
   const [activeProject, setActiveProject] = useState<ProjectData | null>(null);
 
+  React.useEffect(() => {
+    if (activeProject) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [activeProject]);
+
   // When a skill filter is active, bring matching projects to the front instead of hiding others
   const sortedItems = activeFilter
     ? [...items].sort((a, b) => {
@@ -245,6 +254,9 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
       {activeProject && (
         <div
           onClick={() => setActiveProject(null)}
+          onWheel={(e) => e.stopPropagation()}
+          data-lenis-prevent
+          data-lenis-prevent-wheel
           style={{
             position: 'fixed',
             inset: 0,
@@ -259,6 +271,9 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ items, activeFilter 
         >
           <div
             onClick={e => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
+            data-lenis-prevent
+            data-lenis-prevent-wheel
             style={{
               background: '#FFFFFF',
               border: '1px solid #E6E4DF',
