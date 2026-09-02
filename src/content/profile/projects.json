@@ -1,6 +1,16 @@
 {
   "projects": [
     {
+      "thumbnail": "/images/uploads/Screenshot_2026-09-02_173800_png_1788352709208.png",
+      "teaser": "A multi-sensor remote sensing and spatial impact assessment using Sentinel-2 Surface Reflectance in Google Earth Engine and ArcMap. The project isolates inundation extent and vegetation loss across the Chenab River floodplain (Gujrat–Sialkot) following the 2025 monsoon flood event.",
+      "category": "Remote Sensing",
+      "problem": "Monsoonal flooding along the Chenab River in Punjab, Pakistan regularly inflicts severe damage on agricultural croplands and rural infrastructure. Following the 2025 flood event, local authorities required a rapid, quantitative assessment to distinguish direct standing floodwaters from broader crop degradation and waterlogging in low-lying agricultural zones between Gujrat and Sialkot districts.",
+      "solution": "`Developed a dual-index satellite change-detection workflow using Sentinel-2 Level-2A imagery inside Google Earth Engine and ArcMap:\n\n• Cloud Masking & Processing: Filtered multi-temporal imagery using Scene Classification Layer (SCL) masks to build 10m cloud-free pre-flood (May–June) and post-flood (Sept–Oct) median composites.\n• Spectral Index Computation: Derived NDVI (vegetation vigor) and MNDWI (surface wetness/water) rasters to isolate surface changes.\n• Impact Matrix Modeling: Combined thresholded binary masks (MNDWI > 0.2 for standing water; ΔNDVI < -0.2 for vegetation loss) via map algebra: Impact = (Flooded * 2) + Veg_Loss.\n• Spatial Quantification: Classified 1,414.78 km² total land area into 4 distinct operational impact zones, accurately isolating 169.45 km² of high-impact severely damaged cropland, 517.83 km² of active inundation, and 91.44 km² of waterlogged crop degradation.`",
+      "githubUrl": "https://github.com/MHaseef/-Flood-Impact-Vegetation-Damage-Assessment-Chenab-River-2025-",
+      "title": "Flood Impact Vegetation Damage Assessment Chenab River 2025",
+      "id": "project_1788353385195"
+    },
+    {
       "title": "bye",
       "teaser": "it is here",
       "problem": "eample ",
