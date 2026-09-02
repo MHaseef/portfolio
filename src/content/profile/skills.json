@@ -1,6 +1,11 @@
 {
   "skills": [
     {
+      "name": "QGIS",
+      "icon": "/images/uploads/ggis_logo_png_1788354881461.png",
+      "id": "skill_1788354884745"
+    },
+    {
       "name": "Google Earth Engine",
       "icon": "/images/uploads/GEE_logo_png_1788353821991.png",
       "id": "skill_1788353825606"
