@@ -1,8 +1,6 @@
 {
   "achievements": [
-    "Best Final Year Project — Spatial AI for Flood Risk Mapping",
-    "Google Earth Engine certified developer",
-    "Published technical writing on WebGIS architecture"
+    "Highest CGPA"
   ],
   "bio": [
     "At my core, I'm a builder who enjoys solving puzzle-like problems.",
@@ -20,5 +18,6 @@
   "bioText": "",
   "location": "Islamabad, Pakistan",
   "role": "Geoinformatics Engineer · GIS Developer & Analyst",
-  "avatar": "/images/uploads/profile-picture.png"
+  "avatar": "/images/uploads/profile-picture.png",
+  "achievementsText": "Highest CGPA "
 }
