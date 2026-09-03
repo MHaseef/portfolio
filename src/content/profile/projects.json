@@ -1,6 +1,15 @@
 {
   "projects": [
     {
+      "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
+      "title": "Rice Crop Identification Using Satellite Remote Sensing",
+      "teaser": "Multitemporal crop monitoring and spatial area estimation for Gujrat District, Pakistan (2024–2025) using Sentinel-2 10m satellite imagery.",
+      "problem": "Accurate spatial mapping of paddy rice fields is essential for regional food security, agricultural planning, and water allocation[cite: 1]. However, traditional field surveys are resource-intensive, while standard optical remote sensing often misclassifies rice due to spectral overlap with other vegetation types or short-term seasonal fluctuations[cite: 1]. In Gujrat District, tracking cultivation changes requires distinguishing crop canopy development from surface water presence during flooding and planting cycles.",
+      "solution": "Developed a multitemporal remote sensing workflow utilizing 10m Sentinel-2 imagery (2024 & 2025) retrieved via Google Earth Engine[cite: 1]. Spectral index calculation (NDVI and LSWI) was performed in ERDAS Imagine to evaluate crop health and surface water inundation across early (planting) and peak (canopy maturity) growing seasons[cite: 1]. Applied a conditional map algebra expression in ArcMap combining peak canopy density (0.55 ≤ NDVI ≤ 0.65), seasonal growth delta (ΔNDVI > 0.09), and water retention (LSWI > 0) to extract rice boundaries and quantify acreage shifts (+6.1% growth detected in 2025).",
+      "githubUrl": "https://github.com/MHaseef/Rice-Crop-Identification-Using-Satellite-Remote-Sensing",
+      "id": "project_1788423050472"
+    },
+    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-02_173800_png_1788352709208.png",
       "teaser": "A multi-sensor remote sensing and spatial impact assessment using Sentinel-2 Surface Reflectance in Google Earth Engine and ArcMap. The project isolates inundation extent and vegetation loss across the Chenab River floodplain (Gujrat–Sialkot) following the 2025 monsoon flood event.",
       "category": "Remote Sensing",
