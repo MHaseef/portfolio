@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ImageUploadDropzone } from './ImageUploadDropzone';
 
 export interface SkillFormValues {
+  id?: string;
+  oldName?: string;
   name: string;
   category: string;
   icon?: string;
@@ -32,6 +34,8 @@ export const SkillFormModal: React.FC<SkillFormModalProps> = ({
   onClose,
 }) => {
   const [form, setForm] = useState<SkillFormValues>({
+    id: undefined,
+    oldName: undefined,
     name: '',
     category: 'Languages & Frameworks',
     icon: '',
@@ -44,6 +48,8 @@ export const SkillFormModal: React.FC<SkillFormModalProps> = ({
   useEffect(() => {
     if (initialValues) {
       setForm({
+        id: initialValues.id,
+        oldName: initialValues.oldName || initialValues.name,
         name: initialValues.name || '',
         category: initialValues.category || 'Languages & Frameworks',
         icon: initialValues.icon || '',
@@ -52,6 +58,8 @@ export const SkillFormModal: React.FC<SkillFormModalProps> = ({
       });
     } else {
       setForm({
+        id: undefined,
+        oldName: undefined,
         name: '',
         category: 'Languages & Frameworks',
         icon: '',

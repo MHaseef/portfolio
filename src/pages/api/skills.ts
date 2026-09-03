@@ -39,17 +39,17 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ success: true, skills: currentData.skills }), { status: 200 });
     }
 
-    if (body.name) {
-      const searchKey = (body.oldName || body.name).toLowerCase();
+    if (body.id) {
+      // Edit operation: match by ID or oldName
       const idx = list.findIndex(
         (item: any) =>
-          (item.id && body.id && item.id === body.id) ||
-          item.name.toLowerCase() === searchKey
+          item.id === body.id ||
+          (body.oldName && item.name.toLowerCase() === body.oldName.toLowerCase())
       );
 
       const skillObj = {
-        id: body.id || `skill_${Date.now()}`,
-        name: body.name,
+        id: body.id,
+        name: body.name.trim(),
         category: body.category || 'Languages & Frameworks',
         proficiency: body.proficiency || 'Advanced',
         icon: body.icon || '',
@@ -60,6 +60,26 @@ export const POST: APIRoute = async ({ request }) => {
         list[idx] = { ...list[idx], ...skillObj };
       } else {
         list.push(skillObj);
+      }
+    } else {
+      // Add operation: Check if name already exists to update or push new
+      const existingIdx = list.findIndex(
+        (item: any) => item.name.toLowerCase() === body.name.trim().toLowerCase()
+      );
+
+      const newSkill = {
+        id: \skill_\_\,
+        name: body.name.trim(),
+        category: body.category || 'Languages & Frameworks',
+        proficiency: body.proficiency || 'Advanced',
+        icon: body.icon || '',
+        is_published: body.is_published !== false,
+      };
+
+      if (existingIdx !== -1) {
+        list[existingIdx] = { ...list[existingIdx], ...newSkill };
+      } else {
+        list.push(newSkill);
       }
     }
 

@@ -627,6 +627,8 @@ export const AdminPortfolioApp: React.FC<AdminPortfolioAppProps> = ({
                         type="button"
                         onClick={() => {
                           setEditingSkill({
+                            id: skill.id,
+                            oldName: skill.name,
                             name: skill.name,
                             category: skill.category,
                             icon: skill.icon,
