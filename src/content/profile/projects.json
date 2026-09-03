@@ -1,6 +1,15 @@
 {
   "projects": [
     {
+      "thumbnail": "/images/uploads/Screenshot_2026-09-03_163802_png_1788437028166.png",
+      "teaser": "Full-stack WebGIS telematics platform for NUST Main Campus featuring sub-second GPS tracking across 18 electric shuttles, Haversine kinetic ETA models, and geofenced commuter ride management built with React 19, Leaflet, and Firebase.",
+      "problem": "Daily commuters across NUST's H-12 campus faced severe transit inefficiencies due to a total lack of real-time shuttle visibility. Students endured unpredictable wait times under extreme weather, experienced crowd bottlenecks at popular stops without knowing vehicle occupancy, and faced stranding risks. Transport management also lacked centralized operational oversight to track drivers, assess station demand queues, or broadcast campus alerts.",
+      "solution": "Engineered a real-time web-based telematics platform using React 19, Leaflet, and Firebase Realtime DB WebSockets. Integrated a Haversine Great-Circle algorithm and speed-calibrated kinetic ETA engine (15 km/h) to predict arrival times across 12 campus stations. Designed HTML5 geolocation-based ride requests bounded by a 2,000m geofence, a mobile driver dashboard with live station queue feeds and occupancy toggles, an admin panel for fleet CRUD management, and a Node.js simulator streaming 196 route waypoints at sub-second latency (<150 ms).",
+      "githubUrl": "https://github.com/MHaseef/Shuttle-Tracking-App",
+      "title": "NUST Intelligent Campus Transit & Real-Time Shuttle Tracking System",
+      "id": "project_1788437157994"
+    },
+    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
       "title": "Rice Crop Identification Using Satellite Remote Sensing",
       "teaser": "Multitemporal crop monitoring and spatial area estimation for Gujrat District, Pakistan (2024–2025) using Sentinel-2 10m satellite imagery.",
