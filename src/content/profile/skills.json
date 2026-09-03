@@ -1,6 +1,11 @@
 {
   "skills": [
     {
+      "icon": "/images/uploads/react_logo_png_1788438804479.png",
+      "name": "React",
+      "id": "skill_1788438826624"
+    },
+    {
       "name": "Node JS",
       "icon": "/images/uploads/node_js_logo_jpg_1788438260168.jpg",
       "id": "skill_1788438266632"
