@@ -1,6 +1,11 @@
 {
   "skills": [
     {
+      "name": "Node JS",
+      "icon": "/images/uploads/node_js_logo_jpg_1788438260168.jpg",
+      "id": "skill_1788438266632"
+    },
+    {
       "icon": "/images/uploads/arcgis_logo_jpg_1788428336392.jpg",
       "name": "ArcGIS",
       "id": "skill_1788428345941"
