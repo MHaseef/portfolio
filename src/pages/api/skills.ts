@@ -68,7 +68,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
 
       const newSkill = {
-        id: \skill_\_\,
+        id: `skill_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
         name: body.name.trim(),
         category: body.category || 'Languages & Frameworks',
         proficiency: body.proficiency || 'Advanced',
