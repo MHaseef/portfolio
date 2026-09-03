@@ -1,6 +1,11 @@
 {
   "skills": [
     {
+      "icon": "/images/uploads/ggis_logo_png_1788427339001.png",
+      "name": "QGIS",
+      "id": "skill_1788427348576"
+    },
+    {
       "icon": "",
       "name": "Erdas Imagine",
       "id": "skill_1788420879452"
