@@ -1,9 +1,9 @@
 {
   "skills": [
     {
-      "name": "QGIS",
-      "icon": "/images/uploads/ggis_logo_png_1788354881461.png",
-      "id": "skill_1788354884745"
+      "icon": "",
+      "name": "Erdas Imagine",
+      "id": "skill_1788420879452"
     },
     {
       "name": "Google Earth Engine",
