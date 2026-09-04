@@ -1,6 +1,11 @@
 {
   "projects": [
     {
+      "title": "bljjhjh",
+      "teaser": "uihgilug",
+      "id": "project_1788518438493"
+    },
+    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_163802_png_1788437028166.png",
       "teaser": "Full-stack WebGIS telematics platform for NUST Main Campus featuring sub-second GPS tracking across 18 electric shuttles, Haversine kinetic ETA models, and geofenced commuter ride management built with React 19, Leaflet, and Firebase.",
       "problem": "Daily commuters across NUST's H-12 campus faced severe transit inefficiencies due to a total lack of real-time shuttle visibility. Students endured unpredictable wait times under extreme weather, experienced crowd bottlenecks at popular stops without knowing vehicle occupancy, and faced stranding risks. Transport management also lacked centralized operational oversight to track drivers, assess station demand queues, or broadcast campus alerts.",
