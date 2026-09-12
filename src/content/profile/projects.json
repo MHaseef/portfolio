@@ -1,7 +1,16 @@
 {
   "projects": [
     {
-      "thumbnail": "/images/uploads/Screenshot_2026-09-13_010621_png_1789243597723.png",
+      "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
+      "title": "Rice Crop Identification Using Satellite Remote Sensing",
+      "teaser": "Multitemporal crop monitoring and spatial area estimation for Gujrat District, Pakistan (2024–2025) using Sentinel-2 10m satellite imagery.",
+      "problem": "Accurate spatial mapping of paddy rice fields is essential for regional food security, agricultural planning, and water allocation[cite: 1]. However, traditional field surveys are resource-intensive, while standard optical remote sensing often misclassifies rice due to spectral overlap with other vegetation types or short-term seasonal fluctuations[cite: 1]. In Gujrat District, tracking cultivation changes requires distinguishing crop canopy development from surface water presence during flooding and planting cycles.",
+      "solution": "Developed a multitemporal remote sensing workflow utilizing 10m Sentinel-2 imagery (2024 & 2025) retrieved via Google Earth Engine[cite: 1]. Spectral index calculation (NDVI and LSWI) was performed in ERDAS Imagine to evaluate crop health and surface water inundation across early (planting) and peak (canopy maturity) growing seasons[cite: 1]. Applied a conditional map algebra expression in ArcMap combining peak canopy density (0.55 ≤ NDVI ≤ 0.65), seasonal growth delta (ΔNDVI > 0.09), and water retention (LSWI > 0) to extract rice boundaries and quantify acreage shifts (+6.1% growth detected in 2025).",
+      "githubUrl": "https://github.com/MHaseef/Rice-Crop-Identification-Using-Satellite-Remote-Sensing",
+      "id": "project_1788423050472"
+    },
+    {
+      "thumbnail": "/images/uploads/Sindh_Flood_Exposure_Map_png_1789243182724.png",
       "title": "SINDH PROVINCE: FLOOD HAZARD & INFRASTRUCTURE EXPOSURE ASSESSMENT  Indus River Basin Multi-Criteria Spatial Analysis",
       "category": "Remote Sensing",
       "githubUrl": "https://github.com/MHaseef/SINDH-PROVINCE-FLOOD-HAZARD-INFRASTRUCTURE-EXPOSURE-ASSESSMENT-Spatial-Analysis",
@@ -11,11 +20,6 @@
       "id": "project_1789243298342"
     },
     {
-      "title": "bljjhjh",
-      "teaser": "uihgilug",
-      "id": "project_1788518438493"
-    },
-    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_163802_png_1788437028166.png",
       "teaser": "Full-stack WebGIS telematics platform for NUST Main Campus featuring sub-second GPS tracking across 18 electric shuttles, Haversine kinetic ETA models, and geofenced commuter ride management built with React 19, Leaflet, and Firebase.",
       "problem": "Daily commuters across NUST's H-12 campus faced severe transit inefficiencies due to a total lack of real-time shuttle visibility. Students endured unpredictable wait times under extreme weather, experienced crowd bottlenecks at popular stops without knowing vehicle occupancy, and faced stranding risks. Transport management also lacked centralized operational oversight to track drivers, assess station demand queues, or broadcast campus alerts.",
@@ -23,15 +27,6 @@
       "githubUrl": "https://github.com/MHaseef/Shuttle-Tracking-App",
       "title": "NUST Intelligent Campus Transit & Real-Time Shuttle Tracking System",
       "id": "project_1788437157994"
-    },
-    {
-      "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
-      "title": "Rice Crop Identification Using Satellite Remote Sensing",
-      "teaser": "Multitemporal crop monitoring and spatial area estimation for Gujrat District, Pakistan (2024–2025) using Sentinel-2 10m satellite imagery.",
-      "problem": "Accurate spatial mapping of paddy rice fields is essential for regional food security, agricultural planning, and water allocation[cite: 1]. However, traditional field surveys are resource-intensive, while standard optical remote sensing often misclassifies rice due to spectral overlap with other vegetation types or short-term seasonal fluctuations[cite: 1]. In Gujrat District, tracking cultivation changes requires distinguishing crop canopy development from surface water presence during flooding and planting cycles.",
-      "solution": "Developed a multitemporal remote sensing workflow utilizing 10m Sentinel-2 imagery (2024 & 2025) retrieved via Google Earth Engine[cite: 1]. Spectral index calculation (NDVI and LSWI) was performed in ERDAS Imagine to evaluate crop health and surface water inundation across early (planting) and peak (canopy maturity) growing seasons[cite: 1]. Applied a conditional map algebra expression in ArcMap combining peak canopy density (0.55 ≤ NDVI ≤ 0.65), seasonal growth delta (ΔNDVI > 0.09), and water retention (LSWI > 0) to extract rice boundaries and quantify acreage shifts (+6.1% growth detected in 2025).",
-      "githubUrl": "https://github.com/MHaseef/Rice-Crop-Identification-Using-Satellite-Remote-Sensing",
-      "id": "project_1788423050472"
     },
     {
       "thumbnail": "/images/uploads/Screenshot_2026-09-02_173800_png_1788352709208.png",
