@@ -1,6 +1,21 @@
 {
   "projects": [
     {
+      "thumbnail": "/images/uploads/Sindh_Flood_Exposure_Map_png_1789243182724.png",
+      "title": "SINDH PROVINCE: FLOOD HAZARD & INFRASTRUCTURE EXPOSURE ASSESSMENT  Indus River Basin Multi-Criteria Spatial Analysis",
+      "category": "Remote Sensing",
+      "githubUrl": "https://github.com/MHaseef/SINDH-PROVINCE-FLOOD-HAZARD-INFRASTRUCTURE-EXPOSURE-ASSESSMENT-Spatial-Analysis",
+      "teaser": "A vector based spatial GIS assessment analyzing highway inundation, healthcare facility exposure, and community isolation across Sindh, Pakistan, during severe Indus River flood scenarios.",
+      "problem": "Severe seasonal flooding in the lower Indus River basin submerges critical road networks and renders local healthcare facilities inaccessible. Disaster response organizations, such as PDMA Sindh, lack precise spatial metrics on total flooded highway mileage, functional medical centers remaining operational, and the net increase in travel distances required for isolated communities to reach emergency care.",
+      "solution": "Built an end-to-end Python geoprocessing pipeline using GeoPandas, Shapely, and SciPy to project multi-source spatial data to UTM Zone 42N (EPSG:32642). Generated multi-ring hydrological hazard buffers (1 km, 3 km, 5 km), performed spatial overlays to identify 2,600 km of inundated arterial roads, aggregated health facility densities across Tehsils, and leveraged KD-Tree spatial distance matrix algorithms to quantify community isolation metrics for emergency response decision support.",
+      "id": "project_1789243298342"
+    },
+    {
+      "title": "bljjhjh",
+      "teaser": "uihgilug",
+      "id": "project_1788518438493"
+    },
+    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_163802_png_1788437028166.png",
       "teaser": "Full-stack WebGIS telematics platform for NUST Main Campus featuring sub-second GPS tracking across 18 electric shuttles, Haversine kinetic ETA models, and geofenced commuter ride management built with React 19, Leaflet, and Firebase.",
       "problem": "Daily commuters across NUST's H-12 campus faced severe transit inefficiencies due to a total lack of real-time shuttle visibility. Students endured unpredictable wait times under extreme weather, experienced crowd bottlenecks at popular stops without knowing vehicle occupancy, and faced stranding risks. Transport management also lacked centralized operational oversight to track drivers, assess station demand queues, or broadcast campus alerts.",
