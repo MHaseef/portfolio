@@ -1,6 +1,16 @@
 {
   "projects": [
     {
+      "thumbnail": "/images/uploads/Screenshot_2026-09-15_013433_png_1789418102439.png",
+      "title": "High Resolution Spatial Panel Generator for Socio Economic Impact Analysis Pipeline",
+      "category": "Remote Sensing",
+      "teaser": "An open-source spatial data engineering pipeline that converts Google Earth Engine satellite observation streams into econometric-ready micro-panel datasets. Demonstrated over Tharparkar, Pakistan, it bridges remote sensing and development economics by linking high-resolution climate shocks (VCI, LST, Nighttime Lights) directly with dasymetrically sampled household survey points for Two-Way Fixed Effects (TWFE) regression modeling.",
+      "problem": "Empirical development economics relies on household surveys that measure critical socio-economic outcomes (e.g., consumption, income, asset indices) but lack objective, continuous, high-frequency physical measures of climate shocks like agricultural drought and thermal stress. Conversely, satellite Earth Observation (EO) rasters offer dense environmental monitoring but lack human socio-economic attributes. Furthermore, standard spatial sampling methods scatter household observations uniformly across bounding shapes, frequently dropping synthetic survey points into uninhabited desert dunes or salt flats where no human populations reside.",
+      "solution": "Developed an end-to-end, reproducible 5-module Python pipeline that extracts MODIS and VIIRS satellite imagery via Google Earth Engine, computes long-term historical baseline anomalies (Vegetation Condition Index), and performs spatial zonal reductions. To solve spatial sampling distortion, Module 3 implements dasymetric settlement-constrained sampling via OpenStreetMap (osmnx), restricting survey points to buffered residential building footprints (250 m). The pipeline performs spatial joins to construct a balanced 42,000-observation micro-panel dataset (500 households X 84 months) and automatically executes Two-Way Fixed Effects (TWFE) panel regressions to quantify the economic impact of severe climate shocks.",
+      "githubUrl": "https://github.com/MHaseef/High-Resolution-Spatial-Panel-Generator-for-Socio-Economic-Impact-Analysis-Pipeline",
+      "id": "project_1789502674220"
+    },
+    {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
       "title": "Rice Crop Identification Using Satellite Remote Sensing",
       "teaser": "Multitemporal crop monitoring and spatial area estimation for Gujrat District, Pakistan (2024–2025) using Sentinel-2 10m satellite imagery.",
