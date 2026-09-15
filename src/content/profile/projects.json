@@ -1,13 +1,24 @@
 {
   "projects": [
     {
-      "thumbnail": "/images/uploads/Screenshot_2026-09-15_013433_png_1789502757860.png",
+      "thumbnail": "/images/uploads/microclimate_dashboard_png_1789503639101.png",
+      "title": "Urban Microclimate & Thermal Buffering Pipeline",
+      "category": "Remote Sensing",
+      "teaser": "An open-source Python geospatial pipeline that automates the acquisition, remote sensing map algebra, and spatial modeling of urban green infrastructure thermal buffering. Integrates Landsat 8/9 multi-spectral imagery and OpenStreetMap vectors to quantify microclimate cooling effects across municipal boundaries like Lahore District.",
+      "problem": "Rapid urban expansion replaces natural vegetation with impervious concrete and asphalt, worsening Surface Urban Heat Island (SUHI) effects. Urban planners, GIS specialists, and environmental researchers lack open-source, location-agnostic, and automated frameworks to accurately quantify how far (cooling distance in meters) and how effectively (cooling intensity in °C) urban parks mitigate surrounding surface temperatures within administrative boundaries.",
+      "solution": "Built a modular Python pipeline (OSMnx, Rasterio, GeoPandas, SciPy, Scikit-learn) that dynamically geocodes an AOI boundary, extracts green infrastructure vectors, and processes Landsat thermal bands to compute LST (°C), NDVI, and emissivity rasters strictly clipped to the study area. Using SciPy Euclidean distance transforms and spatial regression sampling, the engine models microclimate decay, outputs a 4-layer GeoPackage for QGIS drag-and-drop analysis, and renders an automated 4-panel visual dashboard.",
+      "githubUrl": "https://github.com/MHaseef/Urban-Microclimate-Thermal-Buffering-Pipeline",
+      "id": "project_1789503782488"
+    },
+    {
+      "thumbnail": "/images/uploads/Screenshot_2026-09-15_013433_png_1789418102439.png",
+      "title": "High Resolution Spatial Panel Generator for Socio Economic Impact Analysis Pipeline",
+      "category": "Remote Sensing",
       "teaser": "An open-source spatial data engineering pipeline that converts Google Earth Engine satellite observation streams into econometric-ready micro-panel datasets. Demonstrated over Tharparkar, Pakistan, it bridges remote sensing and development economics by linking high-resolution climate shocks (VCI, LST, Nighttime Lights) directly with dasymetrically sampled household survey points for Two-Way Fixed Effects (TWFE) regression modeling.",
       "problem": "Empirical development economics relies on household surveys that measure critical socio-economic outcomes (e.g., consumption, income, asset indices) but lack objective, continuous, high-frequency physical measures of climate shocks like agricultural drought and thermal stress. Conversely, satellite Earth Observation (EO) rasters offer dense environmental monitoring but lack human socio-economic attributes. Furthermore, standard spatial sampling methods scatter household observations uniformly across bounding shapes, frequently dropping synthetic survey points into uninhabited desert dunes or salt flats where no human populations reside.",
-      "solution": "Developed an end-to-end, reproducible 5-module Python pipeline that extracts MODIS and VIIRS satellite imagery via Google Earth Engine, computes long-term historical baseline anomalies (Vegetation Condition Index), and performs spatial zonal reductions. To solve spatial sampling distortion, Module 3 implements dasymetric settlement-constrained sampling via OpenStreetMap (osmnx), restricting survey points to buffered residential building footprints ($250\\text{ m}$). The pipeline performs spatial joins to construct a balanced 42,000-observation micro-panel dataset ($500\\text{ households} \\times 84\\text{ months}$) and automatically executes Two-Way Fixed Effects (TWFE) panel regressions to quantify the economic impact of severe climate shocks.",
+      "solution": "Developed an end-to-end, reproducible 5-module Python pipeline that extracts MODIS and VIIRS satellite imagery via Google Earth Engine, computes long-term historical baseline anomalies (Vegetation Condition Index), and performs spatial zonal reductions. To solve spatial sampling distortion, Module 3 implements dasymetric settlement-constrained sampling via OpenStreetMap (osmnx), restricting survey points to buffered residential building footprints (250 m). The pipeline performs spatial joins to construct a balanced 42,000-observation micro-panel dataset (500 households X 84 months) and automatically executes Two-Way Fixed Effects (TWFE) panel regressions to quantify the economic impact of severe climate shocks.",
       "githubUrl": "https://github.com/MHaseef/High-Resolution-Spatial-Panel-Generator-for-Socio-Economic-Impact-Analysis-Pipeline",
-      "title": "High Resolution Spatial Panel Generator for Socio-Economic Impact Analysis",
-      "id": "project_1789502863105"
+      "id": "project_1789502674220"
     },
     {
       "thumbnail": "/images/uploads/Screenshot_2026-09-03_130053_png_1788422880138.png",
